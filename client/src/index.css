@@ -4,57 +4,66 @@
 
 @layer base {
   :root {
-    --background: 222 47% 2%; /* Slate-950 */
-    --foreground: 210 40% 98%; /* Slate-50 */
-    
-    --card: 222 47% 6%; /* Slate-900 */
-    --card-foreground: 210 40% 98%;
-    
-    --popover: 222 47% 6%;
-    --popover-foreground: 210 40% 98%;
-    
-    --primary: 263 70% 50%; /* Violet-600 */
-    --primary-foreground: 210 40% 98%;
-    
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 263 70% 50%;
-    
-    --radius: 0.5rem;
+    /* --- LIGHT MODE (Warm Paper & Terra Cotta) --- */
+    --background: 30 30% 98%;
+    --foreground: 24 10% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 24 10% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 24 10% 10%;
+
+    --primary: 18 80% 40%; /* Terra Cotta */
+    --primary-foreground: 60 9.1% 97.8%;
+
+    --secondary: 30 20% 94%;
+    --secondary-foreground: 24 10% 10%;
+
+    --muted: 30 20% 90%;
+    --muted-foreground: 25 5% 45%;
+
+    --accent: 30 30% 96%;
+    --accent-foreground: 24 10% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+
+    --border: 30 10% 85%;
+    --input: 30 10% 85%;
+    --ring: 18 80% 40%;
+    --radius: 0.75rem;
   }
- 
+
   .dark {
-    --background: 222 47% 2%;
-    --foreground: 210 40% 98%;
-    --card: 222 47% 6%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 47% 6%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 263 70% 50%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    /* --- DARK MODE (Deep Espresso) --- */
+    --background: 20 10% 6%;
+    --foreground: 60 5% 96%;
+
+    --card: 20 8% 10%;
+    --card-foreground: 60 5% 96%;
+
+    --popover: 20 8% 10%;
+    --popover-foreground: 60 5% 96%;
+
+    --primary: 18 85% 55%;
+    --primary-foreground: 60 9.1% 97.8%;
+
+    --secondary: 20 6% 15%;
+    --secondary-foreground: 60 5% 96%;
+
+    --muted: 20 6% 15%;
+    --muted-foreground: 24 5% 60%;
+
+    --accent: 20 6% 15%;
+    --accent-foreground: 60 5% 96%;
+
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 263 70% 50%;
+    --destructive-foreground: 60 9.1% 97.8%;
+
+    --border: 20 6% 15%;
+    --input: 20 6% 15%;
+    --ring: 18 85% 55%;
   }
 }
 
@@ -63,21 +72,14 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-300;
   }
 }
 
-/* Fix input borders */
-input, textarea, select {
-  @apply border-white/10 bg-slate-900/50 transition-all duration-200;
+/* SAFETY NET: Force old dark components to look right in Light Mode */
+.bg-slate-900, .bg-slate-950 {
+  @apply bg-card text-card-foreground border-border !important;
 }
-input:hover, textarea:hover, select:hover {
-  @apply border-violet-500/50;
-}
-input:focus, textarea:focus, select:focus {
-  @apply border-violet-500 ring-1 ring-violet-500 outline-none;
-}
-
-[data-radix-popper-content-wrapper] {
-  @apply border-violet-500/30 bg-slate-900;
+.text-slate-300, .text-gray-400 {
+  @apply text-muted-foreground !important;
 }

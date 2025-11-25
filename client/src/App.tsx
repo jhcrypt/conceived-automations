@@ -4,7 +4,8 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ROIProvider } from "./contexts/ROIContext";
-import AIChatBox from "@/components/AIChatBox"; // IMPORT
+import { ThemeProvider } from "./contexts/ThemeContext";
+import AIChatBox from "@/components/AIChatBox"; 
 import Home from "./pages/Home";
 import WorkflowPreview from "./pages/WorkflowPreview";
 import SharedResults from "./pages/SharedResults";
@@ -24,13 +25,16 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
-      <ROIProvider>
-        <TooltipProvider>
-          <Toaster />
-          <AIChatBox /> {/* RENDER HERE */}
-          <Router />
-        </TooltipProvider>
-      </ROIProvider>
+      {/* CHANGED: defaultTheme is now "system" */}
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+        <ROIProvider>
+          <TooltipProvider>
+            <Toaster />
+            <AIChatBox />
+            <Router />
+          </TooltipProvider>
+        </ROIProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 }
