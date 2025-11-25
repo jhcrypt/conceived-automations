@@ -14,7 +14,7 @@ export default function SharedResults() {
   const shareId = params.shareId;
   
   const [loading, setLoading] = useState(true);
-  const [showMath, setShowMath] = useState(false); // Controls the popup
+  const [showMath, setShowMath] = useState(false); // Re-added Modal State
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<{
     industry: string;
@@ -184,10 +184,10 @@ export default function SharedResults() {
                 {formatCurrency(result.totalAnnualValue)}
               </div>
               
-              {/* --- TRANSPARENCY LINK --- */}
+              {/* --- RE-ADDED TRANSPARENCY LINK --- */}
               <button 
                 onClick={() => setShowMath(true)}
-                className="text-xs text-violet-400 hover:text-violet-300 flex items-center justify-center gap-1 mx-auto mb-4 transition-colors underline decoration-dotted underline-offset-4 cursor-pointer"
+                className="text-xs text-violet-400 hover:text-violet-300 flex items-center justify-center gap-1 mx-auto mb-4 underline decoration-dotted underline-offset-4 cursor-pointer"
               >
                 <Info className="w-3 h-3" />
                 See how this is calculated
@@ -200,7 +200,7 @@ export default function SharedResults() {
             </div>
           </div>
 
-          {/* Value Breakdown - UPDATED LABELS */}
+          {/* Value Breakdown */}
           <div className="grid md:grid-cols-2 gap-4">
             <Card className="bg-slate-800/30 border-slate-700 p-6">
               <div className="flex items-start gap-3">
