@@ -1,0 +1,1 @@
+ALTER TABLE `workflowQuestionnaires` ADD `metadata` text;

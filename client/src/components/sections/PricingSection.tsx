@@ -1,15 +1,55 @@
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
-import { useState } from 'react';
+import { useROI } from '@/contexts/ROIContext';
 
 export default function PricingSection() {
   const [annual, setAnnual] = useState(false);
+  const { results: calculatorResults } = useROI();
+  const isDynamic = calculatorResults !== null;
+  
+  // Debug logging
+  console.log('PricingSection render:', { calculatorResults, isDynamic });
 
+  // Calculate dynamic pricing based on calculator results
+  const getDynamicPricing = () => {
+    if (!calculatorResults) {
+      return {
+        starter: 1250,
+        growth: 2800,
+        enterprise: 'Custom',
+      };
+    }
+    
+    const tav = calculatorResults.totalAnnualValue || 0;
+    
+    // Calculate recommended investment range (10-20% of TAV)
+    const minInvestment = tav * 0.10;
+    const maxInvestment = tav * 0.20;
+    
+    // Calculate monthly prices based on investment range
+    const starterMonthly = Math.round((minInvestment * 0.7) / 12); // 70% of min investment
+    const growthMonthly = Math.round((minInvestment + maxInvestment) / 2 / 12); // Average of range
+    const enterpriseMonthly = Math.round((maxInvestment * 1.2) / 12); // 120% of max investment
+    
+    // Ensure minimum prices
+    return {
+      starter: Math.max(starterMonthly, 1000),
+      growth: Math.max(growthMonthly, 2500),
+      enterprise: enterpriseMonthly > 10000 ? 'Custom' : Math.max(enterpriseMonthly, 5000),
+    };
+  };
+  
+  const dynamicPrices = getDynamicPricing();
+  
+  // Debug logging
+  console.log('Dynamic prices:', dynamicPrices);
+  
   const plans = [
     {
-      name: 'Small Teams',
-      desc: 'Typical investment for businesses saving 5-10 hours/week with basic automation needs.',
-      monthly: 1250,
+      name: 'Starter',
+      desc: 'Perfect for small businesses needing key processes automated.',
+      monthly: dynamicPrices.starter,
       features: [
         'n8n Cloud Hosting included',
         'Up to 5 Active Workflows',
@@ -20,9 +60,9 @@ export default function PricingSection() {
       cta: 'Start Automating',
     },
     {
-      name: 'Scaling Businesses',
-      desc: 'Common range for companies automating 15-25 hours/week with AI-powered workflows.',
-      monthly: 2800,
+      name: 'Growth',
+      desc: 'For scaling companies requiring AI and complex integrations.',
+      monthly: dynamicPrices.growth,
       popular: true,
       features: [
         'Everything in Starter',
@@ -35,9 +75,9 @@ export default function PricingSection() {
       cta: 'Scale Your Business',
     },
     {
-      name: 'High-Volume Operations',
-      desc: 'Custom pricing for businesses with complex needs and significant automation ROI.',
-      monthly: 'Custom',
+      name: 'Enterprise',
+      desc: 'Dedicated infrastructure for high-volume operations.',
+      monthly: dynamicPrices.enterprise,
       features: [
         'Dedicated Server Infrastructure',
         'Unlimited Workflows',
@@ -59,36 +99,41 @@ export default function PricingSection() {
 
   return (
     <section className="section bg-background" id="pricing">
-      <div className="container">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Fair Pricing Based on <span className="gradient-text">Your Results</span>
+      <div className="container py-20">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold mb-4">
+            <span className="text-white">Transparent </span>
+            <span className="gradient-text">Pricing</span>
           </h2>
-          <p className="text-lg text-foreground/70 max-w-3xl mx-auto mb-4">
-            We don't believe in one-size-fits-all pricing. Your investment is calculated based on the value we deliver to your business—typically 20-30% of your first-year ROI.
+          <p className="text-gray-400 text-lg">
+            Choose the plan that fits your automation maturity
           </p>
-          <p className="text-base text-cyan-400 font-medium">
-            💡 Use the calculator above to see your personalized quote and exact ROI
-          </p>
+          {isDynamic && (
+            <div className="mt-4 inline-block px-4 py-2 bg-violet-500/10 border border-violet-500/30 rounded-lg">
+              <p className="text-violet-400 text-sm font-medium">
+                ✨ Pricing customized based on your ${calculatorResults.totalAnnualValue.toLocaleString()} annual automation value
+              </p>
+            </div>
+          )}
+        </div>
 
-          <div className="flex justify-center items-center gap-4 mt-8">
-            <span className={`text-sm font-medium ${!annual ? 'text-white' : 'text-foreground/60'}`}>
-              Monthly
-            </span>
-            <button
-              onClick={() => setAnnual(!annual)}
-              className="w-14 h-7 bg-slate-700 rounded-full relative p-1 transition-colors duration-300 hover:bg-slate-600"
-            >
-              <div
-                className={`w-5 h-5 bg-cyan-400 rounded-full shadow-md transform transition-transform duration-300 ${
-                  annual ? 'translate-x-7' : 'translate-x-0'
-                }`}
-              ></div>
-            </button>
-            <span className={`text-sm font-medium ${annual ? 'text-white' : 'text-foreground/60'}`}>
-              Annual (Save 20%)
-            </span>
-          </div>
+        <div className="flex justify-center items-center gap-4 mt-8">
+          <span className={`text-sm font-medium ${!annual ? 'text-white' : 'text-foreground/60'}`}>
+            Monthly
+          </span>
+          <button
+            onClick={() => setAnnual(!annual)}
+            className="w-14 h-7 bg-slate-700 rounded-full relative p-1 transition-colors duration-300 hover:bg-slate-600"
+          >
+            <div
+              className={`w-5 h-5 bg-cyan-400 rounded-full shadow-md transform transition-transform duration-300 ${
+                annual ? 'translate-x-7' : 'translate-x-0'
+              }`}
+            ></div>
+          </button>
+          <span className={`text-sm font-medium ${annual ? 'text-white' : 'text-foreground/60'}`}>
+            Annual (Save 20%)
+          </span>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8 relative">
@@ -136,7 +181,7 @@ export default function PricingSection() {
                 onClick={scrollToContact}
                 className={`w-full py-6 text-base font-bold rounded-lg transition-all duration-300 ${
                   plan.popular
-                    ? 'bg-gradient-to-r from-violet-600 to-cyan-500 text-white border border-violet-500/50 hover:shadow-[0_0_20px_rgba(139,92,246,0.5)]'
+                    ? 'border-2 border-violet-500 text-white hover:bg-violet-500/10 hover:shadow-[0_0_20px_rgba(139,92,246,0.5)]'
                     : 'bg-slate-800 text-white border border-violet-500/30 hover:border-violet-500/60 hover:bg-slate-700'
                 }`}
               >
@@ -146,12 +191,11 @@ export default function PricingSection() {
           ))}
         </div>
 
-        <div className="mt-16 text-center max-w-3xl mx-auto">
-          <p className="text-foreground/70 text-base mb-4">
-            <strong className="text-white">These are example ranges.</strong> Your actual investment depends on the value we deliver to your specific business.
-          </p>
+        <div className="mt-16 text-center">
           <p className="text-foreground/60 text-sm">
-            All engagements include ongoing maintenance, monitoring, and regular optimization reviews. We price based on impact, not arbitrary packages.
+            All plans include ongoing maintenance, monitoring, and regular optimization reviews.
+            <br />
+            One-time setup fees may apply based on complexity.
           </p>
         </div>
       </div>

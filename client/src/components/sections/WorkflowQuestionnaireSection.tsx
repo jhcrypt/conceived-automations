@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -63,6 +63,50 @@ interface FormData {
   name: string;
 }
 
+// Helper function to get example text based on industry
+const getExampleText = (industry: string | undefined, field: string): string => {
+  const examples: Record<string, Record<string, string>> = {
+    ecommerce: {
+      processDescription: "Order fulfillment from Shopify to shipping carrier, including inventory updates and customer notifications",
+      painPoints: "Manual data entry takes 3 hours daily, frequent shipping errors, customers complain about delayed notifications",
+      desiredOutcome: "Automatically process orders within 5 minutes, sync inventory in real-time, send tracking info instantly",
+    },
+    saas: {
+      processDescription: "User onboarding sequence from trial signup to product activation and first value moment",
+      painPoints: "Low activation rates, manual follow-ups are inconsistent, can't personalize at scale",
+      desiredOutcome: "Automated onboarding emails based on user behavior, in-app guidance triggers, 80% activation rate",
+    },
+    professional_services: {
+      processDescription: "Client intake from initial contact through contract signing and project kickoff",
+      painPoints: "Takes 2 weeks to onboard a client, documents get lost, too many manual follow-ups",
+      desiredOutcome: "Reduce onboarding to 3 days, automated document collection, seamless handoff to delivery team",
+    },
+    healthcare: {
+      processDescription: "Appointment scheduling, insurance verification, and patient intake forms",
+      painPoints: "Phone tag with patients, manual insurance checks, incomplete intake forms at appointment time",
+      desiredOutcome: "Online self-service scheduling, automatic insurance verification, digital forms completed before visit",
+    },
+    real_estate: {
+      processDescription: "Lead qualification from website inquiries to showing appointments",
+      painPoints: "Respond to leads too slowly, miss follow-ups, can't track showing outcomes",
+      desiredOutcome: "Instant lead response, automated showing confirmations, centralized lead tracking dashboard",
+    },
+    finance: {
+      processDescription: "Account opening process from application to KYC verification and approval",
+      painPoints: "Manual document review takes days, compliance checks are error-prone, customers abandon applications",
+      desiredOutcome: "Automated KYC checks, real-time application status, 24-hour approval turnaround",
+    },
+    manufacturing: {
+      processDescription: "Purchase order processing from request to vendor communication and inventory updates",
+      painPoints: "Manual PO creation, vendors don't receive orders promptly, inventory levels are inaccurate",
+      desiredOutcome: "Auto-generate POs from inventory thresholds, instant vendor notifications, real-time inventory sync",
+    },
+  };
+  
+  const industryKey = industry?.toLowerCase().replace(/[^a-z]/g, '') || 'saas';
+  return examples[industryKey]?.[field] || examples.saas[field];
+};
+
 export default function WorkflowQuestionnaireSection() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
@@ -77,6 +121,65 @@ export default function WorkflowQuestionnaireSection() {
     email: '',
     name: '',
   });
+  
+  // Store calculator results for pricing display
+  const [calculatorResults, setCalculatorResults] = useState<any>(null);
+  const [isPrePopulated, setIsPrePopulated] = useState(false);
+  
+  // Pre-populate from Value Calculator data
+  useEffect(() => {
+    const loadCalculatorData = () => {
+      const storedData = sessionStorage.getItem('valueCalculatorData');
+      console.log('🔍 Checking for calculator data:', storedData ? 'Found' : 'Not found');
+      
+      if (storedData) {
+        try {
+          const calculatorData = JSON.parse(storedData);
+          console.log('📊 Calculator data loaded:', calculatorData);
+          
+          // Map industry to business type
+          const industryToBusinessType: Record<string, string> = {
+            'ecommerce': 'E-commerce',
+            'saas': 'SaaS',
+            'professional_services': 'Consulting',
+            'healthcare': 'Healthcare',
+            'real_estate': 'Real Estate',
+            'finance': 'Finance',
+            'manufacturing': 'Manufacturing',
+          };
+          
+          const businessType = industryToBusinessType[calculatorData.industry] || 'Other';
+          console.log('✅ Pre-populating fields:', { businessType, industry: calculatorData.industry, companySize: calculatorData.teamSize });
+          
+          setFormData(prev => ({
+            ...prev,
+            businessType: businessType,
+            industry: calculatorData.industry || '',
+            companySize: calculatorData.teamSize || '',
+            estimatedHoursPerWeek: calculatorData.result?.weeklyHoursSaved || 0,
+          }));
+          
+          // Store full results for pricing display
+          setCalculatorResults(calculatorData.result);
+          setIsPrePopulated(true);
+        } catch (e) {
+          console.error('❌ Failed to parse calculator data:', e);
+        }
+      } else {
+        console.log('ℹ️ No calculator data found - user may have navigated directly to this section');
+      }
+    };
+    
+    // Load immediately
+    loadCalculatorData();
+    
+    // Also listen for storage events (in case data is added after component mounts)
+    window.addEventListener('storage', loadCalculatorData);
+    
+    return () => {
+      window.removeEventListener('storage', loadCalculatorData);
+    };
+  }, []);
 
   const submitQuestionnaire = trpc.workflows.submitQuestionnaire.useMutation({
     onSuccess: () => {
@@ -163,6 +266,41 @@ export default function WorkflowQuestionnaireSection() {
           </p>
         </div>
 
+        {/* Pricing Summary from Calculator */}
+        {calculatorResults && (
+          <div className="max-w-3xl mx-auto mb-8">
+            <div className="bg-gradient-to-br from-violet-500/20 to-cyan-500/20 rounded-xl p-6 border border-violet-500/30">
+              <div className="text-center mb-4">
+                <div className="text-sm text-slate-400 mb-1">Your Calculated Automation Value</div>
+                <div className="text-3xl font-bold text-white">
+                  ${calculatorResults.totalAnnualValue?.toLocaleString()}
+                  <span className="text-lg text-slate-400 ml-2">/ year</span>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div>
+                  <div className="text-xs text-slate-400 mb-1">Recommended Investment</div>
+                  <div className="text-sm font-semibold text-white">
+                    ${calculatorResults.recommendedInvestmentMin?.toLocaleString()} - ${calculatorResults.recommendedInvestmentMax?.toLocaleString()}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs text-slate-400 mb-1">Payback Period</div>
+                  <div className="text-sm font-semibold text-white">{calculatorResults.paybackMonths} months</div>
+                </div>
+                <div>
+                  <div className="text-xs text-slate-400 mb-1">Year 1 ROI</div>
+                  <div className="text-sm font-semibold text-white">{calculatorResults.yearOneROI}%</div>
+                </div>
+                <div>
+                  <div className="text-xs text-slate-400 mb-1">3-Year ROI</div>
+                  <div className="text-sm font-semibold text-white">{calculatorResults.threeYearROI}%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Progress bar */}
         {step <= 5 && (
           <div className="max-w-2xl mx-auto mb-8">
@@ -192,7 +330,14 @@ export default function WorkflowQuestionnaireSection() {
 
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="businessType" className="text-white mb-2 block">Business Type *</Label>
+                    <div className="flex items-center justify-between mb-2">
+                      <Label htmlFor="businessType" className="text-white">Business Type *</Label>
+                      {isPrePopulated && formData.businessType && (
+                        <span className="text-xs px-2 py-1 bg-violet-500/20 text-violet-300 rounded-md border border-violet-500/30">
+                          ✓ Auto-filled
+                        </span>
+                      )}
+                    </div>
                     <select
                       id="businessType"
                       value={formData.businessType}
@@ -250,10 +395,11 @@ export default function WorkflowQuestionnaireSection() {
                       id="processDescription"
                       value={formData.processDescription}
                       onChange={(e) => setFormData({ ...formData, processDescription: e.target.value })}
-                      placeholder="e.g., Lead qualification from website forms, invoice generation and sending, customer onboarding..."
+                      placeholder={`Example: ${getExampleText(formData.industry, 'processDescription')}`}
                       rows={4}
                       className="bg-slate-900/50 border-white/5 text-white resize-none"
                     />
+                    <p className="text-xs text-slate-500 mt-2">💡 Tip: Be specific about the steps and tools involved</p>
                   </div>
 
                   <div>
@@ -262,10 +408,11 @@ export default function WorkflowQuestionnaireSection() {
                       id="painPoints"
                       value={formData.painPoints}
                       onChange={(e) => setFormData({ ...formData, painPoints: e.target.value })}
-                      placeholder="e.g., Takes 3 hours daily, prone to errors, team members hate doing it, customers complain about delays..."
+                      placeholder={`Example: ${getExampleText(formData.industry, 'painPoints')}`}
                       rows={4}
                       className="bg-slate-900/50 border-white/5 text-white resize-none"
                     />
+                    <p className="text-xs text-slate-500 mt-2">💡 Tip: Mention time spent, error rates, or customer complaints</p>
                   </div>
                 </div>
               </div>
@@ -322,10 +469,11 @@ export default function WorkflowQuestionnaireSection() {
                       id="desiredOutcome"
                       value={formData.desiredOutcome}
                       onChange={(e) => setFormData({ ...formData, desiredOutcome: e.target.value })}
-                      placeholder="e.g., Reduce manual data entry by 80%, respond to leads within 5 minutes, eliminate invoice errors..."
+                      placeholder={`Example: ${getExampleText(formData.industry, 'desiredOutcome')}`}
                       rows={4}
                       className="bg-slate-900/50 border-white/5 text-white resize-none"
                     />
+                    <p className="text-xs text-slate-500 mt-2">💡 Tip: Include specific metrics or time savings</p>
                   </div>
 
                   <div>
@@ -419,7 +567,6 @@ export default function WorkflowQuestionnaireSection() {
                 <Button
                   onClick={handleNext}
                   disabled={submitQuestionnaire.isPending}
-                  className="bg-gradient-to-r from-violet-600 to-cyan-600 hover:from-violet-500 hover:to-cyan-500"
                 >
                   {submitQuestionnaire.isPending ? (
                     <>

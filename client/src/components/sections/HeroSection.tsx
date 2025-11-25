@@ -57,7 +57,7 @@ export default function HeroSection() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
             <Button
               size="lg"
-              className="bg-gradient-to-r from-violet-600 to-cyan-500 text-white px-8 py-6 h-auto text-base font-bold rounded-lg hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] transition-all duration-300 hover:scale-105"
+              className="px-8 py-6 h-auto text-base font-bold rounded-lg hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] transition-all duration-300 hover:scale-105"
               onClick={() => scrollToSection('#contact')}
             >
               Start Automating

@@ -12,7 +12,8 @@ import {
   workflowQuestionnaires,
   workflows,
   magicLinks,
-  workflowAnalytics
+  workflowAnalytics,
+  sharedCalculatorResults
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -213,6 +214,10 @@ export async function generateWorkflow(data: {
   currentTools: string;
   desiredOutcome: string;
   estimatedHoursPerWeek: number;
+  // Additional context for AI prompt generation
+  industry?: string;
+  companySize?: string;
+  painPoints?: string;
 }) {
   const db = await getDb();
   if (!db) {
@@ -222,12 +227,17 @@ export async function generateWorkflow(data: {
   // Import AI generation helper
   const { generateWorkflowWithAI } = await import('./workflowGenerator');
   
-  // Generate workflow using AI
+  // Generate workflow using AI with enriched context
   const aiWorkflow = await generateWorkflowWithAI({
     businessType: data.businessType,
     processDescription: data.processDescription,
     currentTools: JSON.parse(data.currentTools),
     desiredOutcome: data.desiredOutcome,
+    // Pass additional context for AI prompt generator
+    industry: data.industry,
+    companySize: data.companySize,
+    painPoints: data.painPoints,
+    estimatedHoursPerWeek: data.estimatedHoursPerWeek,
   });
   
   // Save workflow to database
@@ -374,4 +384,69 @@ export async function trackWorkflowEvent(data: {
   }
   
   await db.insert(workflowAnalytics).values(data);
+}
+
+/**
+ * Create a shareable calculator result
+ */
+export async function createSharedCalculatorResult(data: {
+  industry: string;
+  businessStage: string;
+  teamSize: string;
+  timeSaved: string;
+  delayImpact: string;
+  growthChallenge: string;
+  urgency: string;
+  results: string;
+  sharedBy?: string;
+}) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+  
+  // Generate unique share ID
+  const crypto = await import('crypto');
+  const shareId = crypto.randomBytes(16).toString('hex');
+  
+  // Set expiration to 90 days from now
+  const expiresAt = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
+  
+  await db.insert(sharedCalculatorResults).values({
+    shareId,
+    ...data,
+    expiresAt,
+  });
+  
+  return shareId;
+}
+
+/**
+ * Get shared calculator result by share ID
+ */
+export async function getSharedCalculatorResult(shareId: string) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+  
+  const result = await db.select().from(sharedCalculatorResults).where(eq(sharedCalculatorResults.shareId, shareId)).limit(1);
+  
+  if (result.length === 0) {
+    return null;
+  }
+  
+  const shared = result[0];
+  
+  // Check if expired
+  if (shared.expiresAt && new Date() > shared.expiresAt) {
+    return null;
+  }
+  
+  // Increment view count
+  await db.update(sharedCalculatorResults)
+    .set({ viewCount: (shared.viewCount || 0) + 1 })
+    .where(eq(sharedCalculatorResults.id, shared.id));
+  
+  return shared;
 }

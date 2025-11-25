@@ -80,6 +80,37 @@ export const appRouter = router({
           yearlySavings,
         };
       }),
+    
+    // Share calculator results
+    shareResults: publicProcedure
+      .input(z.object({
+        industry: z.string(),
+        businessStage: z.string(),
+        teamSize: z.string(),
+        timeSaved: z.string(),
+        delayImpact: z.string(),
+        growthChallenge: z.string(),
+        urgency: z.string(),
+        results: z.string(), // JSON string of calculation results
+        sharedBy: z.string().email().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const shareId = await db.createSharedCalculatorResult(input);
+        return { shareId };
+      }),
+    
+    // Get shared calculator results
+    getSharedResults: publicProcedure
+      .input(z.object({
+        shareId: z.string(),
+      }))
+      .query(async ({ input }) => {
+        const result = await db.getSharedCalculatorResult(input.shareId);
+        if (!result) {
+          throw new Error('Shared result not found or expired');
+        }
+        return result;
+      }),
   }),
 
   // Workflow preview system
@@ -110,7 +141,7 @@ export const appRouter = router({
           estimatedHoursPerWeek: input.estimatedHoursPerWeek,
         });
         
-        // Generate workflow using AI (will be implemented in next phase)
+        // Generate workflow using AI with enriched prompt
         const workflow = await db.generateWorkflow({
           questionnaireId,
           email: input.email,
@@ -120,6 +151,10 @@ export const appRouter = router({
           currentTools: input.currentTools,
           desiredOutcome: input.desiredOutcome,
           estimatedHoursPerWeek: input.estimatedHoursPerWeek,
+          // Pass additional context for AI prompt generator
+          industry: input.industry,
+          companySize: input.companySize,
+          painPoints: input.painPoints,
         });
         
         // Generate and send magic link

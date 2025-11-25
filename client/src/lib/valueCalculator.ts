@@ -54,7 +54,14 @@ export interface ValueCalculationResult {
   // Context for display
   inferredRevenue: number;
   inferredHourlyRate: number;
-  weeklyHoursSaved: number;
+  weeklyHoursSaved: number; // Total team hours
+  perPersonHoursSaved: number; // Hours per person
+  teamSizeMultiplier: number; // For reference
+  
+  // Additional metrics for display
+  monthlySavings: number; // TAV / 12
+  hoursSaved: number; // Annual hours saved
+  timeReduction: number; // Percentage of time saved
 }
 
 /**
@@ -71,7 +78,9 @@ export function calculateValue(inputs: ValueCalculatorInputs): ValueCalculationR
   const inferredHourlyRate = benchmark.avgHourlyRate;
   
   // Calculate weekly hours saved
-  const weeklyHoursSaved = TIME_IMPACT_HOURS[inputs.timeSaved] * TEAM_SIZE_MULTIPLIERS[inputs.teamSize];
+  const perPersonHoursSaved = TIME_IMPACT_HOURS[inputs.timeSaved];
+  const teamSizeMultiplier = TEAM_SIZE_MULTIPLIERS[inputs.teamSize];
+  const weeklyHoursSaved = perPersonHoursSaved * teamSizeMultiplier; // Total team hours
   
   // 1. Labor Savings
   const laborSavings = calculateLaborSavings(weeklyHoursSaved, inferredHourlyRate);
@@ -119,6 +128,11 @@ export function calculateValue(inputs: ValueCalculatorInputs): ValueCalculationR
   const yearOneROI = ((totalAnnualValue - recommendedInvestmentAvg) / recommendedInvestmentAvg) * 100;
   const threeYearROI = ((threeYearValue - recommendedInvestmentAvg) / recommendedInvestmentAvg) * 100;
   
+  // 11. Calculate additional display metrics
+  const monthlySavings = totalAnnualValue / 12;
+  const hoursSaved = weeklyHoursSaved * 52; // Annual hours saved
+  const timeReduction = (perPersonHoursSaved / 40) * 100; // Assuming 40-hour work week
+  
   return {
     laborSavings,
     revenueImpact,
@@ -135,6 +149,11 @@ export function calculateValue(inputs: ValueCalculatorInputs): ValueCalculationR
     inferredRevenue,
     inferredHourlyRate,
     weeklyHoursSaved,
+    perPersonHoursSaved,
+    teamSizeMultiplier,
+    monthlySavings,
+    hoursSaved,
+    timeReduction,
   };
 }
 

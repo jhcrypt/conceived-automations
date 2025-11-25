@@ -27,7 +27,7 @@ export default function ProblemSolutionSection() {
               Stop Fighting <span className="gradient-text">Manual Chaos</span>
             </h2>
             <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-              Every business faces the same challenge: too much manual work, not enough time
+              Every business faces the same challenge: Too much manual work, not enough time
             </p>
           </div>
         </ScrollReveal>

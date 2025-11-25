@@ -147,3 +147,32 @@ export const workflowAnalytics = mysqlTable("workflowAnalytics", {
 
 export type WorkflowAnalytic = typeof workflowAnalytics.$inferSelect;
 export type InsertWorkflowAnalytic = typeof workflowAnalytics.$inferInsert;
+
+/**
+ * Shared calculator results - for sharing ROI calculations via URL
+ */
+export const sharedCalculatorResults = mysqlTable("sharedCalculatorResults", {
+  id: int("id").autoincrement().primaryKey(),
+  shareId: varchar("shareId", { length: 64 }).notNull().unique(), // Unique identifier for URL
+  
+  // Calculator inputs
+  industry: varchar("industry", { length: 100 }).notNull(),
+  businessStage: varchar("businessStage", { length: 50 }).notNull(),
+  teamSize: varchar("teamSize", { length: 50 }).notNull(),
+  timeSaved: varchar("timeSaved", { length: 50 }).notNull(),
+  delayImpact: varchar("delayImpact", { length: 50 }).notNull(),
+  growthChallenge: varchar("growthChallenge", { length: 50 }).notNull(),
+  urgency: varchar("urgency", { length: 50 }).notNull(),
+  
+  // Calculator results (JSON)
+  results: text("results").notNull(), // JSON with all calculation results
+  
+  // Metadata
+  sharedBy: varchar("sharedBy", { length: 320 }), // Email of person who shared
+  viewCount: int("viewCount").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  expiresAt: timestamp("expiresAt"), // Optional expiration
+});
+
+export type SharedCalculatorResult = typeof sharedCalculatorResults.$inferSelect;
+export type InsertSharedCalculatorResult = typeof sharedCalculatorResults.$inferInsert;

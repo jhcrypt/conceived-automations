@@ -4,8 +4,10 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { ROIProvider } from "./contexts/ROIContext";
 import Home from "./pages/Home";
 import WorkflowPreview from "./pages/WorkflowPreview";
+import SharedResults from "./pages/SharedResults";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -13,6 +15,7 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/workflow-preview"} component={WorkflowPreview} />
+      <Route path={"/shared-results/:shareId"} component={SharedResults} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
@@ -32,10 +35,12 @@ function App() {
         defaultTheme="dark"
         // switchable
       >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
+        <ROIProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Router />
+          </TooltipProvider>
+        </ROIProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );

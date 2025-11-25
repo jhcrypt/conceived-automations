@@ -64,7 +64,6 @@ export default function WorkflowPreview() {
           </p>
           <Button
             onClick={() => setLocation('/')}
-            className="bg-gradient-to-r from-violet-600 to-cyan-600 hover:from-violet-500 hover:to-cyan-500"
           >
             Return to Homepage
           </Button>
@@ -91,7 +90,6 @@ export default function WorkflowPreview() {
             </div>
             <Button
               onClick={handleScheduleCall}
-              className="bg-gradient-to-r from-violet-600 to-cyan-600 hover:from-violet-500 hover:to-cyan-500"
             >
               <Calendar className="w-4 h-4 mr-2" />
               Schedule Discovery Call
@@ -171,7 +169,7 @@ export default function WorkflowPreview() {
             <Button
               size="lg"
               onClick={handleScheduleCall}
-              className="bg-gradient-to-r from-violet-600 to-cyan-600 hover:from-violet-500 hover:to-cyan-500 text-lg px-8"
+              className="text-lg px-8"
             >
               <Calendar className="w-5 h-5 mr-2" />
               Schedule Discovery Call

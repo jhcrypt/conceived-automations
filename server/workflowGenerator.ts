@@ -5,6 +5,11 @@ interface WorkflowGenerationInput {
   processDescription: string;
   currentTools: string[];
   desiredOutcome: string;
+  // Additional context for AI prompt generation
+  industry?: string;
+  companySize?: string;
+  painPoints?: string;
+  estimatedHoursPerWeek?: number;
 }
 
 interface WorkflowNode {
@@ -40,7 +45,24 @@ interface GeneratedWorkflow {
 export async function generateWorkflowWithAI(
   input: WorkflowGenerationInput
 ): Promise<GeneratedWorkflow> {
-  const prompt = `You are an expert n8n workflow automation architect. Generate a detailed workflow automation based on the following requirements:
+  // Use AI prompt generator if we have industry context
+  let prompt: string;
+  
+  if (input.industry && input.companySize && input.painPoints) {
+    const { generateWorkflowPrompt } = await import('./promptGenerator');
+    prompt = await generateWorkflowPrompt({
+      industry: input.industry,
+      businessType: input.businessType,
+      companySize: input.companySize,
+      processDescription: input.processDescription,
+      painPoints: input.painPoints,
+      currentTools: input.currentTools,
+      desiredOutcome: input.desiredOutcome,
+      estimatedHoursPerWeek: input.estimatedHoursPerWeek || 0,
+    });
+  } else {
+    // Fallback to basic prompt
+    prompt = `You are an expert n8n workflow automation architect. Generate a detailed workflow automation based on the following requirements:
 
 Business Type: ${input.businessType}
 Process to Automate: ${input.processDescription}
@@ -84,8 +106,44 @@ Return ONLY valid JSON matching this structure:
     }
   ]
 }`;
+  }
 
+  // Send enriched prompt to n8n webhook for workflow creation
   try {
+    const webhookUrl = 'https://02c97b3a4377.ngrok-free.app/webhook/04a65da8-31a4-4912-a2c4-5a82024d0593';
+    
+    const webhookPayload = {
+      enrichedPrompt: prompt,
+      questionnaire: {
+        businessType: input.businessType,
+        processDescription: input.processDescription,
+        currentTools: input.currentTools,
+        desiredOutcome: input.desiredOutcome,
+        industry: input.industry,
+        companySize: input.companySize,
+        painPoints: input.painPoints,
+        estimatedHoursPerWeek: input.estimatedHoursPerWeek,
+      },
+    };
+
+    const webhookResponse = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(webhookPayload),
+    });
+
+    if (!webhookResponse.ok) {
+      throw new Error(`Webhook returned ${webhookResponse.status}: ${webhookResponse.statusText}`);
+    }
+
+    const workflowData = await webhookResponse.json();
+
+    // Parse and validate the workflow structure from n8n
+    // Expecting the same structure as AI would return
+    
+    /* OLD AI GENERATION CODE - Replaced with webhook
     const response = await invokeLLM({
       messages: [
         {
@@ -164,6 +222,7 @@ Return ONLY valid JSON matching this structure:
     // Handle content as string (it should be JSON from structured output)
     const contentStr = typeof content === 'string' ? content : JSON.stringify(content);
     const workflowData = JSON.parse(contentStr);
+    END OF OLD AI CODE */
 
     // Create icon-only version (remove labels and parameters)
     const iconOnlyNodes = workflowData.nodes.map((node: WorkflowNode) => ({

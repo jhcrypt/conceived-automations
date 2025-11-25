@@ -25,21 +25,21 @@ export default function OperationalScanSection() {
             <Button
               variant={activeTab === 'overview' ? 'default' : 'ghost'}
               onClick={() => setActiveTab('overview')}
-              className={activeTab === 'overview' ? 'rounded-xl bg-gradient-to-r from-blue-500 to-violet-500' : 'rounded-xl text-slate-400 hover:text-white'}
+              className={activeTab === 'overview' ? 'rounded-xl border-2 border-blue-500 bg-blue-500/10 text-white hover:bg-blue-500/20' : 'rounded-xl text-slate-400 hover:text-white'}
             >
               Overview
             </Button>
             <Button
               variant={activeTab === 'problem' ? 'default' : 'ghost'}
               onClick={() => setActiveTab('problem')}
-              className={activeTab === 'problem' ? 'rounded-xl bg-red-600 hover:bg-red-700' : 'rounded-xl text-slate-400 hover:text-white'}
+              className={activeTab === 'problem' ? 'rounded-xl border-2 border-red-500 bg-red-500/10 text-white hover:bg-red-500/20' : 'rounded-xl text-slate-400 hover:text-white'}
             >
               Problem Detected
             </Button>
             <Button
               variant={activeTab === 'solution' ? 'default' : 'ghost'}
               onClick={() => setActiveTab('solution')}
-              className={activeTab === 'solution' ? 'rounded-xl bg-gradient-to-r from-green-500 to-blue-500' : 'rounded-xl text-slate-400 hover:text-white'}
+              className={activeTab === 'solution' ? 'rounded-xl border-2 border-green-500 bg-green-500/10 text-white hover:bg-green-500/20' : 'rounded-xl text-slate-400 hover:text-white'}
             >
               Solution Deployed
             </Button>
@@ -59,7 +59,7 @@ export default function OperationalScanSection() {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   {/* Inefficiency Hotspots */}
-                  <div className="p-6 rounded-xl bg-slate-900/50 border border-red-500/20">
+                  <div className="p-6 rounded-xl bg-slate-900/30 border-2 border-red-500/30">
                     <div className="flex items-center gap-3 mb-4">
                       <AlertCircle className="w-6 h-6 text-red-400" />
                       <h4 className="text-xl font-bold">Inefficiency Hotspots</h4>
@@ -70,7 +70,7 @@ export default function OperationalScanSection() {
                   </div>
 
                   {/* Growth Potential */}
-                  <div className="p-6 rounded-xl bg-slate-900/50 border border-green-500/20">
+                  <div className="p-6 rounded-xl bg-slate-900/30 border-2 border-green-500/30">
                     <div className="flex items-center gap-3 mb-4">
                       <TrendingUp className="w-6 h-6 text-green-400" />
                       <h4 className="text-xl font-bold">Growth Potential</h4>
@@ -106,13 +106,13 @@ export default function OperationalScanSection() {
                   </p>
 
                   <div className="space-y-4">
-                    <div className="p-4 rounded-lg bg-red-950/30 border border-red-500/20 font-mono text-sm">
+                    <div className="p-4 rounded-lg bg-red-950/10 border-2 border-red-500/30 font-mono text-sm">
                       <span className="text-red-400">[!]</span> <span className="text-foreground/90">Data Inconsistencies: High risk of errors</span>
                     </div>
-                    <div className="p-4 rounded-lg bg-red-950/30 border border-red-500/20 font-mono text-sm">
+                    <div className="p-4 rounded-lg bg-red-950/10 border-2 border-red-500/30 font-mono text-sm">
                       <span className="text-red-400">[!]</span> <span className="text-foreground/90">Resource Drain: Manual tasks consume 30% of time</span>
                     </div>
-                    <div className="p-4 rounded-lg bg-red-950/30 border border-red-500/20 font-mono text-sm">
+                    <div className="p-4 rounded-lg bg-red-950/10 border-2 border-red-500/30 font-mono text-sm">
                       <span className="text-red-400">[!]</span> <span className="text-foreground/90">Delayed Responses: Impacting customer satisfaction</span>
                     </div>
                   </div>
@@ -143,13 +143,13 @@ export default function OperationalScanSection() {
                   </p>
 
                   <div className="space-y-4">
-                    <div className="p-4 rounded-lg bg-green-950/20 border border-green-500/20 font-mono text-sm">
+                    <div className="p-4 rounded-lg bg-green-950/10 border-2 border-green-500/30 font-mono text-sm">
                       <span className="text-green-400">[OK]</span> <span className="text-foreground/90">Data Integrity: Automated validation (100% reliable)</span>
                     </div>
-                    <div className="p-4 rounded-lg bg-green-950/20 border border-green-500/20 font-mono text-sm">
+                    <div className="p-4 rounded-lg bg-green-950/10 border-2 border-green-500/30 font-mono text-sm">
                       <span className="text-green-400">[OK]</span> <span className="text-foreground/90">Efficiency Gains: Time savings up to 80%</span>
                     </div>
-                    <div className="p-4 rounded-lg bg-green-950/20 border border-green-500/20 font-mono text-sm">
+                    <div className="p-4 rounded-lg bg-green-950/10 border-2 border-green-500/30 font-mono text-sm">
                       <span className="text-green-400">[OK]</span> <span className="text-foreground/90">Customer Experience: Instant, personalized interactions</span>
                     </div>
                   </div>

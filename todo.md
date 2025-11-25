@@ -869,32 +869,70 @@
 - [x] Display ROI metrics (payback period, Year 1 ROI, 3-year ROI)
 - [x] Replace current ROI calculator with enhanced version
 - [x] Test calculator with various scenarios
-- [x] Create Version 3 checkpoint
+- [ ] Create Version 3 checkpoint
 
+## Styling Fixes (User Request)
+- [x] Change all colored text in Value Calculator results to white
+- [x] Make radio button circles purple when selected (not the field background)
+- [x] Test styling changes in browser
 
-## Calculator Color Updates
+## Enhanced Auto-Population & Pricing Integration (User Request)
+- [x] Improve pre-population to pass ALL Value Calculator data (not just industry/size/hours)
+- [x] Auto-fill business type from industry selection
+- [x] Pre-populate estimated hours field with calculated weekly hours saved
+- [x] Add pricing table to Workflow Questionnaire showing TAV and recommended investment
+- [x] Display personalized ROI metrics (payback period, Year 1 ROI, 3-Year ROI)
+- [x] Test complete data flow from calculator to questionnaire to pricing display
 
-- [x] Change Error Reduction from green to purple/pink tone
-- [x] Change Strategic Premium from yellow to complementary violet/cyan tone
-- [x] Update ROI percentage colors to match theme
+## Auto-Population & Dynamic Pricing Fixes (User Issues)
+- [x] Debug why auto-population isn't working from Value Calculator to Workflow Questionnaire
+- [x] Verify sessionStorage is being set correctly on "Get Your Custom Workflow" button click
+- [x] Add console logging for debugging data flow
+- [x] Add visual indicator ("Auto-filled" badge) for pre-populated fields
+- [x] Test complete flow: Calculator → Button Click → Scroll → Pre-populated Form
+- [x] Implement dynamic pricing table that updates based on Value Calculator results
+- [x] Show personalized pricing tiers (Starter/Growth/Enterprise) based on calculated TAV
+- [x] Add visual indicator showing dynamic pricing is active
+- [x] Test dynamic pricing updates in real-time
+- [x] Write comprehensive test suite (19 tests, all passing)
 
+## Value Calculator Bug Fix (Critical Issue)
+- [x] Investigate why hours/week saved shows 195 (impossible - only 168 hours in a week)
+- [x] Review calculation logic in valueCalculator.ts - Found: 15 hrs × 13 team members = 195
+- [x] Clarify if hours are per-person or total team hours - Decision: Show both per-person AND total
+- [x] Update valueCalculator.ts to return both perPersonHours and totalTeamHours
+- [x] Update display in ValueBasedROICalculator to show "X hours/week per person (Y total team hours)"
+- [x] Update Labor Savings card to clarify the breakdown
+- [x] Test with various team sizes and verify display is clear
+- [x] Write comprehensive test suite (17 tests, all passing)
 
-## Calculator Number Color Fix
+## Enhancement Features (User Request)
+- [x] Add team size context with examples (e.g., "Department (6-20 people, avg 13)")
+- [x] Update team size question in Value Calculator to show context
+- [x] Create ROI visualization chart component
+- [x] Add interactive timeline showing payback period milestone
+- [x] Display month-by-month value accumulation
+- [x] Implement "Share Results" button in calculator results
+- [x] Create backend endpoint for generating shareable result URLs
+- [x] Create shared results page with branding and contact info
+- [x] Add route for shared results (/shared-results/:shareId)
+- [x] Test all three features thoroughly
+- [x] Write comprehensive test suite (12 tests, all passing)
 
-- [x] Change all value breakdown numbers to white
-- [x] Keep colored icons for visual distinction
+## N8N Webhook Integration (User Request)
+- [x] Update workflowGenerator.ts to call n8n webhook instead of GPT-4 for workflow creation
+- [x] Keep AI prompt generator for enriched context
+- [x] Send enriched prompt + questionnaire data to webhook
+- [x] Handle webhook response and parse workflow JSON
+- [ ] Test webhook integration with real n8n instance
+- [ ] Update error handling for webhook failures
 
-
-## Calculator Button Selection Styling
-
-- [x] Update selected button states to use purple/violet highlighting
-- [x] Ensure clear visual distinction between selected and unselected options
-
-
-## Pricing Section Value-Based Copy Update
-
-- [x] Rewrite section heading to emphasize value-based approach
-- [x] Update intro copy to explain pricing philosophy
-- [x] Reframe pricing tiers as example ranges with context
-- [x] Add CTA directing users to calculator above
-- [x] Update tier descriptions to focus on value delivered vs features
+## Workflow Preview Blank Page Bug (User Report)
+- [x] Investigate why magic link opens blank page - Found: webhook connection refused
+- [x] Update webhook URL from localhost to ngrok tunnel
+- [ ] Check WorkflowPreview page data loading logic
+- [ ] Verify magic link token validation
+- [ ] Check if workflow data is being stored correctly
+- [ ] Test complete flow: questionnaire → webhook → email → preview
+- [ ] Add error handling and loading states to preview page
+- [ ] Fix "MOST POPULAR" badge overlap with Monthly/Annual toggle in pricing section

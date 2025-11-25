@@ -22,6 +22,27 @@
       "when": 1763593575091,
       "tag": "0002_abandoned_norrin_radd",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1763847597179,
+      "tag": "0003_dashing_slapstick",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1763848576120,
+      "tag": "0004_breezy_edwin_jarvis",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1763852567856,
+      "tag": "0005_smart_sauron",
+      "breakpoints": true
     }
   ]
 }
