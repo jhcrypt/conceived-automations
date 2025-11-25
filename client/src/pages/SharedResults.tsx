@@ -130,19 +130,19 @@ export default function SharedResults() {
             </div>
           </div>
 
-          {/* Value Breakdown */}
+          {/* Value Breakdown - UPDATED LABELS AND SUBTITLES */}
           <div className="grid md:grid-cols-2 gap-4">
             <Card className="bg-slate-800/30 border-slate-700 p-6">
               <div className="flex items-start gap-3">
                 <Clock className="w-5 h-5 text-violet-400 mt-1" />
                 <div>
-                  <div className="font-semibold mb-1">Labor Savings</div>
+                  <div className="font-semibold mb-1">Productivity Reclaimed</div>
                   <div className="text-2xl font-bold text-white">{formatCurrency(result.laborSavings)}</div>
                   <div className="text-sm text-slate-400 mt-1">
-                    {formatNumber(result.perPersonHoursSaved)} hours/week per person
+                    Equivalent to gaining {formatNumber(result.weeklyHoursSaved / 40)} extra employees for free
                   </div>
-                  <div className="text-xs text-slate-500">
-                    ({formatNumber(result.weeklyHoursSaved)} total team hours/week)
+                  <div className="text-xs text-slate-500 mt-1">
+                    (Based on {formatNumber(result.weeklyHoursSaved)} hours saved/week)
                   </div>
                 </div>
               </div>
@@ -152,10 +152,10 @@ export default function SharedResults() {
               <div className="flex items-start gap-3">
                 <TrendingUp className="w-5 h-5 text-cyan-400 mt-1" />
                 <div>
-                  <div className="font-semibold mb-1">Revenue Impact</div>
+                  <div className="font-semibold mb-1">Faster Speed-to-Lead</div>
                   <div className="text-2xl font-bold text-white">{formatCurrency(result.revenueImpact)}</div>
                   <div className="text-sm text-slate-400 mt-1">
-                    Faster processing & better service
+                    Revenue gained from faster response times & processing
                   </div>
                 </div>
               </div>
@@ -165,10 +165,10 @@ export default function SharedResults() {
               <div className="flex items-start gap-3">
                 <Target className="w-5 h-5 text-green-400 mt-1" />
                 <div>
-                  <div className="font-semibold mb-1">Error Reduction</div>
+                  <div className="font-semibold mb-1">Cost of Mistakes</div>
                   <div className="text-2xl font-bold text-white">{formatCurrency(result.errorReduction)}</div>
                   <div className="text-sm text-slate-400 mt-1">
-                    Eliminated rework & mistakes
+                    Savings from eliminated rework & data entry errors
                   </div>
                 </div>
               </div>
@@ -178,10 +178,10 @@ export default function SharedResults() {
               <div className="flex items-start gap-3">
                 <DollarSign className="w-5 h-5 text-yellow-400 mt-1" />
                 <div>
-                  <div className="font-semibold mb-1">Strategic Premium</div>
+                  <div className="font-semibold mb-1">Scalability Capacity</div>
                   <div className="text-2xl font-bold text-white">{formatCurrency(result.strategicPremium)}</div>
                   <div className="text-sm text-slate-400 mt-1">
-                    Competitive advantage & scaling
+                    Growth potential without adding new overhead costs
                   </div>
                 </div>
               </div>
