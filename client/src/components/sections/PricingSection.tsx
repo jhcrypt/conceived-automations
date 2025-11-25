@@ -117,7 +117,8 @@ export default function PricingSection() {
           )}
         </div>
 
-        <div className="flex justify-center items-center gap-4 mt-8">
+        {/* Added mb-20 to push the grid down and fix the overlap */}
+        <div className="flex justify-center items-center gap-4 mt-8 mb-20">
           <span className={`text-sm font-medium ${!annual ? 'text-white' : 'text-foreground/60'}`}>
             Monthly
           </span>
