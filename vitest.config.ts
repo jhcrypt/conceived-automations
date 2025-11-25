@@ -1,24 +1,33 @@
-import { defineConfig } from "vitest/config";
-import path from "path";
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
 
-const templateRoot = path.resolve(import.meta.dirname);
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
 
-export default defineConfig({
-  root: templateRoot,
-  resolve: {
-    alias: {
-      "@": path.resolve(templateRoot, "client", "src"),
-      "@shared": path.resolve(templateRoot, "shared"),
-      "@assets": path.resolve(templateRoot, "attached_assets"),
-    },
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Paths - Ensures @/ resolves to client/src/ */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["client/src/*"],
+      "@shared/*": ["shared/*"],
+      "@assets/*": ["attached_assets/*"]
+    }
   },
-  test: {
-    environment: "jsdom",
-    include: [
-      "server/**/*.test.ts",
-      "server/**/*.spec.ts",
-      "client/**/*.test.tsx",
-      "client/**/*.test.ts",
-    ],
-  },
-});
+  "include": ["client/src", "shared", "server", "vite.config.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
