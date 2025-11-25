@@ -5,7 +5,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ROIProvider } from "./contexts/ROIContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import AIChatBox from "@/components/AIChatBox"; 
+import AIChatBox from "@/components/AIChatBox";
 import Home from "./pages/Home";
 import WorkflowPreview from "./pages/WorkflowPreview";
 import SharedResults from "./pages/SharedResults";
@@ -25,7 +25,6 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
-      {/* CHANGED: defaultTheme is now "system" */}
       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
         <ROIProvider>
           <TooltipProvider>
