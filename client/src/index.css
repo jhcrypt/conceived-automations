@@ -270,3 +270,20 @@
     animation-delay: 4s;
   }
 }
+/* Input Field Visibility Enhancement */
+input, textarea, select {
+  @apply border-white/10 bg-slate-900/50 transition-all duration-200;
+}
+
+input:hover, textarea:hover, select:hover {
+  @apply border-violet-500/50;
+}
+
+input:focus, textarea:focus, select:focus {
+  @apply border-violet-500 ring-1 ring-violet-500 outline-none;
+}
+
+/* Fix for select dropdowns specifically */
+[data-radix-popper-content-wrapper] {
+  @apply border-violet-500/30 bg-slate-900;
+}
