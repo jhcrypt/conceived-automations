@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1763591700744,
+      "tag": "0000_cute_silver_surfer",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1763591775684,
+      "tag": "0001_wandering_cassandra_nova",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1763593575091,
+      "tag": "0002_abandoned_norrin_radd",
+      "breakpoints": true
+    }
+  ]
+}
