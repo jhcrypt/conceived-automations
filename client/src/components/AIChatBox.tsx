@@ -6,12 +6,9 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Loader2, Send, User, Sparkles, MessageCircle, X, Bot } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Streamdown } from "streamdown";
+import ReactMarkdown from "react-markdown"; // <--- Switched to standard Markdown
 import { apiRequest } from "@/lib/queryClient";
 
-/**
- * Message type matching the structure we need for n8n/LLM
- */
 export type Message = {
   role: "system" | "user" | "assistant";
   content: string;
@@ -60,7 +57,7 @@ export default function AIChatBox() {
     setIsLoading(true);
 
     try {
-      // 2. Send to Backend (which will proxy to n8n)
+      // 2. Send to Backend
       const response = await apiRequest("POST", "/api/chat", { messages: newMessages });
       const data = await response.json();
 
@@ -145,7 +142,7 @@ export default function AIChatBox() {
                       >
                         {msg.role === "assistant" ? (
                           <div className="prose prose-sm dark:prose-invert max-w-none leading-relaxed">
-                            <Streamdown>{msg.content}</Streamdown>
+                            <ReactMarkdown>{msg.content}</ReactMarkdown>
                           </div>
                         ) : (
                           <p className="whitespace-pre-wrap">{msg.content}</p>
