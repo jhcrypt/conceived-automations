@@ -48,20 +48,20 @@ export default function HeroSection() {
             Save time, reduce errors, and scale efficiently—without adding headcount.
           </p>
 
-          {/* CTAs */}
+          {/* CTAs - Updated with shadows on buttons/text */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
             <Button
               size="lg"
-              className="px-8 py-6 h-auto text-base font-bold rounded-lg hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] transition-all duration-300 hover:scale-105"
+              className="px-8 py-6 h-auto text-base font-bold rounded-lg hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] transition-all duration-300 hover:scale-105 drop-shadow-md"
               onClick={() => scrollToSection('#contact')}
             >
               Start Automating
-              <ArrowRight className="ml-2 w-5 h-5" />
+              <ArrowRight className="ml-2 w-5 h-5 drop-shadow-md" />
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="border-violet-500/30 hover:border-violet-500/60 text-white px-8 py-6 h-auto text-base font-bold rounded-lg hover:bg-white/10 transition-all duration-300"
+              className="border-violet-500/30 hover:border-violet-500/60 text-white px-8 py-6 h-auto text-base font-bold rounded-lg hover:bg-white/10 transition-all duration-300 drop-shadow-md bg-slate-900/40 backdrop-blur-sm"
               onClick={() => scrollToSection('#how-it-works')}
             >
               See How It Works
