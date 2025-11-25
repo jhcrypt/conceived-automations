@@ -33,22 +33,17 @@ export default function HeroSection() {
           transition={{ duration: 1 }}
           className="relative inline-block w-full"
         >
-
-
-          {/* Status Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900/80 border border-violet-500/30 backdrop-blur-md mb-8 shadow-[0_0_20px_rgba(0,0,0,0.5)]">
-            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-            <span className="text-cyan-300 text-xs font-bold uppercase tracking-wider">System Online: v2.4.0</span>
-          </div>
           
-          {/* Main Headline */}
-          <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 leading-tight drop-shadow-2xl">
+          {/* Main Headline - Updated with strong drop-shadow for legibility */}
+          <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 leading-tight drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
             We Automate the <br className="hidden md:block" />
-            <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Boring Stuff</span>
+            <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-none filter-none">
+              Boring Stuff
+            </span>
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg md:text-xl text-slate-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-300 mb-8 max-w-3xl mx-auto leading-relaxed drop-shadow-md">
             Transform repetitive tasks into intelligent workflows with n8n and AI agents. 
             Save time, reduce errors, and scale efficiently—without adding headcount.
           </p>
