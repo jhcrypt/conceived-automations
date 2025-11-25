@@ -14,7 +14,7 @@ export default function SharedResults() {
   const shareId = params.shareId;
   
   const [loading, setLoading] = useState(true);
-  const [showMath, setShowMath] = useState(false); // Modal State
+  const [showMath, setShowMath] = useState(false); // Controls the popup
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<{
     industry: string;
@@ -86,7 +86,7 @@ export default function SharedResults() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative">
       
-      {/* --- TRANSPARENCY MODAL START --- */}
+      {/* --- TRANSPARENCY POPUP MODAL --- */}
       {showMath && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setShowMath(false)}>
           <div className="bg-slate-900 border border-violet-500/30 p-6 rounded-xl max-w-2xl w-full shadow-2xl relative" onClick={e => e.stopPropagation()}>
@@ -105,6 +105,7 @@ export default function SharedResults() {
                   <span>1. Productivity Reclaimed (Labor)</span>
                   <span className="text-violet-400">{formatCurrency(result.laborSavings)}</span>
                 </h4>
+                <p className="mb-2">We use industry standard hourly rates but apply a <strong>0.7 conservative multiplier</strong>.</p>
                 <div className="font-mono text-xs bg-black/30 p-2 rounded text-slate-400">
                   (Hours Saved × Hourly Rate × 52 Weeks) × 70%
                 </div>
@@ -117,6 +118,9 @@ export default function SharedResults() {
                   <span className="text-yellow-400">{formatCurrency(result.strategicPremium)}</span>
                 </h4>
                 <p className="mb-2">This represents the "Soft Value" of automation—the ability to handle 2x-10x more volume without hiring.</p>
+                <div className="font-mono text-xs bg-black/30 p-2 rounded text-slate-400">
+                  Base Value × Growth Multiplier ({formatPercentage((result.strategicPremium / (result.totalAnnualValue - result.strategicPremium)) * 100)})
+                </div>
               </div>
 
               <div className="p-4 bg-slate-800/50 rounded-lg border border-slate-700">
@@ -125,6 +129,9 @@ export default function SharedResults() {
                   <span className="text-cyan-400">{formatCurrency(result.threeYearValue)}</span>
                 </h4>
                 <p className="mb-2">Automation benefits compound over time as your processes stabilize and scale.</p>
+                <div className="font-mono text-xs bg-black/30 p-2 rounded text-slate-400">
+                  Annual Value × 3.2 (Compounding Factor)
+                </div>
               </div>
             </div>
 
@@ -134,7 +141,7 @@ export default function SharedResults() {
           </div>
         </div>
       )}
-      {/* --- TRANSPARENCY MODAL END --- */}
+      {/* --- END MODAL --- */}
 
       {/* Header with Branding */}
       <header className="border-b border-slate-700 bg-slate-900/50 backdrop-blur-sm">
@@ -169,7 +176,7 @@ export default function SharedResults() {
             </p>
           </div>
 
-          {/* Total Annual Value */}
+          {/* Total Annual Value Section */}
           <div className="bg-gradient-to-br from-violet-500/20 to-cyan-500/20 rounded-xl p-8 border border-violet-500/30">
             <div className="text-center">
               <div className="text-sm text-slate-400 mb-2">Total Annual Value</div>
@@ -177,14 +184,15 @@ export default function SharedResults() {
                 {formatCurrency(result.totalAnnualValue)}
               </div>
               
-              {/* THIS IS THE LINK YOU WERE MISSING */}
+              {/* --- TRANSPARENCY LINK --- */}
               <button 
                 onClick={() => setShowMath(true)}
-                className="text-xs text-slate-500 hover:text-violet-400 transition-colors flex items-center justify-center gap-1 mx-auto mb-4 underline decoration-dotted underline-offset-4"
+                className="text-xs text-violet-400 hover:text-violet-300 flex items-center justify-center gap-1 mx-auto mb-4 transition-colors underline decoration-dotted underline-offset-4 cursor-pointer"
               >
                 <Info className="w-3 h-3" />
                 See how this is calculated
               </button>
+              {/* ------------------------- */}
 
               <div className="text-slate-300">
                 3-Year Projected Value: <span className="font-semibold text-white">{formatCurrency(result.threeYearValue)}</span>
@@ -192,7 +200,7 @@ export default function SharedResults() {
             </div>
           </div>
 
-          {/* Value Breakdown */}
+          {/* Value Breakdown - UPDATED LABELS */}
           <div className="grid md:grid-cols-2 gap-4">
             <Card className="bg-slate-800/30 border-slate-700 p-6">
               <div className="flex items-start gap-3">
