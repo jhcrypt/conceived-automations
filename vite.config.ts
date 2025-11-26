@@ -22,7 +22,9 @@ export default defineConfig({
   root: path.resolve(import.meta.dirname, "client"),
   publicDir: path.resolve(import.meta.dirname, "client", "public"),
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    // ⬅️ CRUCIAL FIX: Changed from complex path (dist/public) to a simple 'dist'.
+    // This tells Vite to output the client build to 'client/dist' relative to the project root.
+    outDir: 'dist', 
     emptyOutDir: true,
   },
   server: {
@@ -32,7 +34,6 @@ export default defineConfig({
       ".manus.computer",
       ".manus-asia.computer",
       ".manuscomputer.ai",
-      ".manusvm.computer",
       "localhost",
       "127.0.0.1",
     ],
