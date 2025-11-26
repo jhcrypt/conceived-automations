@@ -89,7 +89,7 @@ export default function AIChatBox() {
             transition={{ duration: 0.2 }}
             className="mb-4 w-[350px] md:w-[400px] shadow-2xl"
           >
-            <Card className="flex flex-col h-[600px] border-primary/20 bg-background/95 backdrop-blur-xl overflow-hidden">
+            <Card className="flex flex-col h-[600px] border-border bg-card shadow-2xl overflow-hidden">
               
               {/* Header */}
               <div className="p-4 border-b bg-primary/5 flex justify-between items-center">
