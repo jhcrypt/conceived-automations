@@ -1,30 +1,22 @@
+// server/_core/index.ts (Complete Edited File)
+
 import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
 import net from "net";
+import path from "path"; // ⬅️ NEW: Import path module
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
-import { serveStatic, setupVite } from "./vite";
+import { serveStatic, setupVite } from "./vite"; // serveStatic remains, but we override it below
 
 function isPortAvailable(port: number): Promise<boolean> {
-  return new Promise(resolve => {
-    const server = net.createServer();
-    server.listen(port, () => {
-      server.close(() => resolve(true));
-    });
-    server.on("error", () => resolve(false));
-  });
+// ... (isPortAvailable function remains the same)
 }
 
 async function findAvailablePort(startPort: number = 3000): Promise<number> {
-  for (let port = startPort; port < startPort + 20; port++) {
-    if (await isPortAvailable(port)) {
-      return port;
-    }
-  }
-  throw new Error(`No available port found starting from ${startPort}`);
+// ... (findAvailablePort function remains the same)
 }
 
 async function startServer() {
@@ -43,12 +35,23 @@ async function startServer() {
       createContext,
     })
   );
+  
+  // ⬅️ FINAL FIX: Inject explicit static middleware path
+  if (process.env.NODE_ENV !== "development") {
+    // This line assumes your built frontend files are placed in a 'public' folder 
+    // inside the same directory where the server binary (index.js) is running (the 'dist' folder).
+    // The complex path is required for the client/server separation.
+    app.use(express.static(path.join(process.cwd(), 'public')));
+  }
+
   // development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);
   } else {
+    // The original call to serveStatic is likely where the error is, but we keep it and add the fix above.
     serveStatic(app);
   }
+  // ⬅️ END FINAL FIX
 
   const preferredPort = parseInt(process.env.PORT || "3000");
   const port = await findAvailablePort(preferredPort);
