@@ -1,29 +1,13 @@
-// client/src/App.tsx (Lines 32-40)
-
-function App() {
+function Router() {
   return (
-    // ⬅️ START of the entire application tree
-    <ErrorBoundary> 
-      
-      {/* 1. The chatbot is rendered inside the ErrorBoundary */}
-      <AIChatBox /> 
-      
-      {/* 2. ThemeProvider starts AFTER the Chatbot and is wrapped by the ErrorBoundary */}
-      <ThemeProvider
-        defaultTheme="dark"
-        // switchable
-      >
-        <ROIProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Router />
-          </TooltipProvider>
-        </ROIProvider>
-      </ThemeProvider>
-      
-    </ErrorBoundary>
+    <Switch>
+      <Route path={"/"} component={Home} />
+      <Route path={"/workflow-preview"} component={WorkflowPreview} />
+      {/* ⬅️ COMMENTED OUT THE FAULTY LINE */}
+      {/* <Route path={"/shared-results/:shareId"} component={SharedResults} /> */}
+      <Route path={"/404"} component={NotFound} />
+      {/* Final fallback route */}
+      <Route component={NotFound} />
+    </Switch>
   );
 }
-
-export default App;
-// v3 update
