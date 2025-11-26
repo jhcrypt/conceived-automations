@@ -2,13 +2,13 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
-import ErrorBoundary from "@/components/ErrorBoundary"; // ⬅️ Standardized alias
-import { ThemeProvider } from "@/contexts/ThemeContext"; // ⬅️ Standardized alias
-import { ROIProvider } from "@/contexts/ROIContext"; // ⬅️ Standardized alias
+import ErrorBoundary from "@/components/ErrorBoundary"; 
+import { ThemeProvider } from "@/contexts/ThemeContext"; 
+import { ROIProvider } from "@/contexts/ROIContext"; 
 import AIChatBox from "@/components/AIChatBox"; 
-import Home from "@/pages/Home"; // ⬅️ Standardized alias
-import WorkflowPreview from "@/pages/WorkflowPreview"; // ⬅️ Standardized alias
-import SharedResults from "@/pages/SharedResults"; // ⬅️ Standardized alias
+import Home from "@/pages/Home"; 
+import WorkflowPreview from "@/pages/WorkflowPreview"; 
+import SharedResults from "@/pages/SharedResults"; 
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -31,7 +31,9 @@ function Router() {
 
 function App() {
   return (
-    <ErrorBoundary>
+    // ⬅️ The ErrorBoundary must wrap the ENTIRE application tree.
+    <ErrorBoundary> 
+      {/* ⬅️ AIChatBox is fixed position, rendered first. */}
       <AIChatBox /> 
       
       <ThemeProvider
