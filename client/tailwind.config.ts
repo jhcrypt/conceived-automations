@@ -1,8 +1,6 @@
-import path from "path";
-import type { Config } from "tailwindcss";
-
-const config: Config = {
-  darkMode: ["class"], // This is ESSENTIAL for your theme toggle to work
+/** @type {import('tailwindcss').Config} */
+export default {
+  darkMode: ["class"],
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -73,6 +71,4 @@ const config: Config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config;
-
-export default config;
+}
