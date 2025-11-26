@@ -4,7 +4,8 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import { ROIProvider } from "./contexts/ROIContext";
+import { ROIProvider } from "./contexts/ROIProvider";
+import AIChatBox from "@/components/AIChatBox"; // ⬅️ NEW: Import Chatbot component
 import Home from "./pages/Home";
 import WorkflowPreview from "./pages/WorkflowPreview";
 import SharedResults from "./pages/SharedResults";
@@ -31,6 +32,9 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
+      {/* ⬅️ PLACEMENT FIX: Render the chatbot component outside the providers for stability. */}
+      <AIChatBox /> 
+      
       <ThemeProvider
         defaultTheme="dark"
         // switchable
