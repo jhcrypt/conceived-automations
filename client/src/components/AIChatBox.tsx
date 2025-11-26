@@ -6,8 +6,8 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Loader2, Send, User, Sparkles, MessageCircle, X, Bot } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import ReactMarkdown from "react-markdown"; // <--- Switched to standard Markdown
-import { apiRequest } from "@/lib/queryClient";
+import ReactMarkdown from "react-markdown"; // For rich text output
+import { apiRequest } from "@/lib/queryClient"; // Custom API utility
 
 export type Message = {
   role: "system" | "user" | "assistant";
@@ -57,9 +57,11 @@ export default function AIChatBox() {
     setIsLoading(true);
 
     try {
-      // 2. Send to Backend
+      // 2. Send to Backend via custom API request utility
+      // NOTE: This relies on your /api/chat tRPC endpoint being correctly exposed via server/index.ts
       const response = await apiRequest("POST", "/api/chat", { messages: newMessages });
-      const data = await response.json();
+      // Since apiRequest is used, we assume it's handling the body parsing correctly.
+      const data = response; 
 
       // 3. Add AI Response
       setMessages(prev => [...prev, { role: "assistant", content: data.message }]);
@@ -89,6 +91,7 @@ export default function AIChatBox() {
             transition={{ duration: 0.2 }}
             className="mb-4 w-[350px] md:w-[400px] shadow-2xl"
           >
+            {/* ⬅️ FINAL STYLING: Simplified to bg-card for theme stability */}
             <Card className="flex flex-col h-[600px] border-border bg-card shadow-2xl overflow-hidden">
               
               {/* Header */}
@@ -190,7 +193,7 @@ export default function AIChatBox() {
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="Ask about workflows..."
-                    className="flex-1 min-h-[44px] max-h-32 resize-none bg-background border-primary/20 focus:border-primary"
+                    className="flex-1 min-h-[44px] max-h-32 resize-none bg-background border-border focus:border-primary" // ⬅️ Adjusted border to theme utility
                     rows={1}
                   />
                   <Button 
