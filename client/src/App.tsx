@@ -5,6 +5,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { ROIProvider } from "./contexts/ROIContext";
+import FloatingChatbot from "./components/FloatingChatbot";
 import Home from "./pages/Home";
 import WorkflowPreview from "./pages/WorkflowPreview";
 import SharedResults from "./pages/SharedResults";
@@ -39,6 +40,7 @@ function App() {
           <TooltipProvider>
             <Toaster />
             <Router />
+            <FloatingChatbot />
           </TooltipProvider>
         </ROIProvider>
       </ThemeProvider>
