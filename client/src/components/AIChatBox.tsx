@@ -213,7 +213,7 @@ export function AIChatBox({
                       key={index}
                       onClick={() => onSendMessage(prompt)}
                       disabled={isLoading}
-                      className="rounded-lg border border-border bg-card px-4 py-2 text-sm transition-colors hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
+                      className="rounded-lg border border-violet-300 bg-white px-4 py-2 text-sm text-gray-900 transition-colors hover:bg-violet-50 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {prompt}
                     </button>
@@ -247,17 +247,17 @@ export function AIChatBox({
                     }
                   >
                     {message.role === "assistant" && (
-                      <div className="size-8 shrink-0 mt-1 rounded-full bg-primary/10 flex items-center justify-center">
-                        <Sparkles className="size-4 text-primary" />
+                      <div className="size-8 shrink-0 mt-1 rounded-full bg-violet-100 flex items-center justify-center">
+                        <Sparkles className="size-4 text-violet-600" />
                       </div>
                     )}
 
                     <div
                       className={cn(
-                        "max-w-[80%] rounded-lg px-4 py-2.5",
+                        "max-w-[80%] rounded-lg px-4 py-2.5 border",
                         message.role === "user"
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-muted text-foreground"
+                          ? "bg-violet-600 text-white border-violet-600"
+                          : "bg-gray-50 text-gray-900 border-gray-200"
                       )}
                     >
                       {message.role === "assistant" ? (
@@ -272,8 +272,8 @@ export function AIChatBox({
                     </div>
 
                     {message.role === "user" && (
-                      <div className="size-8 shrink-0 mt-1 rounded-full bg-secondary flex items-center justify-center">
-                        <User className="size-4 text-secondary-foreground" />
+                      <div className="size-8 shrink-0 mt-1 rounded-full bg-violet-600 flex items-center justify-center">
+                        <User className="size-4 text-white" />
                       </div>
                     )}
                   </div>
@@ -289,10 +289,10 @@ export function AIChatBox({
                       : undefined
                   }
                 >
-                  <div className="size-8 shrink-0 mt-1 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Sparkles className="size-4 text-primary" />
+                  <div className="size-8 shrink-0 mt-1 rounded-full bg-violet-100 flex items-center justify-center">
+                    <Sparkles className="size-4 text-violet-600" />
                   </div>
-                  <div className="rounded-lg bg-muted px-4 py-2.5">
+                  <div className="rounded-lg bg-gray-50 border border-gray-200 px-4 py-2.5">
                     <Loader2 className="size-4 animate-spin text-muted-foreground" />
                   </div>
                 </div>
@@ -306,7 +306,7 @@ export function AIChatBox({
       <form
         ref={inputAreaRef}
         onSubmit={handleSubmit}
-        className="flex gap-2 p-4 border-t bg-background/50 items-end"
+        className="flex gap-2 p-4 border-t border-gray-200 bg-white items-end"
       >
         <Textarea
           ref={textareaRef}
@@ -321,7 +321,7 @@ export function AIChatBox({
           type="submit"
           size="icon"
           disabled={!input.trim() || isLoading}
-          className="shrink-0 h-[38px] w-[38px]"
+          className="shrink-0 h-[38px] w-[38px] bg-violet-600 hover:bg-violet-700 text-white"
         >
           {isLoading ? (
             <Loader2 className="size-4 animate-spin" />

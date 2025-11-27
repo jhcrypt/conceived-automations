@@ -36,13 +36,13 @@ export default function FloatingChatbot() {
       {/* Chat Window */}
       {isOpen && (
         <div className="fixed bottom-6 right-6 w-96 h-[600px] shadow-2xl rounded-lg overflow-hidden z-50 flex flex-col bg-white border border-gray-200">
-          <div className="flex items-center justify-between p-4 border-b bg-primary text-primary-foreground">
+          <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-violet-600 to-violet-500 text-white">
             <h3 className="font-semibold">Chat with us</h3>
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(false)}
-              className="h-8 w-8 text-primary-foreground hover:bg-primary-foreground/20"
+              className="h-8 w-8 text-white hover:bg-white/20"
             >
               <X className="h-4 w-4" />
             </Button>
@@ -57,6 +57,7 @@ export default function FloatingChatbot() {
               'How much does automation cost?',
               'What is n8n?'
             ]}
+            emptyStateMessage="Start a conversation with AI"
           />
         </div>
       )}
