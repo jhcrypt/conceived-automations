@@ -13,16 +13,16 @@ export default defineConfig({
   plugins,
   resolve: {
     alias: {
-      "@": path.resolve(import.meta.dirname, "client", "src"),
-      "@shared": path.resolve(import.meta.dirname, "shared"),
-      "@assets": path.resolve(import.meta.dirname, "attached_assets"),
+      "@": path.resolve(import.meta.dirname || __dirname, "client", "src"),
+      "@shared": path.resolve(import.meta.dirname || __dirname, "shared"),
+      "@assets": path.resolve(import.meta.dirname || __dirname, "attached_assets"),
     },
   },
-  envDir: path.resolve(import.meta.dirname),
-  root: path.resolve(import.meta.dirname, "client"),
-  publicDir: path.resolve(import.meta.dirname, "client", "public"),
+  envDir: path.resolve(import.meta.dirname || __dirname),
+  root: path.resolve(import.meta.dirname || __dirname, "client"),
+  publicDir: path.resolve(import.meta.dirname || __dirname, "client", "public"),
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    outDir: path.resolve(import.meta.dirname || __dirname, "dist/public"),
     emptyOutDir: true,
   },
   server: {
