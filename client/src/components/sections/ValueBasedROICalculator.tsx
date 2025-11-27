@@ -114,15 +114,13 @@ export default function ValueBasedROICalculator() {
             {/* Step 1: Industry */}
             {step === 1 && (
               <div className="space-y-6">
-                <div className="inline-block border border-violet-500/30 rounded-lg px-4 py-2 mb-2">
-                  <h3 className="text-2xl font-semibold">What industry are you in?</h3>
-                </div>
+                <h3 className="text-2xl font-semibold mb-4">What industry are you in?</h3>
                 <RadioGroup
                   value={inputs.industry}
                   onValueChange={(value) => setInputs({ ...inputs, industry: value })}
                 >
                   {Object.values(INDUSTRY_BENCHMARKS).map((industry) => (
-                    <div key={industry.id} className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                    <div key={industry.id} className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                       <RadioGroupItem value={industry.id} id={industry.id} />
                       <Label htmlFor={industry.id} className="flex-1 cursor-pointer text-lg">
                         {industry.name}
@@ -136,35 +134,33 @@ export default function ValueBasedROICalculator() {
             {/* Step 2: Business Stage */}
             {step === 2 && (
               <div className="space-y-6">
-                <div className="inline-block border border-violet-500/30 rounded-lg px-4 py-2 mb-2">
-                  <h3 className="text-2xl font-semibold">What stage is your business in?</h3>
-                </div>
+                <h3 className="text-2xl font-semibold mb-4">What stage is your business in?</h3>
                 <RadioGroup
                   value={inputs.businessStage}
                   onValueChange={(value) => setInputs({ ...inputs, businessStage: value as any })}
                 >
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="startup" id="startup" />
                     <Label htmlFor="startup" className="flex-1 cursor-pointer">
                       <div className="text-lg font-medium">Just getting started</div>
                       <div className="text-sm text-slate-400">0-10 customers</div>
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="growing" id="growing" />
                     <Label htmlFor="growing" className="flex-1 cursor-pointer">
                       <div className="text-lg font-medium">Growing steadily</div>
                       <div className="text-sm text-slate-400">10-100 customers</div>
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="scaling" id="scaling" />
                     <Label htmlFor="scaling" className="flex-1 cursor-pointer">
                       <div className="text-lg font-medium">Scaling fast</div>
                       <div className="text-sm text-slate-400">100-1000 customers</div>
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="established" id="established" />
                     <Label htmlFor="established" className="flex-1 cursor-pointer">
                       <div className="text-lg font-medium">Established</div>
@@ -179,37 +175,35 @@ export default function ValueBasedROICalculator() {
             {step === 3 && (
               <div className="space-y-6">
                 <div>
-                  <div className="inline-block border border-violet-500/30 rounded-lg px-4 py-2 mb-2">
-                    <h3 className="text-2xl font-semibold">Who's currently handling this task?</h3>
-                  </div>
+                  <h3 className="text-2xl font-semibold mb-2">Who's currently handling this task?</h3>
                   <p className="text-slate-400 text-sm">Your selection affects how we calculate total team hours saved</p>
                 </div>
                 <RadioGroup
                   value={inputs.teamSize}
                   onValueChange={(value) => setInputs({ ...inputs, teamSize: value as any })}
                 >
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="solo" id="solo" />
                     <Label htmlFor="solo" className="flex-1 cursor-pointer">
                       <div className="text-lg font-medium">Just me (solopreneur)</div>
                       <div className="text-sm text-slate-400">1 person - hours saved = your personal time</div>
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="small" id="small" />
                     <Label htmlFor="small" className="flex-1 cursor-pointer">
                       <div className="text-lg font-medium">Small team (2-5 people)</div>
                       <div className="text-sm text-slate-400">~3 people avg - multiplies time savings across team</div>
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="department" id="department" />
                     <Label htmlFor="department" className="flex-1 cursor-pointer">
                       <div className="text-lg font-medium">Department (6-20 people)</div>
                       <div className="text-sm text-slate-400">~13 people avg - significant aggregate time savings</div>
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="multiple" id="multiple" />
                     <Label htmlFor="multiple" className="flex-1 cursor-pointer">
                       <div className="text-lg font-medium">Multiple departments (20+ people)</div>
@@ -223,38 +217,36 @@ export default function ValueBasedROICalculator() {
             {/* Step 4: Time Saved */}
             {step === 4 && (
               <div className="space-y-6">
-                <div className="inline-block border border-violet-500/30 rounded-lg px-4 py-2 mb-2">
-                  <h3 className="text-2xl font-semibold">How much time would you get back each week if this was automated?</h3>
-                </div>
+                <h3 className="text-2xl font-semibold mb-4">How much time would you get back each week if this was automated?</h3>
                 <RadioGroup
                   value={inputs.timeSaved}
                   onValueChange={(value) => setInputs({ ...inputs, timeSaved: value as any })}
                 >
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="1-5" id="1-5" />
                     <Label htmlFor="1-5" className="flex-1 cursor-pointer text-lg">
                       1-5 hours
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="5-10" id="5-10" />
                     <Label htmlFor="5-10" className="flex-1 cursor-pointer text-lg">
                       5-10 hours
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="10-20" id="10-20" />
                     <Label htmlFor="10-20" className="flex-1 cursor-pointer text-lg">
                       10-20 hours
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="20-40" id="20-40" />
                     <Label htmlFor="20-40" className="flex-1 cursor-pointer text-lg">
                       20-40 hours
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="40+" id="40+" />
                     <Label htmlFor="40+" className="flex-1 cursor-pointer text-lg">
                       40+ hours
@@ -267,44 +259,42 @@ export default function ValueBasedROICalculator() {
             {/* Step 5: Delay Impact */}
             {step === 5 && (
               <div className="space-y-6">
-                <div className="inline-block border border-violet-500/30 rounded-lg px-4 py-2 mb-2">
-                  <h3 className="text-2xl font-semibold">What happens when this process is delayed or breaks?</h3>
-                </div>
+                <h3 className="text-2xl font-semibold mb-4">What happens when this process is delayed or breaks?</h3>
                 <RadioGroup
                   value={inputs.delayImpact}
                   onValueChange={(value) => setInputs({ ...inputs, delayImpact: value as any })}
                 >
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="lost_sales" id="lost_sales" />
                     <Label htmlFor="lost_sales" className="flex-1 cursor-pointer text-lg">
                       Lost sales opportunities
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="unhappy_customers" id="unhappy_customers" />
                     <Label htmlFor="unhappy_customers" className="flex-1 cursor-pointer text-lg">
                       Unhappy customers
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="missed_deadlines" id="missed_deadlines" />
                     <Label htmlFor="missed_deadlines" className="flex-1 cursor-pointer text-lg">
                       Missed deadlines
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="compliance" id="compliance" />
                     <Label htmlFor="compliance" className="flex-1 cursor-pointer text-lg">
                       Compliance issues
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="burnout" id="burnout" />
                     <Label htmlFor="burnout" className="flex-1 cursor-pointer text-lg">
                       Team frustration/burnout
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="not_critical" id="not_critical" />
                     <Label htmlFor="not_critical" className="flex-1 cursor-pointer text-lg">
                       Nothing critical (just inefficient)
@@ -317,44 +307,42 @@ export default function ValueBasedROICalculator() {
             {/* Step 6: Growth Challenge */}
             {step === 6 && (
               <div className="space-y-6">
-                <div className="inline-block border border-violet-500/30 rounded-lg px-4 py-2 mb-2">
-                  <h3 className="text-2xl font-semibold">What's your biggest growth challenge right now?</h3>
-                </div>
+                <h3 className="text-2xl font-semibold mb-4">What's your biggest growth challenge right now?</h3>
                 <RadioGroup
                   value={inputs.growthChallenge}
                   onValueChange={(value) => setInputs({ ...inputs, growthChallenge: value as any })}
                 >
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="demand" id="demand" />
                     <Label htmlFor="demand" className="flex-1 cursor-pointer text-lg">
                       Can't keep up with demand
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="quality" id="quality" />
                     <Label htmlFor="quality" className="flex-1 cursor-pointer text-lg">
                       Inconsistent quality/service
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="manual_work" id="manual_work" />
                     <Label htmlFor="manual_work" className="flex-1 cursor-pointer text-lg">
                       Too much manual work to scale
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="churn" id="churn" />
                     <Label htmlFor="churn" className="flex-1 cursor-pointer text-lg">
                       High customer churn
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="speed" id="speed" />
                     <Label htmlFor="speed" className="flex-1 cursor-pointer text-lg">
                       Can't compete on speed
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="hiring" id="hiring" />
                     <Label htmlFor="hiring" className="flex-1 cursor-pointer text-lg">
                       Hiring and training is too slow
@@ -367,35 +355,33 @@ export default function ValueBasedROICalculator() {
             {/* Step 7: Urgency */}
             {step === 7 && (
               <div className="space-y-6">
-                <div className="inline-block border border-violet-500/30 rounded-lg px-4 py-2 mb-2">
-                  <h3 className="text-2xl font-semibold">How quickly do you need this solved?</h3>
-                </div>
+                <h3 className="text-2xl font-semibold mb-4">How quickly do you need this solved?</h3>
                 <RadioGroup
                   value={inputs.urgency}
                   onValueChange={(value) => setInputs({ ...inputs, urgency: value as any })}
                 >
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="urgent" id="urgent" />
                     <Label htmlFor="urgent" className="flex-1 cursor-pointer">
                       <div className="text-lg font-medium">Urgent (within 30 days)</div>
                       <div className="text-sm text-slate-400">This is critical for our business</div>
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="soon" id="soon" />
                     <Label htmlFor="soon" className="flex-1 cursor-pointer">
                       <div className="text-lg font-medium">Soon (1-3 months)</div>
                       <div className="text-sm text-slate-400">Important but not urgent</div>
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="planning" id="planning" />
                     <Label htmlFor="planning" className="flex-1 cursor-pointer">
                       <div className="text-lg font-medium">Planning ahead (3-6 months)</div>
                       <div className="text-sm text-slate-400">Part of our roadmap</div>
                     </Label>
                   </div>
-                  <div className="flex items-center space-x-3 p-4 rounded-lg hover:bg-slate-700/50 transition-colors">
+                  <div className="flex items-center space-x-3 p-4 rounded-lg border border-violet-500/30 hover:bg-slate-700/50 transition-colors">
                     <RadioGroupItem value="exploring" id="exploring" />
                     <Label htmlFor="exploring" className="flex-1 cursor-pointer">
                       <div className="text-lg font-medium">Exploring options (6+ months)</div>

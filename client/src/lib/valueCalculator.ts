@@ -227,7 +227,7 @@ export function formatCurrency(value: number): string {
  * Format percentage for display
  */
 export function formatPercentage(value: number): string {
-  return `${Math.round(value)}%`;
+  return `${Math.round(value).toLocaleString('en-US')}%`;
 }
 
 /**
@@ -237,5 +237,5 @@ export function formatNumber(value: number): string {
   return new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0,
     maximumFractionDigits: 1,
-  }).format(value);
+  }).format(Math.round(value * 10) / 10);
 }
