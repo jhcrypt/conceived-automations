@@ -400,9 +400,9 @@ export default function ValueBasedROICalculator() {
                   <p className="text-slate-300">Based on your responses, here's the value automation could deliver</p>
                   <Dialog>
                     <DialogTrigger asChild>
-                      <button className="inline-flex items-center gap-1 text-sm text-violet-400 hover:text-violet-300 mt-2">
+                      <button className="inline-flex items-center gap-1.5 text-sm text-violet-400 hover:text-violet-300 hover:underline mt-3 transition-all">
                         <Info className="w-4 h-4" />
-                        How we calculate these numbers
+                        <span>How we calculate these numbers</span>
                       </button>
                     </DialogTrigger>
                     <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
