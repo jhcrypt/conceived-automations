@@ -35,7 +35,7 @@ export default function FloatingChatbot() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-96 h-[600px] shadow-2xl rounded-lg overflow-hidden z-50 flex flex-col bg-background border">
+        <div className="fixed bottom-6 right-6 w-96 h-[600px] shadow-2xl rounded-lg overflow-hidden z-50 flex flex-col bg-slate-900 border border-slate-700">
           <div className="flex items-center justify-between p-4 border-b bg-primary text-primary-foreground">
             <h3 className="font-semibold">Chat with us</h3>
             <Button
@@ -51,7 +51,7 @@ export default function FloatingChatbot() {
             messages={messages}
             onSendMessage={handleSendMessage}
             height="100%"
-            className="border-0 rounded-none"
+            className="border-0 rounded-none bg-slate-900"
             suggestedPrompts={[
               'Tell me about your services',
               'How much does automation cost?',
