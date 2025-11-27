@@ -36,13 +36,20 @@ export default function FloatingChatbot() {
       {/* Chat Window */}
       {isOpen && (
         <div className="fixed bottom-6 right-6 w-96 h-[600px] shadow-2xl rounded-lg overflow-hidden z-50 flex flex-col bg-white border border-gray-200">
-          <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-violet-600 to-violet-500 text-white">
-            <h3 className="font-semibold">Chat with us</h3>
+          <div className="flex items-center justify-between p-4 border-b-2 border-violet-500 bg-white">
+            <div className="flex items-center gap-2">
+              <div className="bg-gradient-to-br from-violet-600 to-cyan-500 p-1.5 rounded-lg">
+                <Workflow className="text-white w-5 h-5" />
+              </div>
+              <span className="text-base font-bold text-gray-900">
+                Conceived<span className="text-violet-600">Automations</span>
+              </span>
+            </div>
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(false)}
-              className="h-8 w-8 text-white hover:bg-white/20"
+              className="h-8 w-8 text-gray-600 hover:bg-gray-100"
             >
               <X className="h-4 w-4" />
             </Button>
