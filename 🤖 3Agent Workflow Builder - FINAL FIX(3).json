@@ -1,0 +1,611 @@
+{
+  "name": "🤖 3Agent Workflow Builder - FINAL FIX",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "4a5aaeaa-ffea-49d1-8913-f3d9da6d1ffa",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "two-agent-builder"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "chatgpt-4o-latest",
+          "mode": "list",
+          "cachedResultName": "chatgpt-4o-latest"
+        },
+        "options": {
+          "temperature": 0.3
+        }
+      },
+      "id": "8d59cbd6-0d02-4010-9afe-c9aca6bc4e81",
+      "name": "GPT-4o-mini (Planning)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        192,
+        208
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "DfpalJny1yZEVVZ7",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 3
+      },
+      "id": "2e0c7b5f-5a3a-4c8b-9adc-6c09871c6aa5",
+      "name": "Planning Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        368,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('When chat message received').item.json.chatInput }}",
+        "options": {
+          "systemMessage": "# n8n Workflow Planning Agent\n\nYou analyze user requests and create a HIGH-LEVEL PLAN for an n8n workflow.\n\n## Your Output (Plain Text Plan):\n\n**Workflow Name:** [descriptive name]\n\n**Trigger:** [webhook/schedule/manual]\n\n**Nodes Needed:**\n1. [Node type] - [Purpose]\n2. [Node type] - [Purpose]\n3. [Node type] - [Purpose]\n\n**Flow:**\n[Node 1] → [Node 2] → [Node 3]\n\n**Key Parameters:**\n- Node 1: [what needs configuring]\n- Node 2: [what needs configuring]\n\n**Notes:**\n- [Any important considerations]\n\n## Common Node Types:\n- Webhook, Schedule Trigger, Manual Trigger\n- HTTP Request, Code, Set, If, Switch, Merge\n- Slack, Gmail, Google Sheets, OpenAI\n\n## Rules:\n- Keep it SIMPLE (max 8-10 nodes)\n- Be SPECIFIC about node types\n- Describe the FLOW clearly\n- Note any CREDENTIALS needed\n\nOutput ONLY the plan in the format above."
+        }
+      },
+      "id": "c9f79e13-c8ef-4305-933c-855d9d7a38af",
+      "name": "Agent 1: Planning",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1"
+        },
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "id": "9618c8f4-6b07-4360-bcdb-b2330e89fe7b",
+      "name": "GPT-4 (Implementation)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        528,
+        208
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "DfpalJny1yZEVVZ7",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "57b5d0b3-ed9d-444d-92d2-c56f53a4fa84",
+      "name": "Implementation Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        672,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Agent 1: Planning').item.json.output }}",
+        "options": {
+          "systemMessage": "=# n8n JSON Implementation Agent\n\n## ABSOLUTE CRITICAL RULES (VIOLATION = FAILURE)\n\n1.  **OUTPUT ONLY JSON**: You must output **ONLY** a valid, parseable JSON code block representing the n8n workflow.\n    * **NO** conversational text (e.g., \"Here is the workflow\", \"I have created...\").\n    * **NO** clarifying questions (e.g., \"Do you have an API key?\", \"Should I use Gmail or Outlook?\").\n    * **NO** explanations outside the JSON block.\n    * **IF UNSURE**: Make a reasonable assumption, use a standard default, or use a placeholder like `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTE0NzllZS03ZmYyLTQ2MWQtYWNhZC0yZjQxMGJhOGQyYjAiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzYxNzQ4MzI4fQ.V4LenjrzR93rGOFDPtwCzsBydulxwwlnylufc2Q3nSM`. **NEVER** stop to ask the user.\n\n2.  **USE YOUR TOOLS**: You have access to a tool called `n8n_Documentation`.\n    * **MANDATORY**: Before generating JSON for any complex node (HTTP Request, Google Sheets, OpenAI, etc.), you **MUST** use this tool to verify the correct parameter names (e.g., checking if a field is named `options` vs `additionalFields`, or `jsonNotice` vs `notice`).\n    * **DO NOT HALLUCINATE PARAMETERS**: If you guess a parameter name, the workflow will break. Look it up first.\n\n---\n\n## Role\n\nYou are an expert n8n engineer. You receive a high-level plan and must translate it into a production-ready, valid n8n workflow JSON.\n\n## Process\n\n1.  **Analyze the Plan**: specific nodes, connections, and logic.\n2.  **Verify Parameters**: Use `n8n_Documentation` to check the JSON structure for key nodes.\n3.  **Generate JSON**: Construct the final JSON object.\n4.  **Validate**: Ensure strict JSON syntax (double quotes, no trailing commas).\n\n## Required JSON Structure\n\n```json\n{\n  \"name\": \"Workflow Name\",\n  \"nodes\": [\n    {\n      \"parameters\": {},\n      \"id\": \"uuid-string\",\n      \"name\": \"Node Name\",\n      \"type\": \"n8n-nodes-base.nodeType\",\n      \"typeVersion\": 1,\n      \"position\": [250, 300]\n    }\n  ],\n  \"connections\": {\n    \"Node Name\": {\n      \"main\": [\n        [\n          {\n            \"node\": \"Next Node\",\n            \"type\": \"main\",\n            \"index\": 0\n          }\n        ]\n      ]\n    }\n  },\n  \"settings\": { \"executionOrder\": \"v1\" },\n  \"staticData\": null\n}"
+        }
+      },
+      "id": "a58c4632-7b3b-4f91-abd8-8a97aea07d9f",
+      "name": "Agent 2: Implementation",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        560,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract and prepare workflow for n8n API\nconst input = $input.item.json;\n\n// The workflow should already be parsed by Code in JavaScript node\nif (input.workflow) {\n  return {\n    json: {\n      workflow: input.workflow,\n      workflowJson: JSON.stringify(input.workflow),\n      debug: input.debug || 'Workflow passed through'\n    }\n  };\n}\n\n// Fallback: If no workflow, return error info\nconst fallbackWorkflow = {\n  name: \"No Workflow Found\",\n  nodes: [{id:\"t\",name:\"Manual Trigger\",type:\"n8n-nodes-base.manualTrigger\",typeVersion:1,position:[240,300],parameters:{}}],\n  connections: {},\n  settings: {executionOrder:\"v1\"},\n  staticData: null\n};\n\nreturn {\n  json: {\n    workflow: fallbackWorkflow,\n    workflowJson: JSON.stringify(fallbackWorkflow),\n    debug: 'No workflow in input',\n    receivedKeys: Object.keys(input)\n  }\n};"
+      },
+      "id": "ebece55b-0ed3-48f7-8673-fe59a9fab124",
+      "name": "Clean JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1072,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const workflow = $('Clean JSON').item.json.workflow;\n\nconst errors = [];\nconst warnings = [];\n\nif (!workflow.nodes || workflow.nodes.length === 0) {\n  errors.push({ message: \"Workflow has no nodes\" });\n}\n\nconst triggers = ['webhook', 'manualTrigger', 'scheduleTrigger', 'emailTrigger', 'chatTrigger', 'cronTrigger'];\nconst hasTrigger = workflow.nodes?.some(node => \n  triggers.some(t => node.type?.toLowerCase().includes(t.toLowerCase()))\n);\n\nif (!hasTrigger) {\n  errors.push({ message: \"No trigger node found - workflow needs a trigger to execute\" });\n}\n\nconst connectedNodes = new Set();\nObject.values(workflow.connections || {}).forEach(conns => {\n  Object.values(conns).forEach(outputs => {\n    outputs.forEach(outputArray => {\n      outputArray.forEach(conn => {\n        if (conn.node) connectedNodes.add(conn.node);\n      });\n    });\n  });\n});\n\nconst disconnected = workflow.nodes?.filter(n => \n  !connectedNodes.has(n.name) && \n  !n.type?.toLowerCase().includes('trigger') &&\n  !n.type?.toLowerCase().includes('stickynote') &&\n  n.name !== workflow.nodes[0]?.name\n);\n\nif (disconnected?.length > 0) {\n  warnings.push({ \n    message: `${disconnected.length} disconnected node(s): ${disconnected.map(n => n.name).join(', ')}`\n  });\n}\n\nconst fakeApiPatterns = [\n  'api.google.com',\n  'api.twitter.com', \n  'api.facebook.com',\n  'graph.facebook.com',\n  'api.instagram.com',\n  'graph.instagram.com',\n  'api.tiktok.com',\n  'api.unsplash.com',\n  'api.example.com',\n  'example.com/api'\n];\n\nworkflow.nodes?.forEach(node => {\n  if (node.type?.includes('httpRequest')) {\n    const url = node.parameters?.url || '';\n    \n    if (!url || url.trim() === '') {\n      errors.push({ message: `Node \"${node.name}\" has empty URL` });\n    }\n    \n    const fakeMatch = fakeApiPatterns.find(pattern => url.toLowerCase().includes(pattern));\n    if (fakeMatch) {\n      errors.push({ \n        message: `Node \"${node.name}\" uses invalid API URL (${fakeMatch}). Use n8n's native nodes or real API endpoints.`\n      });\n    }\n    \n    if (url.includes('placeholder') || url.includes('example') || url.includes('your-')) {\n      errors.push({ \n        message: `Node \"${node.name}\" has placeholder URL that needs configuration: ${url}`\n      });\n    }\n  }\n});\n\nconst nodesNeedingCreds = ['openai', 'slack', 'gmail', 'googleSheets', 'twitter', 'discord'];\nworkflow.nodes?.forEach(node => {\n  const needsCreds = nodesNeedingCreds.some(n => node.type?.toLowerCase().includes(n.toLowerCase()));\n  if (needsCreds && !node.credentials) {\n    warnings.push({ message: `Node \"${node.name}\" likely needs credentials configured` });\n  }\n});\n\nconst isValid = errors.length === 0;\n\nreturn {\n  json: {\n    workflow: workflow,\n    isValid: isValid,\n    errors: errors,\n    warnings: warnings,\n    suggestions: errors.length > 0 ? ['Agent 3 will fix these issues'] : []\n  }\n};"
+      },
+      "id": "78c4e9f0-e52f-46df-970c-46474c2525e1",
+      "name": "MCP Validator",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1264,
+        0
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1"
+        },
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "id": "57385820-d55e-4419-8345-a22e0c5a11f7",
+      "name": "GPT-4o-mini (Fixer)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1216,
+        384
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "DfpalJny1yZEVVZ7",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Original Workflow:\n{{ JSON.stringify($json.workflow, null, 2) }}\n\n# Validation Errors:\n{{ $json.errors && $json.errors.length > 0 ? $json.errors.map(e => '- ' + e.message).join('\\n') : 'None' }}\n\n# Warnings:\n{{ $json.warnings && $json.warnings.length > 0 ? $json.warnings.map(w => '- ' + w.message).join('\\n') : 'None' }}",
+        "options": {
+          "systemMessage": "# n8n Workflow Fix Agent\n\n## ABSOLUTE RULE #1: PRESERVE THE TRIGGER\nThe FIRST node in nodes[] array is ALWAYS the trigger. Copy it EXACTLY to your output.\nNEVER remove, modify, or forget the trigger node.\n\n## Your Task:\nFix validation errors while maintaining workflow integrity.\n\n## Common Fixes by Error Type:\n\n### Missing Trigger Error:\n- Verify trigger exists as first node in nodes[] array\n- If missing, add: n8n-nodes-base.manualTrigger at position [250, 300]\n\n### Fake API URL Errors (api.twitter.com, api.facebook.com, etc.):\n- REPLACE with real n8n nodes:\n  - Twitter → n8n-nodes-base.twitter\n  - Facebook → n8n-nodes-base.facebookGraph  \n  - Instagram → n8n-nodes-base.instagram\n  - Slack → n8n-nodes-base.slack\n- DO NOT use HTTP Request with fake URLs\n- DO NOT use placeholder/noOp nodes\n\n### Disconnected Nodes:\n- Add connections between isolated nodes\n- Connect in logical sequence: Trigger → Process → Output\n- Format: \"SourceNode\": {\"main\": [[{\"node\": \"TargetNode\", \"type\": \"main\", \"index\": 0}]]}\n\n### Invalid JSON Syntax:\n- Remove trailing commas\n- Use double quotes for all keys/strings\n- Escape special characters: \\\" \\\\ \\n\n- Use null not \"null\"\n\n## JSON Quality Rules:\n- All property names in double quotes\n- No trailing commas in arrays/objects\n- Escape quotes in strings: \\\\\"\n- Numbers without quotes\n- Boolean: true/false (not \"true\"/\"false\")\n\n## Output Structure:\n{\n  \"name\": \"Fixed Workflow Name\",\n  \"nodes\": [\n    {TRIGGER_NODE_COPIED_EXACTLY},\n    {additional_nodes}\n  ],\n  \"connections\": {\n    \"Node Name\": {\"main\": [[{\"node\": \"Next\", \"type\": \"main\", \"index\": 0}]]}\n  },\n  \"settings\": {\"executionOrder\": \"v1\"},\n  \"staticData\": null\n}\n\n## CRITICAL OUTPUT RULES:\n- Output ONLY valid JSON\n- Start with { end with }\n- NO markdown code blocks\n- NO explanations\n- Trigger MUST be first node\n- Make MINIMAL changes (only fix stated errors)\n\nFix the workflow now. Output ONLY JSON."
+        }
+      },
+      "id": "13cec19a-5cd6-473b-9b81-e8fd32d138a0",
+      "name": "Agent 3: Fix Errors",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        1264,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract fixed workflow from Agent 3\nconst aiOutput = $input.item.json.output;\n\nlet workflow;\ntry {\n  workflow = typeof aiOutput === 'string' ? JSON.parse(aiOutput) : aiOutput;\n  \n  if (!workflow.nodes || !Array.isArray(workflow.nodes)) {\n    throw new Error('No nodes in fixed workflow');\n  }\n  \n  return { json: { workflow: workflow }};\n} catch (error) {\n  // Try markdown extraction\n  const match = aiOutput.match(/```(?:json)?\\\\n?([\\\\s\\\\S]*?)```/);\n  if (match) {\n    try {\n      workflow = JSON.parse(match[1]);\n      return { json: { workflow: workflow }};\n    } catch (e) {}\n  }\n  \n  throw new Error('Could not parse Agent 3 output: ' + error.message);\n}"
+      },
+      "id": "8a86a979-4614-45f2-96f8-38feb0641586",
+      "name": "Clean Fixed JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1584,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const workflow = $('Clean Fixed JSON').item.json.workflow;\n\nconst errors = [];\nconst warnings = [];\n\nif (!workflow.nodes || workflow.nodes.length === 0) {\n  errors.push({ message: \"Workflow has no nodes\" });\n}\n\nconst triggers = ['webhook', 'manualTrigger', 'scheduleTrigger', 'emailTrigger', 'chatTrigger', 'cronTrigger'];\nconst hasTrigger = workflow.nodes?.some(node => \n  triggers.some(t => node.type?.toLowerCase().includes(t.toLowerCase()))\n);\n\nif (!hasTrigger) {\n  errors.push({ message: \"No trigger node found - workflow needs a trigger to execute\" });\n}\n\nconst connectedNodes = new Set();\nObject.values(workflow.connections || {}).forEach(conns => {\n  Object.values(conns).forEach(outputs => {\n    outputs.forEach(outputArray => {\n      outputArray.forEach(conn => {\n        if (conn.node) connectedNodes.add(conn.node);\n      });\n    });\n  });\n});\n\nconst disconnected = workflow.nodes?.filter(n => \n  !connectedNodes.has(n.name) && \n  !n.type?.toLowerCase().includes('trigger') &&\n  !n.type?.toLowerCase().includes('stickynote') &&\n  n.name !== workflow.nodes[0]?.name\n);\n\nif (disconnected?.length > 0) {\n  warnings.push({ \n    message: `${disconnected.length} disconnected node(s): ${disconnected.map(n => n.name).join(', ')}`\n  });\n}\n\nconst fakeApiPatterns = [\n  'api.google.com',\n  'api.twitter.com', \n  'api.facebook.com',\n  'graph.facebook.com',\n  'api.instagram.com',\n  'graph.instagram.com',\n  'api.tiktok.com',\n  'api.unsplash.com',\n  'api.example.com',\n  'example.com/api'\n];\n\nworkflow.nodes?.forEach(node => {\n  if (node.type?.includes('httpRequest')) {\n    const url = node.parameters?.url || '';\n    \n    if (!url || url.trim() === '') {\n      errors.push({ message: `Node \"${node.name}\" has empty URL` });\n    }\n    \n    const fakeMatch = fakeApiPatterns.find(pattern => url.toLowerCase().includes(pattern));\n    if (fakeMatch) {\n      errors.push({ \n        message: `Node \"${node.name}\" uses invalid API URL (${fakeMatch}). Use n8n's native nodes or real API endpoints.`\n      });\n    }\n    \n    if (url.includes('placeholder') || url.includes('example') || url.includes('your-')) {\n      errors.push({ \n        message: `Node \"${node.name}\" has placeholder URL that needs configuration: ${url}`\n      });\n    }\n  }\n});\n\nconst nodesNeedingCreds = ['openai', 'slack', 'gmail', 'googleSheets', 'twitter', 'discord'];\nworkflow.nodes?.forEach(node => {\n  const needsCreds = nodesNeedingCreds.some(n => node.type?.toLowerCase().includes(n.toLowerCase()));\n  if (needsCreds && !node.credentials) {\n    warnings.push({ message: `Node \"${node.name}\" likely needs credentials configured` });\n  }\n});\n\nconst isValid = errors.length === 0;\n\nreturn {\n  json: {\n    workflow: workflow,\n    workflowJson: JSON.stringify(workflow),\n    isValid: isValid,\n    errors: errors,\n    warnings: warnings\n  }\n};"
+      },
+      "id": "f3288870-2cba-4fef-bb48-5a510c88388a",
+      "name": "Validate Fixed",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        208
+      ],
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "workflowObject": "={{ $('Clean JSON').item.json.workflowJson }}",
+        "requestOptions": {}
+      },
+      "id": "037fe0a0-4282-48fb-9f26-578664bef34c",
+      "name": "Create Workflow",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        1472,
+        0
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "qWhBaQNGCDEmOFNv",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "workflowObject": "={{ JSON.stringify($json.workflow) }}",
+        "requestOptions": {}
+      },
+      "id": "db733b2c-009d-490e-80bd-82eaa174a33b",
+      "name": "Create Fixed Workflow",
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        1936,
+        208
+      ],
+      "credentials": {
+        "n8nApi": {
+          "id": "qWhBaQNGCDEmOFNv",
+          "name": "n8n account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "output",
+              "name": "output",
+              "type": "string",
+              "value": "=✅ **Workflow Created Successfully!**\n\n🔗 [Open Workflow](http://localhost:5678/workflow/{{ $('Create Workflow').item.json.id }})\n\n📋 **ID:** {{ $('Create Workflow').item.json.id }}\n📝 **Name:** {{ $('Create Workflow').item.json.name }}\n✓ **Status:** Validated & Created"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "12d94e5f-aeb8-4dc3-9a4e-c7b6cab8f918",
+      "name": "Success Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1680,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "output",
+              "name": "output",
+              "type": "string",
+              "value": "=✅ **Workflow Created (After Auto-Fix)!**\n\n🔗 [Open Workflow](http://localhost:5678/workflow/{{ $('Create Fixed Workflow').item.json.id }})\n\n📋 **ID:** {{ $('Create Fixed Workflow').item.json.id }}\n📝 **Name:** {{ $('Create Fixed Workflow').item.json.name }}\n🔧 **Status:** Auto-fixed & Validated"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c2b6ffe1-63d6-457d-8b7c-35946a892158",
+      "name": "Fixed Success Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2176,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract workflow JSON from Agent 2's output\nconst aiOutput = $input.item.json.output;\n\nconsole.log('Raw AI Output:', aiOutput?.substring(0, 200));\n\nif (!aiOutput) {\n  throw new Error('Agent 2 returned no output');\n}\n\nlet workflow;\n\n// Try 1: Parse as JSON directly\ntry {\n  workflow = typeof aiOutput === 'string' ? JSON.parse(aiOutput) : aiOutput;\n  if (workflow.nodes && Array.isArray(workflow.nodes)) {\n    console.log('✓ Parsed as direct JSON');\n    return { json: { workflow: workflow, debug: 'Direct parse' } };\n  }\n} catch (e) {\n  console.log('✗ Direct parse failed:', e.message);\n}\n\n// Try 2: Extract from markdown code blocks\nconst patterns = [\n  /```json\\s*\\n?([\\s\\S]*?)\\n?```/,\n  /```\\s*\\n?([\\s\\S]*?)\\n?```/,\n  /\\{[\\s\\S]*\"nodes\"[\\s\\S]*\\}/\n];\n\nfor (const pattern of patterns) {\n  const match = String(aiOutput).match(pattern);\n  if (match) {\n    try {\n      const jsonStr = match[1] || match[0];\n      workflow = JSON.parse(jsonStr);\n      if (workflow.nodes && Array.isArray(workflow.nodes)) {\n        console.log('✓ Extracted from markdown');\n        return { json: { workflow: workflow, debug: 'Markdown extract' } };\n      }\n    } catch (e) {\n      console.log('✗ Markdown parse failed:', e.message);\n      continue;\n    }\n  }\n}\n\n// Try 3: Find JSON object in text\nconst jsonMatch = String(aiOutput).match(/(\\{[\\s\\S]*\\})/);\nif (jsonMatch) {\n  try {\n    workflow = JSON.parse(jsonMatch[1]);\n    if (workflow.nodes && Array.isArray(workflow.nodes)) {\n      console.log('✓ Extracted JSON from text');\n      return { json: { workflow: workflow, debug: 'Text extract' } };\n    }\n  } catch (e) {\n    console.log('✗ JSON from text failed:', e.message);\n  }\n}\n\n// Failed - throw error with details\nthrow new Error(\n  `Cannot parse Agent 2 output. First 500 chars: ${String(aiOutput).substring(0, 500)}`\n);"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        0
+      ],
+      "id": "8bf26078-faf4-4095-af1e-591a327f0059",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Call this tool to validate the generated workflow JSON. Pass the full JSON structure. The tool will return specific syntax errors, deprecated parameters, or logic gaps.",
+        "url": "http://host.docker.internal:8001",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1472,
+        384
+      ],
+      "id": "c6163c72-fd38-4055-ab1f-db3de1f0c36b",
+      "name": "Workflow_Debugger"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Call this tool when you are unsure about specific node parameters, JSON structure, or available options for an n8n node. Input should be the name of the node or concept you need to look up.",
+        "url": "http://host.docker.internal:3000",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"tools/list\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        848,
+        208
+      ],
+      "id": "5dd41935-618f-44a6-9a0a-b178cd646665",
+      "name": "n8n_Documentation"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Call this tool when you are unsure about specific node parameters, JSON structure, or available options for an n8n node. Input should be the name of the node or concept you need to look up.",
+        "url": "http://host.docker.internal:3000/mcp",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"tools/list\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        496,
+        736
+      ],
+      "id": "364d5a5c-3f43-4e3a-8a48-bdbed2323cf9",
+      "name": "n8n_Documentation1",
+      "disabled": true
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Agent 1: Planning",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent 1: Planning": {
+      "main": [
+        [
+          {
+            "node": "Agent 2: Implementation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent 2: Implementation": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean JSON": {
+      "main": [
+        [
+          {
+            "node": "MCP Validator",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Agent 3: Fix Errors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Validator": {
+      "main": [
+        [
+          {
+            "node": "Create Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Workflow": {
+      "main": [
+        [
+          {
+            "node": "Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent 3: Fix Errors": {
+      "main": [
+        [
+          {
+            "node": "Clean Fixed JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean Fixed JSON": {
+      "main": [
+        [
+          {
+            "node": "Validate Fixed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Fixed": {
+      "main": [
+        [
+          {
+            "node": "Create Fixed Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Fixed Workflow": {
+      "main": [
+        [
+          {
+            "node": "Fixed Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GPT-4o-mini (Planning)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agent 1: Planning",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Planning Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agent 1: Planning",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GPT-4 (Implementation)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agent 2: Implementation",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Implementation Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agent 2: Implementation",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GPT-4o-mini (Fixer)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agent 3: Fix Errors",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Clean JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow_Debugger": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agent 3: Fix Errors",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n_Documentation": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agent 2: Implementation",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "64dea9b5-0804-441a-b95f-59eb6782a0ed",
+  "meta": {
+    "instanceId": "76508d26cb1474d2c6bd688304bfb64ba00cb08764c27ef8b8a306287539027e"
+  },
+  "id": "SrTiZUkCWSrxpRsY",
+  "tags": [
+    {
+      "updatedAt": "2025-11-23T18:18:29.887Z",
+      "createdAt": "2025-11-23T18:18:29.887Z",
+      "id": "TvjW8POFepwvfQTf",
+      "name": "Configuring mcp servers"
+    },
+    {
+      "updatedAt": "2025-11-23T02:26:07.834Z",
+      "createdAt": "2025-11-23T02:26:07.834Z",
+      "id": "rwCKvbtyQcpYL2w8",
+      "name": "Completed"
+    }
+  ]
+}

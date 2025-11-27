@@ -128,6 +128,32 @@ export const appRouter = router({
         name: z.string().min(1, "Name is required"),
       }))
       .mutation(async ({ input }) => {
+        // Send to n8n webhook
+        const n8nWebhookUrl = process.env.N8N_WEBHOOK_URL;
+        
+        if (n8nWebhookUrl) {
+          try {
+            await fetch(n8nWebhookUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                name: input.name,
+                email: input.email,
+                businessType: input.businessType,
+                industry: input.industry,
+                companySize: input.companySize,
+                processDescription: input.processDescription,
+                painPoints: input.painPoints,
+                currentTools: JSON.parse(input.currentTools),
+                desiredOutcome: input.desiredOutcome,
+                estimatedHoursPerWeek: input.estimatedHoursPerWeek,
+              }),
+            });
+          } catch (error) {
+            console.error('Failed to send to n8n webhook:', error);
+          }
+        }
+        
         // Save questionnaire to database
         const questionnaireId = await db.createWorkflowQuestionnaire({
           email: input.email,
