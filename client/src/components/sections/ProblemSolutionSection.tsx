@@ -22,12 +22,12 @@ export default function ProblemSolution() {
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Challenge Card */}
-          <div className="glass rounded-lg p-8 border-violet-500/30 hover:border-violet-500/60 transition-colors duration-300">
+          <div className="group p-8 rounded-2xl bg-slate-800/50 border border-violet-500/30 hover:border-violet-500/60 hover:bg-slate-800 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-violet-900/20">
             <div className="flex items-center gap-4 mb-8">
-              <div className="p-3 rounded-full bg-red-500/10 border border-red-500/20">
+              <div className="p-4 bg-slate-950 rounded-xl w-fit group-hover:scale-110 transition-transform duration-300 border border-white/5">
                 <AlertCircle className="w-6 h-6 text-red-500" />
               </div>
-              <h3 className="text-2xl font-bold">The Challenge</h3>
+              <h3 className="text-2xl font-bold text-white">The Challenge</h3>
             </div>
             <ul className="space-y-6">
               {[
@@ -47,12 +47,12 @@ export default function ProblemSolution() {
           </div>
 
           {/* Solution Card */}
-          <div className="glass rounded-lg p-8 border-violet-500/30 hover:border-violet-500/60 transition-colors duration-300">
+          <div className="group p-8 rounded-2xl bg-slate-800/50 border border-violet-500/30 hover:border-violet-500/60 hover:bg-slate-800 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-violet-900/20">
             <div className="flex items-center gap-4 mb-8">
-              <div className="p-3 rounded-full bg-green-500/10 border border-green-500/20">
+              <div className="p-4 bg-slate-950 rounded-xl w-fit group-hover:scale-110 transition-transform duration-300 border border-white/5">
                 <CheckCircle2 className="w-6 h-6 text-green-500" />
               </div>
-              <h3 className="text-2xl font-bold">The Solution</h3>
+              <h3 className="text-2xl font-bold text-white">The Solution</h3>
             </div>
             <ul className="space-y-6">
               {[

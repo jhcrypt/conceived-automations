@@ -141,11 +141,12 @@ export default function WorkflowQuestionnaireSection() {
           const industryToBusinessType: Record<string, string> = {
             'ecommerce': 'E-commerce',
             'saas': 'SaaS',
-            'professional_services': 'Consulting',
+            'professionalServices': 'Consulting',
             'healthcare': 'Healthcare',
-            'real_estate': 'Real Estate',
-            'finance': 'Finance',
+            'realEstate': 'Real Estate',
+            'marketing': 'Marketing Agency',
             'manufacturing': 'Manufacturing',
+            'other': 'Other',
           };
           
           const businessType = industryToBusinessType[calculatorData.industry] || 'Other';
