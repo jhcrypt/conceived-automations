@@ -405,39 +405,69 @@ export default function ValueBasedROICalculator() {
                         <span>How we calculate these numbers</span>
                       </button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-                      <DialogHeader>
-                        <DialogTitle>How We Calculate Your Automation Value</DialogTitle>
+                    <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto bg-slate-900 border-slate-700">
+                      <DialogHeader className="border-b border-slate-700 pb-4">
+                        <DialogTitle className="text-2xl font-bold text-white">How We Calculate Your Automation Value</DialogTitle>
+                        <p className="text-slate-400 text-sm mt-2">Our calculator uses industry benchmarks and proven methodologies</p>
                       </DialogHeader>
-                      <div className="space-y-4 text-sm">
-                        <p>Our calculator uses industry benchmarks and proven methodologies to estimate your automation value:</p>
-                        
-                        <div>
-                          <h4 className="font-semibold mb-2">1. Labor Savings</h4>
-                          <p className="text-slate-600">Based on hours saved per week × 52 weeks × industry-standard hourly rates × 0.7 (conservative multiplier)</p>
+                      <div className="space-y-6 pt-6">
+                        <div className="bg-slate-800/50 rounded-lg p-5 border border-slate-700">
+                          <div className="flex items-start gap-3">
+                            <div className="w-8 h-8 rounded-full bg-violet-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                              <Clock className="w-4 h-4 text-violet-400" />
+                            </div>
+                            <div>
+                              <h4 className="font-semibold text-white text-lg mb-2">Labor Savings</h4>
+                              <p className="text-slate-300 text-sm leading-relaxed">Hours saved per week × 52 weeks × industry-standard hourly rates × 0.7 conservative multiplier</p>
+                            </div>
+                          </div>
                         </div>
                         
-                        <div>
-                          <h4 className="font-semibold mb-2">2. Revenue Impact</h4>
-                          <p className="text-slate-600">Calculated from faster processing times, improved service quality, and reduced delays. Varies by business stage (4-10% of inferred revenue).</p>
+                        <div className="bg-slate-800/50 rounded-lg p-5 border border-slate-700">
+                          <div className="flex items-start gap-3">
+                            <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                              <TrendingUp className="w-4 h-4 text-cyan-400" />
+                            </div>
+                            <div>
+                              <h4 className="font-semibold text-white text-lg mb-2">Revenue Impact</h4>
+                              <p className="text-slate-300 text-sm leading-relaxed">Faster processing times, improved service quality, and reduced delays. Varies by business stage (4-10% of inferred revenue)</p>
+                            </div>
+                          </div>
                         </div>
                         
-                        <div>
-                          <h4 className="font-semibold mb-2">3. Error Reduction</h4>
-                          <p className="text-slate-600">Typically 15% of labor costs go to rework. We calculate savings from eliminating manual errors, with industry-specific multipliers.</p>
+                        <div className="bg-slate-800/50 rounded-lg p-5 border border-slate-700">
+                          <div className="flex items-start gap-3">
+                            <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                              <Target className="w-4 h-4 text-green-400" />
+                            </div>
+                            <div>
+                              <h4 className="font-semibold text-white text-lg mb-2">Error Reduction</h4>
+                              <p className="text-slate-300 text-sm leading-relaxed">Typically 15% of labor costs go to rework. Savings from eliminating manual errors with industry-specific multipliers</p>
+                            </div>
+                          </div>
                         </div>
                         
-                        <div>
-                          <h4 className="font-semibold mb-2">4. Strategic Premium</h4>
-                          <p className="text-slate-600">Additional value from solving growth challenges like scaling operations or improving compliance.</p>
+                        <div className="bg-slate-800/50 rounded-lg p-5 border border-slate-700">
+                          <div className="flex items-start gap-3">
+                            <div className="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                              <DollarSign className="w-4 h-4 text-yellow-400" />
+                            </div>
+                            <div>
+                              <h4 className="font-semibold text-white text-lg mb-2">Strategic Premium</h4>
+                              <p className="text-slate-300 text-sm leading-relaxed">Additional value from solving growth challenges like scaling operations or improving compliance</p>
+                            </div>
+                          </div>
                         </div>
                         
-                        <div className="bg-slate-50 p-4 rounded-lg">
-                          <h4 className="font-semibold mb-2">Investment Recommendation</h4>
-                          <p className="text-slate-600">We recommend investing 15-30% of your Total Annual Value, adjusted for urgency. This ensures positive ROI within 3-6 months.</p>
+                        <div className="bg-gradient-to-br from-violet-500/10 to-cyan-500/10 rounded-lg p-6 border border-violet-500/30">
+                          <h4 className="font-semibold text-white text-lg mb-3 flex items-center gap-2">
+                            <Target className="w-5 h-5 text-violet-400" />
+                            Investment Recommendation
+                          </h4>
+                          <p className="text-slate-300 text-sm leading-relaxed">We recommend investing 15-30% of your Total Annual Value, adjusted for urgency. This ensures positive ROI within 3-6 months.</p>
                         </div>
                         
-                        <p className="text-xs text-slate-500 italic">All calculations use conservative estimates and industry benchmarks to provide realistic projections.</p>
+                        <p className="text-xs text-slate-500 italic text-center pt-2">All calculations use conservative estimates and industry benchmarks to provide realistic projections.</p>
                       </div>
                     </DialogContent>
                   </Dialog>
