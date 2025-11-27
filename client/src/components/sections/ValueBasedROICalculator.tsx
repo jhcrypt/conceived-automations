@@ -80,7 +80,7 @@ export default function ValueBasedROICalculator() {
   };
 
   return (
-    <section id="roi-calculator" className="py-24 bg-slate-900">
+    <section id="roi-calculator" className="section bg-slate-900">
       <div className="container">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
@@ -114,7 +114,9 @@ export default function ValueBasedROICalculator() {
             {/* Step 1: Industry */}
             {step === 1 && (
               <div className="space-y-6">
-                <h3 className="text-2xl font-semibold">What industry are you in?</h3>
+                <div className="inline-block border border-violet-500/30 rounded-lg px-4 py-2 mb-2">
+                  <h3 className="text-2xl font-semibold">What industry are you in?</h3>
+                </div>
                 <RadioGroup
                   value={inputs.industry}
                   onValueChange={(value) => setInputs({ ...inputs, industry: value })}
@@ -134,7 +136,9 @@ export default function ValueBasedROICalculator() {
             {/* Step 2: Business Stage */}
             {step === 2 && (
               <div className="space-y-6">
-                <h3 className="text-2xl font-semibold">What stage is your business in?</h3>
+                <div className="inline-block border border-violet-500/30 rounded-lg px-4 py-2 mb-2">
+                  <h3 className="text-2xl font-semibold">What stage is your business in?</h3>
+                </div>
                 <RadioGroup
                   value={inputs.businessStage}
                   onValueChange={(value) => setInputs({ ...inputs, businessStage: value as any })}
@@ -175,7 +179,9 @@ export default function ValueBasedROICalculator() {
             {step === 3 && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-2xl font-semibold mb-2">Who's currently handling this task?</h3>
+                  <div className="inline-block border border-violet-500/30 rounded-lg px-4 py-2 mb-2">
+                    <h3 className="text-2xl font-semibold">Who's currently handling this task?</h3>
+                  </div>
                   <p className="text-slate-400 text-sm">Your selection affects how we calculate total team hours saved</p>
                 </div>
                 <RadioGroup
@@ -217,7 +223,9 @@ export default function ValueBasedROICalculator() {
             {/* Step 4: Time Saved */}
             {step === 4 && (
               <div className="space-y-6">
-                <h3 className="text-2xl font-semibold">How much time would you get back each week if this was automated?</h3>
+                <div className="inline-block border border-violet-500/30 rounded-lg px-4 py-2 mb-2">
+                  <h3 className="text-2xl font-semibold">How much time would you get back each week if this was automated?</h3>
+                </div>
                 <RadioGroup
                   value={inputs.timeSaved}
                   onValueChange={(value) => setInputs({ ...inputs, timeSaved: value as any })}
@@ -259,7 +267,9 @@ export default function ValueBasedROICalculator() {
             {/* Step 5: Delay Impact */}
             {step === 5 && (
               <div className="space-y-6">
-                <h3 className="text-2xl font-semibold">What happens when this process is delayed or breaks?</h3>
+                <div className="inline-block border border-violet-500/30 rounded-lg px-4 py-2 mb-2">
+                  <h3 className="text-2xl font-semibold">What happens when this process is delayed or breaks?</h3>
+                </div>
                 <RadioGroup
                   value={inputs.delayImpact}
                   onValueChange={(value) => setInputs({ ...inputs, delayImpact: value as any })}
@@ -307,7 +317,9 @@ export default function ValueBasedROICalculator() {
             {/* Step 6: Growth Challenge */}
             {step === 6 && (
               <div className="space-y-6">
-                <h3 className="text-2xl font-semibold">What's your biggest growth challenge right now?</h3>
+                <div className="inline-block border border-violet-500/30 rounded-lg px-4 py-2 mb-2">
+                  <h3 className="text-2xl font-semibold">What's your biggest growth challenge right now?</h3>
+                </div>
                 <RadioGroup
                   value={inputs.growthChallenge}
                   onValueChange={(value) => setInputs({ ...inputs, growthChallenge: value as any })}
@@ -355,7 +367,9 @@ export default function ValueBasedROICalculator() {
             {/* Step 7: Urgency */}
             {step === 7 && (
               <div className="space-y-6">
-                <h3 className="text-2xl font-semibold">How quickly do you need this solved?</h3>
+                <div className="inline-block border border-violet-500/30 rounded-lg px-4 py-2 mb-2">
+                  <h3 className="text-2xl font-semibold">How quickly do you need this solved?</h3>
+                </div>
                 <RadioGroup
                   value={inputs.urgency}
                   onValueChange={(value) => setInputs({ ...inputs, urgency: value as any })}
