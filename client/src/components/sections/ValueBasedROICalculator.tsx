@@ -86,7 +86,7 @@ export default function ValueBasedROICalculator() {
           {/* Header */}
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">
-              Calculate Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">Automation Value</span>
+              Calculate Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-purple-400 to-cyan-400">Automation Value</span>
             </h2>
             <p className="text-xl text-slate-300">
               Discover the true value of automation for your business in under 2 minutes
@@ -110,7 +110,7 @@ export default function ValueBasedROICalculator() {
           )}
 
           {/* Question Cards */}
-          <Card className="bg-slate-800/50 border-slate-700 p-8">
+          <Card className="bg-slate-800/50 border-violet-500/30 p-8">
             {/* Step 1: Industry */}
             {step === 1 && (
               <div className="space-y-6">
