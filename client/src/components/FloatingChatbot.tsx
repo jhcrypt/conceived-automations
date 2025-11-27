@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MessageCircle, X } from 'lucide-react';
+import { MessageCircle, X, Workflow } from 'lucide-react';
 import { AIChatBox, type Message } from './AIChatBox';
 import { Button } from './ui/button';
 
