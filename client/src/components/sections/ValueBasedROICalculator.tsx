@@ -581,6 +581,7 @@ export default function ValueBasedROICalculator() {
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Button
                       size="lg"
+                      className="border-violet-500/50"
                       onClick={() => {
                         // Pass data to workflow questionnaire via sessionStorage
                         const calculatorData = {

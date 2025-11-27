@@ -34,8 +34,8 @@ export default function ROIChart({ totalAnnualValue, recommendedInvestmentAvg, p
   
   // SVG dimensions
   const width = 800;
-  const height = 350;
-  const padding = { top: 40, right: 40, bottom: 60, left: 90 };
+  const height = 400;
+  const padding = { top: 50, right: 50, bottom: 70, left: 100 };
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
   
@@ -101,11 +101,11 @@ export default function ROIChart({ totalAnnualValue, recommendedInvestmentAvg, p
       </div>
 
       {/* Chart */}
-      <div className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/50">
+      <div className="bg-slate-900/50 rounded-lg p-6 border border-slate-700/50">
         <svg
           viewBox={`0 0 ${width} ${height}`}
           className="w-full"
-          style={{ maxWidth: "800px" }}
+          style={{ maxWidth: "100%", height: "auto" }}
         >
           {/* Background grid */}
           {yTicks.map((tick, i) => (
@@ -115,10 +115,9 @@ export default function ROIChart({ totalAnnualValue, recommendedInvestmentAvg, p
               y1={yScale(tick.value)}
               x2={width - padding.right}
               y2={yScale(tick.value)}
-              stroke="#1e293b"
+              stroke="#334155"
               strokeWidth="1"
-              strokeDasharray="4 4"
-              opacity="0.5"
+              opacity="0.3"
             />
           ))}
 
@@ -128,16 +127,16 @@ export default function ROIChart({ totalAnnualValue, recommendedInvestmentAvg, p
             y1={height - padding.bottom}
             x2={width - padding.right}
             y2={height - padding.bottom}
-            stroke="#475569"
-            strokeWidth="2"
+            stroke="#64748b"
+            strokeWidth="1.5"
           />
           <line
             x1={padding.left}
             y1={padding.top}
             x2={padding.left}
             y2={height - padding.bottom}
-            stroke="#475569"
-            strokeWidth="2"
+            stroke="#64748b"
+            strokeWidth="1.5"
           />
 
           {/* Zero line (break-even) */}
@@ -146,38 +145,37 @@ export default function ROIChart({ totalAnnualValue, recommendedInvestmentAvg, p
             y1={yScale(0)}
             x2={width - padding.right}
             y2={yScale(0)}
-            stroke="#64748b"
-            strokeWidth="2"
+            stroke="#94a3b8"
+            strokeWidth="1.5"
+            strokeDasharray="6 3"
           />
 
           {/* Cumulative value area fill */}
           <path
             d={`${cumulativePath} L ${xScale(36)} ${yScale(0)} L ${xScale(0)} ${yScale(0)} Z`}
             fill="url(#violetGradient)"
-            opacity="0.1"
-          />
-
-          {/* Cumulative value line */}
-          <path
-            d={cumulativePath}
-            fill="none"
-            stroke="#8b5cf6"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            filter="url(#glow)"
+            opacity="0.15"
           />
 
           {/* Net value line */}
           <path
             d={netValuePath}
             fill="none"
-            stroke="#06b6d4"
+            stroke="#22d3ee"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            opacity="0.9"
+          />
+
+          {/* Cumulative value line */}
+          <path
+            d={cumulativePath}
+            fill="none"
+            stroke="#a78bfa"
             strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeDasharray="8 4"
-            filter="url(#glow)"
           />
 
           {/* Payback period marker */}
@@ -186,36 +184,36 @@ export default function ROIChart({ totalAnnualValue, recommendedInvestmentAvg, p
             y1={padding.top}
             x2={paybackX}
             y2={height - padding.bottom}
-            stroke="#f59e0b"
+            stroke="#fb923c"
             strokeWidth="2"
-            strokeDasharray="8 4"
+            strokeDasharray="6 3"
+            opacity="0.7"
           />
           <circle
             cx={paybackX}
             cy={paybackY}
-            r="8"
-            fill="#f59e0b"
-            stroke="#1e293b"
-            strokeWidth="3"
-            filter="url(#glow)"
+            r="6"
+            fill="#fb923c"
+            stroke="#0f172a"
+            strokeWidth="2"
           />
           <rect
-            x={paybackX - 50}
-            y={paybackY - 40}
-            width="100"
-            height="28"
-            rx="6"
-            fill="#1e293b"
-            stroke="#f59e0b"
-            strokeWidth="2"
+            x={paybackX - 40}
+            y={paybackY - 35}
+            width="80"
+            height="24"
+            rx="4"
+            fill="#0f172a"
+            stroke="#fb923c"
+            strokeWidth="1.5"
           />
           <text
             x={paybackX}
-            y={paybackY - 20}
+            y={paybackY - 17}
             textAnchor="middle"
-            fill="#f59e0b"
-            fontSize="13"
-            fontWeight="bold"
+            fill="#fb923c"
+            fontSize="12"
+            fontWeight="600"
           >
             Payback
           </text>
@@ -224,11 +222,11 @@ export default function ROIChart({ totalAnnualValue, recommendedInvestmentAvg, p
           {yTicks.map((tick, i) => (
             <text
               key={`y-label-${i}`}
-              x={padding.left - 12}
-              y={yScale(tick.value) + 5}
+              x={padding.left - 15}
+              y={yScale(tick.value) + 4}
               textAnchor="end"
-              fill="#cbd5e1"
-              fontSize="13"
+              fill="#94a3b8"
+              fontSize="12"
               fontWeight="500"
             >
               {tick.label}
@@ -240,29 +238,22 @@ export default function ROIChart({ totalAnnualValue, recommendedInvestmentAvg, p
             <text
               key={`x-label-${i}`}
               x={xScale(tick.month)}
-              y={height - padding.bottom + 30}
+              y={height - padding.bottom + 25}
               textAnchor="middle"
-              fill="#cbd5e1"
-              fontSize="14"
-              fontWeight="600"
+              fill="#94a3b8"
+              fontSize="13"
+              fontWeight="500"
             >
               {tick.label}
             </text>
           ))}
 
-          {/* Gradients and filters */}
+          {/* Gradients */}
           <defs>
             <linearGradient id="violetGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
+              <stop offset="0%" stopColor="#a78bfa" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#a78bfa" stopOpacity="0" />
             </linearGradient>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-              <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
           </defs>
         </svg>
       </div>
