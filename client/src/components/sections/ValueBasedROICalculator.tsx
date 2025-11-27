@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { ArrowRight, ArrowLeft, TrendingUp, Clock, DollarSign, Target, Share2, Download, Check } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ArrowRight, ArrowLeft, TrendingUp, Clock, DollarSign, Target, Share2, Download, Check, Info } from "lucide-react";
 import {
   calculateValue,
   formatCurrency,
@@ -397,6 +398,49 @@ export default function ValueBasedROICalculator() {
                 <div className="text-center">
                   <h3 className="text-3xl font-bold mb-2">Your Automation Value Assessment</h3>
                   <p className="text-slate-300">Based on your responses, here's the value automation could deliver</p>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button className="inline-flex items-center gap-1 text-sm text-violet-400 hover:text-violet-300 mt-2">
+                        <Info className="w-4 h-4" />
+                        How we calculate these numbers
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle>How We Calculate Your Automation Value</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4 text-sm">
+                        <p>Our calculator uses industry benchmarks and proven methodologies to estimate your automation value:</p>
+                        
+                        <div>
+                          <h4 className="font-semibold mb-2">1. Labor Savings</h4>
+                          <p className="text-slate-600">Based on hours saved per week × 52 weeks × industry-standard hourly rates × 0.7 (conservative multiplier)</p>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-semibold mb-2">2. Revenue Impact</h4>
+                          <p className="text-slate-600">Calculated from faster processing times, improved service quality, and reduced delays. Varies by business stage (4-10% of inferred revenue).</p>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-semibold mb-2">3. Error Reduction</h4>
+                          <p className="text-slate-600">Typically 15% of labor costs go to rework. We calculate savings from eliminating manual errors, with industry-specific multipliers.</p>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-semibold mb-2">4. Strategic Premium</h4>
+                          <p className="text-slate-600">Additional value from solving growth challenges like scaling operations or improving compliance.</p>
+                        </div>
+                        
+                        <div className="bg-slate-50 p-4 rounded-lg">
+                          <h4 className="font-semibold mb-2">Investment Recommendation</h4>
+                          <p className="text-slate-600">We recommend investing 15-30% of your Total Annual Value, adjusted for urgency. This ensures positive ROI within 3-6 months.</p>
+                        </div>
+                        
+                        <p className="text-xs text-slate-500 italic">All calculations use conservative estimates and industry benchmarks to provide realistic projections.</p>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
 
                 {/* Total Annual Value */}
