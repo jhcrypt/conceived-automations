@@ -10,7 +10,7 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      className="rounded-full"
+      className="rounded-full text-white hover:bg-white/10"
       aria-label="Toggle theme"
     >
       {theme === 'dark' ? (
