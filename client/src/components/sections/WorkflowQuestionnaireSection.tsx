@@ -29,6 +29,49 @@ const COMPANY_SIZES = [
   '500+ employees',
 ];
 
+const PROCESS_OPTIONS = [
+  'Lead generation and qualification',
+  'Customer onboarding',
+  'Order processing and fulfillment',
+  'Invoice and payment processing',
+  'Email marketing campaigns',
+  'Social media posting',
+  'Data entry and migration',
+  'Report generation',
+  'Appointment scheduling',
+  'Customer support ticketing',
+];
+
+const PAIN_POINT_OPTIONS = [
+  'Too much manual data entry',
+  'Frequent errors and mistakes',
+  'Slow response times',
+  'Can\'t scale with current process',
+  'Team spending too much time on repetitive tasks',
+  'Missing follow-ups and deadlines',
+  'Data scattered across multiple tools',
+  'Inconsistent process execution',
+];
+
+const DESIRED_OUTCOME_OPTIONS = [
+  'Save 10+ hours per week',
+  'Reduce errors by 80%+',
+  'Respond to customers instantly',
+  'Scale without hiring more staff',
+  'Automate repetitive tasks completely',
+  'Centralize data in one place',
+  'Never miss a follow-up',
+  'Improve team productivity',
+];
+
+const HOURS_OPTIONS = [
+  { value: 5, label: '1-5 hours/week' },
+  { value: 10, label: '5-10 hours/week' },
+  { value: 20, label: '10-20 hours/week' },
+  { value: 30, label: '20-30 hours/week' },
+  { value: 40, label: '30+ hours/week' },
+];
+
 const COMMON_TOOLS = [
   { id: 'gmail', name: 'Gmail', category: 'Email' },
   { id: 'outlook', name: 'Outlook', category: 'Email' },
@@ -392,28 +435,32 @@ export default function WorkflowQuestionnaireSection() {
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="processDescription" className="text-white mb-2 block">What process do you want to automate? *</Label>
-                    <Textarea
+                    <select
                       id="processDescription"
                       value={formData.processDescription}
                       onChange={(e) => setFormData({ ...formData, processDescription: e.target.value })}
-                      placeholder={`Example: ${getExampleText(formData.industry, 'processDescription')}`}
-                      rows={4}
-                      className="bg-slate-900/50 border-white/5 text-white resize-none"
-                    />
-                    <p className="text-xs text-slate-500 mt-2">💡 Tip: Be specific about the steps and tools involved</p>
+                      className="w-full px-4 py-3 bg-slate-900/50 border border-white/5 rounded-lg text-white focus:outline-none focus:border-violet-500/50 transition-colors"
+                    >
+                      <option value="">Select a process</option>
+                      {PROCESS_OPTIONS.map((option) => (
+                        <option key={option} value={option}>{option}</option>
+                      ))}
+                    </select>
                   </div>
 
                   <div>
                     <Label htmlFor="painPoints" className="text-white mb-2 block">What are your biggest pain points? *</Label>
-                    <Textarea
+                    <select
                       id="painPoints"
                       value={formData.painPoints}
                       onChange={(e) => setFormData({ ...formData, painPoints: e.target.value })}
-                      placeholder={`Example: ${getExampleText(formData.industry, 'painPoints')}`}
-                      rows={4}
-                      className="bg-slate-900/50 border-white/5 text-white resize-none"
-                    />
-                    <p className="text-xs text-slate-500 mt-2">💡 Tip: Mention time spent, error rates, or customer complaints</p>
+                      className="w-full px-4 py-3 bg-slate-900/50 border border-white/5 rounded-lg text-white focus:outline-none focus:border-violet-500/50 transition-colors"
+                    >
+                      <option value="">Select your main pain point</option>
+                      {PAIN_POINT_OPTIONS.map((option) => (
+                        <option key={option} value={option}>{option}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               </div>
@@ -466,30 +513,34 @@ export default function WorkflowQuestionnaireSection() {
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="desiredOutcome" className="text-white mb-2 block">What would success look like? *</Label>
-                    <Textarea
+                    <select
                       id="desiredOutcome"
                       value={formData.desiredOutcome}
                       onChange={(e) => setFormData({ ...formData, desiredOutcome: e.target.value })}
-                      placeholder={`Example: ${getExampleText(formData.industry, 'desiredOutcome')}`}
-                      rows={4}
-                      className="bg-slate-900/50 border-white/5 text-white resize-none"
-                    />
-                    <p className="text-xs text-slate-500 mt-2">💡 Tip: Include specific metrics or time savings</p>
+                      className="w-full px-4 py-3 bg-slate-900/50 border border-white/5 rounded-lg text-white focus:outline-none focus:border-violet-500/50 transition-colors"
+                    >
+                      <option value="">Select your desired outcome</option>
+                      {DESIRED_OUTCOME_OPTIONS.map((option) => (
+                        <option key={option} value={option}>{option}</option>
+                      ))}
+                    </select>
                   </div>
 
                   <div>
                     <Label htmlFor="estimatedHours" className="text-white mb-2 block">
                       How many hours per week does this process currently take? *
                     </Label>
-                    <Input
+                    <select
                       id="estimatedHours"
-                      type="number"
-                      min="0"
                       value={formData.estimatedHoursPerWeek || ''}
                       onChange={(e) => setFormData({ ...formData, estimatedHoursPerWeek: parseInt(e.target.value) || 0 })}
-                      placeholder="e.g., 15"
-                      className="bg-slate-900/50 border-white/5 text-white"
-                    />
+                      className="w-full px-4 py-3 bg-slate-900/50 border border-white/5 rounded-lg text-white focus:outline-none focus:border-violet-500/50 transition-colors"
+                    >
+                      <option value="">Select hours per week</option>
+                      {HOURS_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               </div>
