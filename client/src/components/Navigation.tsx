@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Workflow } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ThemeToggle } from './ThemeToggle';
 
 const navItems = [
   { label: 'Services', href: '#services' },
@@ -74,7 +75,8 @@ export default function Navigation() {
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
+          <ThemeToggle />
           {navItems.map((item) => {
             const isActive = activeSection === item.href;
             return (
@@ -104,12 +106,15 @@ export default function Navigation() {
         </div>
 
         {/* Mobile Toggle */}
-        <button
-          className="md:hidden text-white"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X /> : <Menu />}
-        </button>
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            className="text-white"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
