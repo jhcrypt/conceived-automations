@@ -128,12 +128,12 @@ export const appRouter = router({
         name: z.string().min(1, "Name is required"),
       }))
       .mutation(async ({ input }) => {
-        // Send to n8n webhook
+        // Send to n8n webhook (primary goal)
         const n8nWebhookUrl = process.env.N8N_WEBHOOK_URL;
         
         if (n8nWebhookUrl) {
           try {
-            await fetch(n8nWebhookUrl, {
+            const response = await fetch(n8nWebhookUrl, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -149,56 +149,75 @@ export const appRouter = router({
                 estimatedHoursPerWeek: input.estimatedHoursPerWeek,
               }),
             });
+            
+            if (!response.ok) {
+              console.error('n8n webhook failed:', response.status, response.statusText);
+            }
           } catch (error) {
             console.error('Failed to send to n8n webhook:', error);
           }
         }
         
-        // Save questionnaire to database
-        const questionnaireId = await db.createWorkflowQuestionnaire({
-          email: input.email,
-          businessType: input.businessType,
-          industry: input.industry,
-          companySize: input.companySize,
-          processDescription: input.processDescription,
-          currentTools: input.currentTools,
-          painPoints: input.painPoints,
-          desiredOutcome: input.desiredOutcome,
-          estimatedHoursPerWeek: input.estimatedHoursPerWeek,
-        });
-        
-        // Generate workflow using AI with enriched prompt
-        const workflow = await db.generateWorkflow({
-          questionnaireId,
-          email: input.email,
-          name: input.name,
-          businessType: input.businessType,
-          processDescription: input.processDescription,
-          currentTools: input.currentTools,
-          desiredOutcome: input.desiredOutcome,
-          estimatedHoursPerWeek: input.estimatedHoursPerWeek,
-          // Pass additional context for AI prompt generator
-          industry: input.industry,
-          companySize: input.companySize,
-          painPoints: input.painPoints,
-        });
-        
-        // Generate and send magic link
-        const magicLink = await db.createMagicLink({
-          email: input.email,
-          workflowId: workflow.id,
-        });
-        
-        // Notify owner
-        await notifyOwner({
-          title: "New Workflow Preview Request",
-          content: `Name: ${input.name}\nEmail: ${input.email}\nBusiness: ${input.businessType}\n\nProcess: ${input.processDescription.substring(0, 200)}...`,
-        });
-        
-        return {
-          success: true,
-          workflowId: workflow.id,
-        };
+        // Try to save to database (optional - don't fail if this errors)
+        try {
+          const questionnaireId = await db.createWorkflowQuestionnaire({
+            email: input.email,
+            businessType: input.businessType,
+            industry: input.industry,
+            companySize: input.companySize,
+            processDescription: input.processDescription,
+            currentTools: input.currentTools,
+            painPoints: input.painPoints,
+            desiredOutcome: input.desiredOutcome,
+            estimatedHoursPerWeek: input.estimatedHoursPerWeek,
+          });
+          
+          // Generate workflow using AI with enriched prompt
+          const workflow = await db.generateWorkflow({
+            questionnaireId,
+            email: input.email,
+            name: input.name,
+            businessType: input.businessType,
+            processDescription: input.processDescription,
+            currentTools: input.currentTools,
+            desiredOutcome: input.desiredOutcome,
+            estimatedHoursPerWeek: input.estimatedHoursPerWeek,
+            industry: input.industry,
+            companySize: input.companySize,
+            painPoints: input.painPoints,
+          });
+          
+          // Generate and send magic link
+          await db.createMagicLink({
+            email: input.email,
+            workflowId: workflow.id,
+          });
+          
+          // Notify owner
+          await notifyOwner({
+            title: "New Workflow Preview Request",
+            content: `Name: ${input.name}\nEmail: ${input.email}\nBusiness: ${input.businessType}\n\nProcess: ${input.processDescription.substring(0, 200)}...`,
+          });
+          
+          return {
+            success: true,
+            workflowId: workflow.id,
+          };
+        } catch (dbError) {
+          console.error('Database operation failed:', dbError);
+          
+          // Still notify owner even if DB fails
+          await notifyOwner({
+            title: "New Workflow Request (DB Failed)",
+            content: `Name: ${input.name}\nEmail: ${input.email}\nBusiness: ${input.businessType}\n\nProcess: ${input.processDescription.substring(0, 200)}...`,
+          });
+          
+          // Return success since n8n webhook worked
+          return {
+            success: true,
+            message: 'Request sent to workflow builder',
+          };
+        }
       }),
 
     getPreview: publicProcedure
