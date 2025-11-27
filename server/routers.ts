@@ -133,20 +133,34 @@ export const appRouter = router({
         
         if (n8nWebhookUrl) {
           try {
+            // Format request for n8n Chat Trigger
+            const chatInput = `Create an n8n workflow for:
+
+Business: ${input.businessType} (${input.companySize})
+Industry: ${input.industry || 'Not specified'}
+
+Process to Automate:
+${input.processDescription}
+
+Current Pain Points:
+${input.painPoints}
+
+Current Tools: ${JSON.parse(input.currentTools).join(', ')}
+
+Desired Outcome:
+${input.desiredOutcome}
+
+Time Investment: ${input.estimatedHoursPerWeek} hours/week
+
+Contact: ${input.name} (${input.email})`;
+
             const response = await fetch(n8nWebhookUrl, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                name: input.name,
-                email: input.email,
-                businessType: input.businessType,
-                industry: input.industry,
-                companySize: input.companySize,
-                processDescription: input.processDescription,
-                painPoints: input.painPoints,
-                currentTools: JSON.parse(input.currentTools),
-                desiredOutcome: input.desiredOutcome,
-                estimatedHoursPerWeek: input.estimatedHoursPerWeek,
+                chatInput: chatInput,
+                sessionId: `workflow-${Date.now()}`,
+                action: 'sendMessage'
               }),
             });
             
