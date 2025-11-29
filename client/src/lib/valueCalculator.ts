@@ -113,12 +113,11 @@ export function calculateValue(inputs: ValueCalculatorInputs): ValueCalculationR
   const urgencyMultiplier = URGENCY_MULTIPLIERS[inputs.urgency];
   
   // 8. Calculate investment recommendation (15-30% of TAV)
-  const baseInvestmentMin = totalAnnualValue * 0.15;
-  const baseInvestmentMax = totalAnnualValue * 0.30;
+  const baseInvestment = (totalAnnualValue * 0.15 + inferredRevenue * 0.01) * urgencyMultiplier;
   
-  const recommendedInvestmentMin = baseInvestmentMin * urgencyMultiplier;
-  const recommendedInvestmentMax = baseInvestmentMax * urgencyMultiplier;
-  const recommendedInvestmentAvg = (recommendedInvestmentMin + recommendedInvestmentMax) / 2;
+  const recommendedInvestmentMin = baseInvestment * 0.8;
+  const recommendedInvestmentMax = baseInvestment * 1.2;
+  const recommendedInvestmentAvg = baseInvestment;
   
   // 9. Calculate 3-year value (compound benefits)
   const threeYearValue = totalAnnualValue * 3.2;
