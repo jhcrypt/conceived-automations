@@ -302,8 +302,8 @@ export default function WorkflowQuestionnaireSection() {
             <Sparkles className="w-4 h-4 text-violet-400" />
             <span className="text-sm text-violet-400 font-medium">AI-Powered Workflow Preview</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Get Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">Custom Workflow</span>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+            Get Your Custom Workflow
           </h2>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto">
             Answer a few questions and we'll generate a personalized automation workflow preview tailored to your business needs
