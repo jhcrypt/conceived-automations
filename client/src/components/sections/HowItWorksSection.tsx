@@ -29,7 +29,7 @@ export default function HowItWorksSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-white">
-            How <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">It Works</span>
+            How <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">It Works</span>
           </h2>
           <p className="text-slate-400 mt-4">
             A proven process that takes you from manual chaos to automated efficiency

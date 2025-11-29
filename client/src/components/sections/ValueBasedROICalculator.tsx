@@ -86,7 +86,7 @@ export default function ValueBasedROICalculator() {
           {/* Header */}
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">
-              Calculate Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-purple-400 to-cyan-400">Automation Value</span>
+              Calculate Your <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">Automation Value</span>
             </h2>
             <p className="text-xl text-slate-300">
               Discover the true value of automation for your business in under 2 minutes
@@ -477,7 +477,7 @@ export default function ValueBasedROICalculator() {
                 <div className="bg-gradient-to-br from-violet-500/20 to-cyan-500/20 rounded-xl p-8 border border-violet-500/30">
                   <div className="text-center">
                     <div className="text-sm text-slate-400 mb-2">Total Annual Value</div>
-                    <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400 mb-2">
+                    <div className="text-5xl font-bold text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] mb-2">
                       {formatCurrency(result.totalAnnualValue)}
                     </div>
                     <div className="text-slate-300">
