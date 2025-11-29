@@ -604,8 +604,8 @@ export default function ValueBasedROICalculator() {
                       <ArrowRight className="ml-2 w-4 h-4" />
                     </Button>
                     <Button
-                      size="lg"
                       variant="outline"
+                      className="border border-violet-500/50"
                       onClick={async () => {
                         setIsSharing(true);
                         try {
@@ -647,8 +647,8 @@ export default function ValueBasedROICalculator() {
                       )}
                     </Button>
                     <Button
-                      size="lg"
                       variant="outline"
+                      className="border border-violet-500/50"
                       onClick={handleReset}
                     >
                       Start Over
