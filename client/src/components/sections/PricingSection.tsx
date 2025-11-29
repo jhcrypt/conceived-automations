@@ -106,7 +106,7 @@ export default function PricingSection() {
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold mb-4">
             <span className="text-white">Transparent </span>
-            <span className="gradient-text">Pricing</span>
+            <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">Pricing</span>
           </h2>
           <p className="text-gray-400 text-lg">
             Choose the plan that fits your automation maturity

@@ -51,7 +51,7 @@ export default function TechnologyStackSection() {
       <div className="container">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Technology <span className="gradient-text">Stack</span>
+            Technology <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">Stack</span>
           </h2>
           <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
             We integrate with the tools you already use
