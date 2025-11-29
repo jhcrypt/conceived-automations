@@ -25,7 +25,7 @@ export default function ProblemSolution() {
           <div className="group p-8 rounded-2xl bg-slate-800/50 border border-violet-500/30 hover:border-violet-500/60 hover:bg-slate-800 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-violet-900/20">
             <div className="flex items-center gap-4 mb-8">
               <div className="p-4 bg-slate-950 rounded-xl w-fit group-hover:scale-110 transition-transform duration-300 border border-white/5">
-                <AlertCircle className="w-6 h-6 text-red-500" />
+                <AlertTriangle className="w-6 h-6 text-violet-400" />
               </div>
               <h3 className="text-2xl font-bold text-white">The Challenge</h3>
             </div>
@@ -50,7 +50,7 @@ export default function ProblemSolution() {
           <div className="group p-8 rounded-2xl bg-slate-800/50 border border-violet-500/30 hover:border-violet-500/60 hover:bg-slate-800 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-violet-900/20">
             <div className="flex items-center gap-4 mb-8">
               <div className="p-4 bg-slate-950 rounded-xl w-fit group-hover:scale-110 transition-transform duration-300 border border-white/5">
-                <CheckCircle2 className="w-6 h-6 text-green-500" />
+                <CheckCircle2 className="w-6 h-6 text-cyan-400" />
               </div>
               <h3 className="text-2xl font-bold text-white">The Solution</h3>
             </div>
