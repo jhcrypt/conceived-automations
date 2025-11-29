@@ -31,7 +31,7 @@ export default function TestimonialsSection() {
       <div className="container relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Trusted by <span className="gradient-text">Growing Businesses</span>
+            Trusted by <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">Growing Businesses</span>
           </h2>
           <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
             See what our clients say about working with us

@@ -49,7 +49,7 @@ export default function CTASection() {
           {/* Left side - CTA */}
           <div>
             <h2 className="text-3xl md:text-5xl font-bold mb-6">
-              Ready to <span className="gradient-text">Automate Your Success?</span>
+              Ready to <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">Automate Your Success?</span>
             </h2>
             <p className="text-lg text-foreground/70 mb-8">
               Join dozens of businesses that have transformed their operations with intelligent automation. 

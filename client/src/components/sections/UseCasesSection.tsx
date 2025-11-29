@@ -52,7 +52,7 @@ export default function UseCasesSection() {
       <div className="container">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Real-World <span className="gradient-text">Success Stories</span>
+            Real-World <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">Success Stories</span>
           </h2>
           <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
             See how businesses across industries are transforming with automation

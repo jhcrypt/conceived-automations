@@ -44,7 +44,7 @@ export default function FAQSection() {
       <div className="container max-w-3xl relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Frequently Asked <span className="gradient-text">Questions</span>
+            Frequently Asked <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">Questions</span>
           </h2>
           <p className="text-lg text-foreground/70">
             Everything you need to know about our automation services

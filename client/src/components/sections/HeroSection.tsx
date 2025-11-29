@@ -37,10 +37,9 @@ export default function HeroSection() {
           {/* Main Headline - Updated with strong drop-shadow for legibility */}
           <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 leading-tight drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
             We Automate the <br className="hidden md:block" />
-            <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-none filter-none">
-              Boring Stuff
-            </span>
-          </h1>
+            <span className="text-white">
+                Boring Stuff
+              </span>          </h1>
 
           {/* Subheadline */}
           <p className="text-lg md:text-xl text-slate-300 mb-8 max-w-3xl mx-auto leading-relaxed drop-shadow-md">

@@ -12,7 +12,7 @@ export default function ProblemSolution() {
       <div className="container relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            Stop Fighting <span className="gradient-text">Manual Chaos</span>
+            Stop Fighting <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">Manual Chaos</span>
           </h2>
           <p className="text-lg text-foreground/70">
             Every business faces the same challenge: Too much manual work, not enough time.
