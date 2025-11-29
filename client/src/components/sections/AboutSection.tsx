@@ -23,8 +23,8 @@ export default function AboutSection() {
     <section className="section bg-background" id="about">
       <div className="container">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            About <span className="gradient-text">Conceived Automations</span>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
+            About Conceived Automations
           </h2>
           <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
             Empowering businesses to work smarter through intelligent automation

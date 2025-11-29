@@ -50,8 +50,8 @@ export default function BenefitsSection() {
     <section className="section bg-background" id="benefits">
       <div className="container">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Why Choose <span className="gradient-text">Conceived Automations</span>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
+            Why Choose Conceived Automations
           </h2>
           <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
             Transform your business with intelligent automation that delivers real results

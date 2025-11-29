@@ -297,6 +297,7 @@ export default function SharedResults() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
                 size="lg"
+                className="text-white"
                 onClick={() => setLocation('/#workflow-questionnaire')}
               >
                 Get Your Custom Workflow
