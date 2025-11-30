@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AlertCircle, TrendingUp, AlertTriangle, Activity } from 'lucide-react';
+import { AlertTriangle, TrendingUp, Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function OperationalScanSection() {
@@ -59,9 +59,9 @@ export default function OperationalScanSection() {
 
                 <div className="grid md:grid-cols-2 gap-6">
                   {/* Inefficiency Hotspots */}
-                  <div className="p-6 rounded-xl bg-slate-900/30 border-2 border-red-500/30">
+                  <div className="p-6 rounded-xl bg-slate-900/40 border-2 border-violet-500/40">
                     <div className="flex items-center gap-3 mb-4">
-                      <AlertCircle className="w-6 h-6 text-red-400" />
+                      <AlertTriangle className="w-6 h-6 text-amber-400" />
                       <h4 className="text-xl font-bold">Inefficiency Hotspots</h4>
                     </div>
                     <p className="text-foreground/70">
@@ -70,9 +70,9 @@ export default function OperationalScanSection() {
                   </div>
 
                   {/* Growth Potential */}
-                  <div className="p-6 rounded-xl bg-slate-900/30 border-2 border-green-500/30">
+                  <div className="p-6 rounded-xl bg-slate-900/40 border-2 border-violet-500/40">
                     <div className="flex items-center gap-3 mb-4">
-                      <TrendingUp className="w-6 h-6 text-green-400" />
+                      <TrendingUp className="w-6 h-6 text-cyan-400" />
                       <h4 className="text-xl font-bold">Growth Potential</h4>
                     </div>
                     <p className="text-foreground/70">
@@ -87,7 +87,7 @@ export default function OperationalScanSection() {
           {/* Problem Detected Tab */}
           {activeTab === 'problem' && (
             <div className="space-y-6">
-              <div className="p-8 md:p-12 rounded-2xl bg-slate-800/50 border border-red-500/30 relative overflow-hidden hover:scale-105 transition-all duration-300">
+              <div className="p-8 md:p-12 rounded-2xl bg-slate-800/50 border border-violet-500/40 relative overflow-hidden hover:scale-105 transition-all duration-300">
                 {/* Warning icon watermark */}
                 <div className="absolute top-8 right-8 opacity-5 pointer-events-none">
                   <AlertTriangle className="w-48 h-48 text-red-500" />
@@ -106,13 +106,13 @@ export default function OperationalScanSection() {
                   </p>
 
                   <div className="space-y-4">
-                    <div className="p-4 rounded-lg bg-red-950/10 border-2 border-red-500/30 font-mono text-sm">
+                    <div className="p-4 rounded-lg bg-red-950/10 border-2 border-violet-500/40 font-mono text-sm">
                       <span className="text-red-400">[!]</span> <span className="text-foreground/90">Data Inconsistencies: High risk of errors</span>
                     </div>
-                    <div className="p-4 rounded-lg bg-red-950/10 border-2 border-red-500/30 font-mono text-sm">
+                    <div className="p-4 rounded-lg bg-red-950/10 border-2 border-violet-500/40 font-mono text-sm">
                       <span className="text-red-400">[!]</span> <span className="text-foreground/90">Resource Drain: Manual tasks consume 30% of time</span>
                     </div>
-                    <div className="p-4 rounded-lg bg-red-950/10 border-2 border-red-500/30 font-mono text-sm">
+                    <div className="p-4 rounded-lg bg-red-950/10 border-2 border-violet-500/40 font-mono text-sm">
                       <span className="text-red-400">[!]</span> <span className="text-foreground/90">Delayed Responses: Impacting customer satisfaction</span>
                     </div>
                   </div>
@@ -124,7 +124,7 @@ export default function OperationalScanSection() {
           {/* Solution Deployed Tab */}
           {activeTab === 'solution' && (
             <div className="space-y-6">
-              <div className="p-8 md:p-12 rounded-2xl bg-slate-800/50 border border-green-500/30 relative overflow-hidden hover:scale-105 transition-all duration-300">
+              <div className="p-8 md:p-12 rounded-2xl bg-slate-800/50 border border-violet-500/40 relative overflow-hidden hover:scale-105 transition-all duration-300">
                 {/* Activity icon watermark */}
                 <div className="absolute top-8 right-8 opacity-5 pointer-events-none">
                   <Activity className="w-48 h-48 text-green-500" />
@@ -143,13 +143,13 @@ export default function OperationalScanSection() {
                   </p>
 
                   <div className="space-y-4">
-                    <div className="p-4 rounded-lg bg-green-950/10 border-2 border-green-500/30 font-mono text-sm">
+                    <div className="p-4 rounded-lg bg-green-950/10 border-2 border-violet-500/40 font-mono text-sm">
                       <span className="text-green-400">[OK]</span> <span className="text-foreground/90">Data Integrity: Automated validation (100% reliable)</span>
                     </div>
-                    <div className="p-4 rounded-lg bg-green-950/10 border-2 border-green-500/30 font-mono text-sm">
+                    <div className="p-4 rounded-lg bg-green-950/10 border-2 border-violet-500/40 font-mono text-sm">
                       <span className="text-green-400">[OK]</span> <span className="text-foreground/90">Efficiency Gains: Time savings up to 80%</span>
                     </div>
-                    <div className="p-4 rounded-lg bg-green-950/10 border-2 border-green-500/30 font-mono text-sm">
+                    <div className="p-4 rounded-lg bg-green-950/10 border-2 border-violet-500/40 font-mono text-sm">
                       <span className="text-green-400">[OK]</span> <span className="text-foreground/90">Customer Experience: Instant, personalized interactions</span>
                     </div>
                   </div>
