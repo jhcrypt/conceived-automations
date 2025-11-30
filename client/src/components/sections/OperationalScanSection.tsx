@@ -61,7 +61,9 @@ export default function OperationalScanSection() {
                   {/* Inefficiency Hotspots */}
                   <div className="p-6 rounded-xl bg-slate-900/40 border-2 border-violet-500/40">
                     <div className="flex items-center gap-3 mb-4">
-                      <AlertTriangle className="w-6 h-6 text-amber-400" />
+                      <div className="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center">
+                        <AlertTriangle className="w-5 h-5 text-amber-300" />
+                      </div>
                       <h4 className="text-xl font-bold">Inefficiency Hotspots</h4>
                     </div>
                     <p className="text-foreground/70">
@@ -72,7 +74,9 @@ export default function OperationalScanSection() {
                   {/* Growth Potential */}
                   <div className="p-6 rounded-xl bg-slate-900/40 border-2 border-violet-500/40">
                     <div className="flex items-center gap-3 mb-4">
-                      <TrendingUp className="w-6 h-6 text-cyan-400" />
+                      <div className="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center">
+                        <TrendingUp className="w-5 h-5 text-cyan-300" />
+                      </div>
                       <h4 className="text-xl font-bold">Growth Potential</h4>
                     </div>
                     <p className="text-foreground/70">
