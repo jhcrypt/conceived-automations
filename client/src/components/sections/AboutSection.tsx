@@ -27,11 +27,11 @@ export default function AboutSection() {
         style={{ backgroundImage: "url('/Picture2.png')" }}
       />
       <div className="container">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white">
+        <div className="text-center mb-16 relative z-10">
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
             About Conceived Automations
           </h2>
-          <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-200 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] max-w-2xl mx-auto">
             Empowering businesses to work smarter through intelligent automation
           </p>
         </div>
