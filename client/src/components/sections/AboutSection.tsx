@@ -36,40 +36,44 @@ export default function AboutSection() {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto mb-16">
-          <div className="glass rounded-2xl p-8 md:p-12 border-violet-500/30 hover:border-violet-500/60 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-violet-900/20">
-            <p className="text-lg text-slate-200 mb-6">
-              We're a team of automation experts passionate about helping businesses break free from manual work. 
-              With deep expertise in n8n, AI integration, and process optimization, we transform how companies operate.
-            </p>
-            <p className="text-lg text-slate-200">
-              Our mission is simple: empower businesses to work smarter, not harder. We believe every company deserves 
-              access to enterprise-grade automation, regardless of size. That's why we've built our services around 
-              flexibility, transparency, and real results.
-            </p>
-          </div>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8 relative">
+        <div className="relative">
           {/* Gradient glows */}
           <div className="absolute -top-10 right-1/4 w-[450px] h-[450px] bg-cyan-500/12 rounded-full blur-[140px] pointer-events-none"></div>
           <div className="absolute bottom-0 left-1/4 w-[450px] h-[450px] bg-purple-600/12 rounded-full blur-[140px] pointer-events-none"></div>
-          
-          {values.map((value, index) => {
-            const Icon = value.icon;
-            return (
-              <div
-                key={index}
-                className="glass rounded-lg p-8 border-violet-500/30 hover:border-violet-500/60 hover:scale-105 transition-all duration-300 group text-center"
-              >
-                <div className="w-16 h-16 rounded-lg bg-primary/20 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                  <Icon className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">{value.title}</h3>
-                <p className="text-foreground/70">{value.description}</p>
-              </div>
-            );
-          })}
+
+          <div className="grid md:grid-cols-[minmax(0,1.2fr)_minmax(0,2fr)] gap-8 items-start">
+            {/* Left: narrative text card, aligned with first card */}
+            <div className="glass rounded-2xl p-8 md:p-12 border-violet-500/30 hover:border-violet-500/60 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-violet-900/20">
+              <p className="text-lg text-slate-200 mb-6">
+                We're a team of automation experts passionate about helping businesses break free from manual work. 
+                With deep expertise in n8n, AI integration, and process optimization, we transform how companies operate.
+              </p>
+              <p className="text-lg text-slate-200">
+                Our mission is simple: empower businesses to work smarter, not harder. We believe every company deserves 
+                access to enterprise-grade automation, regardless of size. That's why we've built our services around 
+                flexibility, transparency, and real results.
+              </p>
+            </div>
+
+            {/* Right: the three value cards */}
+            <div className="grid md:grid-cols-3 gap-8">
+              {values.map((value, index) => {
+                const Icon = value.icon;
+                return (
+                  <div
+                    key={index}
+                    className="glass rounded-lg p-8 border-violet-500/30 hover:border-violet-500/60 hover:scale-105 transition-all duration-300 group text-center"
+                  >
+                    <div className="w-16 h-16 rounded-lg bg-primary/20 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                      <Icon className="w-8 h-8 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2">{value.title}</h3>
+                    <p className="text-foreground/70">{value.description}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </section>
