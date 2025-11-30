@@ -6,8 +6,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 const navItems = [
   { label: 'Services', href: '#services' },
   { label: 'Process', href: '#process' },
-  { label: 'Pricing', href: '#pricing' },
   { label: 'Custom Workflow', href: '#workflow-questionnaire' },
+  { label: 'Pricing', href: '#pricing' },
   { label: 'Use Cases', href: '#use-cases' },
   { label: 'Benefits', href: '#benefits' },
   { label: 'About', href: '#about' },
