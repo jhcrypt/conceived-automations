@@ -37,7 +37,8 @@ export default function AboutSection() {
         </div>
 
         <div className="max-w-4xl mx-auto mb-16">
-          <div className="glass rounded-2xl p-8 md:p-12 border-violet-500/30 hover:border-violet-500/60 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-violet-900/20">
+          {/* Match visual style of the three value cards below */}
+          <div className="glass rounded-lg p-8 border-violet-500/30 hover:border-violet-500/60 hover:scale-105 transition-all duration-300 group text-center">
             <p className="text-lg text-slate-200 mb-6">
               We're a team of automation experts passionate about helping businesses break free from manual work. 
               With deep expertise in n8n, AI integration, and process optimization, we transform how companies operate.
