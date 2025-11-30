@@ -20,10 +20,10 @@ export default function AboutSection() {
   ];
 
   return (
-    <section className="section bg-background relative overflow-hidden" id="about">
+    <section className="section relative overflow-hidden" id="about">
       {/* Temporary background image for About section; remove this block to revert */}
       <div
-        className="absolute inset-0 -z-10 bg-cover bg-center opacity-40"
+        className="absolute inset-0 bg-cover bg-center opacity-40 pointer-events-none"
         style={{ backgroundImage: "url('/Picture2.png')" }}
       />
       <div className="container">
