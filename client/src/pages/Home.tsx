@@ -1,4 +1,5 @@
 import React from 'react';
+import { Briefcase, Settings, DollarSign, FileText, Info, HelpCircle } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/sections/HeroSection';
 import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection';
@@ -21,12 +22,12 @@ export default function Home() {
   const [sidebarHovered, setSidebarHovered] = React.useState(false);
   
   const navItems = [
-    { label: 'Services', href: '#services', icon: '🔧' },
-    { label: 'Process', href: '#process', icon: '⚙️' },
-    { label: 'Pricing', href: '#pricing', icon: '💰' },
-    { label: 'Use Cases', href: '#use-cases', icon: '📋' },
-    { label: 'About', href: '#about', icon: 'ℹ️' },
-    { label: 'FAQ', href: '#faq', icon: '❓' },
+    { label: 'Services', href: '#services', Icon: Briefcase },
+    { label: 'Process', href: '#process', Icon: Settings },
+    { label: 'Pricing', href: '#pricing', Icon: DollarSign },
+    { label: 'Use Cases', href: '#use-cases', Icon: FileText },
+    { label: 'About', href: '#about', Icon: Info },
+    { label: 'FAQ', href: '#faq', Icon: HelpCircle },
   ];
 
   return (
@@ -38,18 +39,21 @@ export default function Home() {
         onMouseLeave={() => setSidebarHovered(false)}
       >
         <nav className="p-2 mt-2">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="flex items-center gap-3 px-3 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-md mb-1 transition-colors group"
-            >
-              <span className="text-xl flex-shrink-0">{item.icon}</span>
-              <span className={`whitespace-nowrap transition-opacity duration-300 ${sidebarHovered ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
-                {item.label}
-              </span>
-            </a>
-          ))}
+          {navItems.map((item) => {
+            const Icon = item.Icon;
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                className="flex items-center gap-3 px-3 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-md mb-1 transition-colors group"
+              >
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                <span className={`whitespace-nowrap transition-opacity duration-300 ${sidebarHovered ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
+                  {item.label}
+                </span>
+              </a>
+            );
+          })}
         </nav>
       </aside>
 
