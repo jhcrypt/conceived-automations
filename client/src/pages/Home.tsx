@@ -1,5 +1,3 @@
-import React from 'react';
-import { Briefcase, Settings, DollarSign, FileText, Info, HelpCircle } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/sections/HeroSection';
 import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection';
@@ -19,44 +17,8 @@ import CTASection from '@/components/sections/CTASection';
 import Footer from '@/components/Footer';
 
 export default function Home() {
-  const [sidebarHovered, setSidebarHovered] = React.useState(false);
-  
-  const navItems = [
-    { label: 'Services', href: '#services', Icon: Briefcase },
-    { label: 'Process', href: '#process', Icon: Settings },
-    { label: 'Pricing', href: '#pricing', Icon: DollarSign },
-    { label: 'Use Cases', href: '#use-cases', Icon: FileText },
-    { label: 'About', href: '#about', Icon: Info },
-    { label: 'FAQ', href: '#faq', Icon: HelpCircle },
-  ];
-
   return (
     <div className="min-h-screen bg-slate-950 text-foreground">
-      {/* Sidebar */}
-      <aside 
-        className={`fixed left-0 top-16 h-[calc(100vh-4rem)] bg-slate-900 border-r border-slate-800 transition-all duration-300 z-40 ${sidebarHovered ? 'w-64' : 'w-16'}`}
-        onMouseEnter={() => setSidebarHovered(true)}
-        onMouseLeave={() => setSidebarHovered(false)}
-      >
-        <nav className="p-2 mt-2">
-          {navItems.map((item) => {
-            const Icon = item.Icon;
-            return (
-              <a
-                key={item.href}
-                href={item.href}
-                className="flex items-center gap-3 px-3 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-md mb-1 transition-colors group"
-              >
-                <Icon className="w-5 h-5 flex-shrink-0" />
-                <span className={`whitespace-nowrap transition-opacity duration-300 ${sidebarHovered ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
-                  {item.label}
-                </span>
-              </a>
-            );
-          })}
-        </nav>
-      </aside>
-
       <Navigation />
       <HeroSection />
       <div className="bg-slate-900"><ProblemSolutionSection /></div>

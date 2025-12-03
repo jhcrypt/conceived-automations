@@ -95,12 +95,7 @@ export default function Navigation() {
               </a>
             );
           })}
-          <a
-            href="/dashboard"
-            className="text-sm font-medium transition-all pb-1 border-b-2 text-slate-300 hover:text-white border-transparent"
-          >
-            Dashboard
-          </a>
+
           <button
             onClick={() => scrollToSection('#contact')}
             className="bg-white text-slate-950 px-5 py-2 rounded-lg font-bold text-sm hover:bg-cyan-50 transition-all hover:shadow-[0_0_20px_rgba(6,182,212,0.5)]"
