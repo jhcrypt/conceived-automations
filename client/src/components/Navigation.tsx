@@ -68,13 +68,13 @@ export default function Navigation() {
           <div className="bg-gradient-to-br from-violet-600 to-cyan-500 p-2 rounded-lg">
             <Workflow className="text-white w-6 h-6" />
           </div>
-          <span className="text-2xl font-bold text-white tracking-tight">
+          <span className="text-xl font-bold text-white tracking-tight">
             Conceived<span className="text-violet-400">Automations</span>
           </span>
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-4">
           {navItems.map((item) => {
             const isActive = activeSection === item.href;
             return (
