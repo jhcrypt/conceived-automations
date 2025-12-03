@@ -18,56 +18,40 @@ import CTASection from '@/components/sections/CTASection';
 import Footer from '@/components/Footer';
 
 export default function Home() {
-  const [sidebarOpen, setSidebarOpen] = React.useState(false);
+  const [sidebarHovered, setSidebarHovered] = React.useState(false);
   
   const navItems = [
-    { label: 'Services', href: '#services' },
-    { label: 'Process', href: '#process' },
-    { label: 'Pricing', href: '#pricing' },
-    { label: 'Use Cases', href: '#use-cases' },
-    { label: 'About', href: '#about' },
-    { label: 'FAQ', href: '#faq' },
+    { label: 'Services', href: '#services', icon: '🔧' },
+    { label: 'Process', href: '#process', icon: '⚙️' },
+    { label: 'Pricing', href: '#pricing', icon: '💰' },
+    { label: 'Use Cases', href: '#use-cases', icon: '📋' },
+    { label: 'About', href: '#about', icon: 'ℹ️' },
+    { label: 'FAQ', href: '#faq', icon: '❓' },
   ];
 
   return (
     <div className="min-h-screen bg-slate-950 text-foreground">
       {/* Sidebar */}
-      <aside className={`fixed left-0 top-0 h-full bg-slate-900 border-r border-slate-800 transition-transform duration-300 z-50 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} w-64`}>
-        <div className="h-16 flex items-center justify-between px-4 border-b border-slate-800">
-          <span className="text-white font-semibold">Menu</span>
-          <button onClick={() => setSidebarOpen(false)} className="text-slate-400 hover:text-white">
-            ✕
-          </button>
-        </div>
-        <nav className="p-4">
+      <aside 
+        className={`fixed left-0 top-16 h-[calc(100vh-4rem)] bg-slate-900 border-r border-slate-800 transition-all duration-300 z-40 ${sidebarHovered ? 'w-64' : 'w-16'}`}
+        onMouseEnter={() => setSidebarHovered(true)}
+        onMouseLeave={() => setSidebarHovered(false)}
+      >
+        <nav className="p-2 mt-2">
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              onClick={() => setSidebarOpen(false)}
-              className="block px-4 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-md mb-1 transition-colors"
+              className="flex items-center gap-3 px-3 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-md mb-1 transition-colors group"
             >
-              {item.label}
+              <span className="text-xl flex-shrink-0">{item.icon}</span>
+              <span className={`whitespace-nowrap transition-opacity duration-300 ${sidebarHovered ? 'opacity-100' : 'opacity-0 w-0 overflow-hidden'}`}>
+                {item.label}
+              </span>
             </a>
           ))}
         </nav>
       </aside>
-
-      {/* Overlay */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Sidebar Toggle Button */}
-      <button
-        onClick={() => setSidebarOpen(true)}
-        className="fixed left-4 top-20 z-30 p-3 bg-slate-900 border border-slate-800 rounded-lg text-white hover:bg-slate-800 transition-colors"
-      >
-        ☰
-      </button>
 
       <Navigation />
       <HeroSection />
