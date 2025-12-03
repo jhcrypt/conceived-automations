@@ -206,7 +206,7 @@ export default function PricingSection() {
             One-time setup fees may apply based on complexity.
           </p>
         </div>
-      </div>
+      </div>  
     </section>
   );
 }
