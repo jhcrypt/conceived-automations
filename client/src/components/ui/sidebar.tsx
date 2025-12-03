@@ -171,9 +171,10 @@ function Sidebar({
       <div
         data-slot="sidebar"
         className={cn(
-          "bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col",
+          "bg-sidebar text-sidebar-foreground flex h-full flex-col",
           className
         )}
+        style={{ width: "var(--sidebar-width)" }}
         {...props}
       >
         {children}
@@ -188,7 +189,8 @@ function Sidebar({
           data-sidebar="sidebar"
           data-slot="sidebar"
           data-mobile="true"
-          className="bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden"
+          className="bg-sidebar text-sidebar-foreground p-0 [&>button]:hidden"
+          style={{ width: "var(--sidebar-width)" }}
           style={
             {
               "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
@@ -218,8 +220,9 @@ function Sidebar({
       {/* This is what handles the sidebar gap on desktop */}
       <div
         data-slot="sidebar-gap"
+        style={{ width: "var(--sidebar-width)" }}
         className={cn(
-          "relative w-(--sidebar-width) bg-transparent",
+          "relative bg-transparent",
           disableTransition
             ? "transition-none"
             : "transition-[width] duration-200 ease-linear",
@@ -227,13 +230,14 @@ function Sidebar({
           "group-data-[side=right]:rotate-180",
           variant === "floating" || variant === "inset"
             ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]"
-            : "group-data-[collapsible=icon]:w-(--sidebar-width-icon)"
+            : "group-data-[collapsible=icon]:[width:var(--sidebar-width-icon)]"
         )}
       />
       <div
         data-slot="sidebar-container"
+        style={{ width: "var(--sidebar-width)" }}
         className={cn(
-          "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) md:flex",
+          "fixed inset-y-0 z-10 hidden h-svh md:flex",
           disableTransition
             ? "transition-none"
             : "transition-[left,right,width] duration-200 ease-linear",
@@ -243,7 +247,7 @@ function Sidebar({
           // Adjust the padding for floating and inset variants.
           variant === "floating" || variant === "inset"
             ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
-            : "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l",
+            : "group-data-[collapsible=icon]:[width:var(--sidebar-width-icon)] group-data-[side=left]:border-r group-data-[side=right]:border-l",
           className
         )}
         {...props}
@@ -632,7 +636,8 @@ function SidebarMenuSkeleton({
         />
       )}
       <Skeleton
-        className="h-4 max-w-(--skeleton-width) flex-1"
+        className="h-4 flex-1"
+        style={{ maxWidth: "var(--skeleton-width)" }}
         data-sidebar="menu-skeleton-text"
         style={
           {

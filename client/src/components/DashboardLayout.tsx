@@ -46,25 +46,25 @@ export default function DashboardLayout({
     return saved ? parseInt(saved, 10) : DEFAULT_WIDTH;
   });
 
-  let auth;
-  if (process.env.NODE_ENV === 'development') {
-    auth = {
-      loading: false,
-      user: {
-        id: 1,
-        openId: 'dev-user',
-        name: 'Dev User',
-        email: 'dev@example.com',
-        loginMethod: 'dev',
-        lastSignedIn: new Date(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    };
-  } else {
-    auth = useAuth();
-  }
-  const { loading, user } = auth;
+  const auth = useAuth();
+  const devAuth = {
+    loading: false,
+    user: {
+      id: 1,
+      openId: "dev-user",
+      name: "Dev User",
+      email: "dev@example.com",
+      loginMethod: "dev",
+      lastSignedIn: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    logout: () => console.log("Dev logout"),
+  };
+
+  const { loading, user, logout } =
+    process.env.NODE_ENV === "development" ? devAuth : auth;
+
 
   useEffect(() => {
     localStorage.setItem(SIDEBAR_WIDTH_KEY, sidebarWidth.toString());
@@ -111,6 +111,7 @@ export default function DashboardLayout({
 
   return (
     <SidebarProvider
+      defaultOpen={true}
       style={
         {
           "--sidebar-width": `${sidebarWidth}px`,
@@ -133,7 +134,24 @@ function DashboardLayoutContent({
   children,
   setSidebarWidth,
 }: DashboardLayoutContentProps) {
-  const { user, logout } = useAuth();
+  const auth = useAuth();
+  const devAuth = {
+    loading: false,
+    user: {
+      id: 1,
+      openId: "dev-user",
+      name: "Dev User",
+      email: "dev@example.com",
+      loginMethod: "dev",
+      lastSignedIn: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    logout: () => console.log("Dev logout"),
+  };
+
+  const { user, logout } =
+    process.env.NODE_ENV === "development" ? devAuth : auth;
   const [location, setLocation] = useLocation();
   const { state, toggleSidebar } = useSidebar();
   const isCollapsed = state === "collapsed";
@@ -183,7 +201,7 @@ function DashboardLayoutContent({
       <div className="relative" ref={sidebarRef}>
         <Sidebar
           collapsible="icon"
-          className="border-r-0"
+          className="border-r"
           disableTransition={isResizing}
         >
           <SidebarHeader className="h-16 justify-center">
