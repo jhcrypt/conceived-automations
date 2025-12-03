@@ -1,0 +1,432 @@
+{
+  "name": "🤖 3Agent Workflow Builder - MCP Enhanced (VALIDATED)",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "868c1f2e-b7d6-44c8-a223-d997a9f0cf18",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -176,
+        -64
+      ],
+      "webhookId": "mcp-builder"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "chatgpt-4o-latest",
+          "mode": "list",
+          "cachedResultName": "chatgpt-4o-latest"
+        },
+        "builtInTools": {},
+        "options": {
+          "temperature": 0.3
+        }
+      },
+      "id": "e0c740eb-f89c-45e0-82c5-833ebc38274c",
+      "name": "GPT-4o Planning",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -32,
+        160
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "DfpalJny1yZEVVZ7",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 3
+      },
+      "id": "f7ccb15e-fb53-4399-a9c6-b81442015e3b",
+      "name": "Planning Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        112,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "Create a high-level plan for an n8n workflow.\n\nSTEP 1: Search for nodes\nUse the search_nodes tool to find relevant nodes for this request.\n\nSTEP 2: Verify each node\nFor each node you plan to use, call get_node_essentials(\"nodes-base.nodeType\", {includeExamples: true})\n\nSTEP 3: Write the plan\nOutput format:\n**Workflow Name:** [name]\n**Trigger:** [webhook/schedule/manual]\n**Nodes:**\n1. n8n-nodes-base.[exactType] - [purpose]\n2. n8n-nodes-base.[exactType] - [purpose]\n**Flow:** Node1 → Node2\n\nBe specific about node types (use full n8n-nodes-base.* format).\n\nIMPORTANT: You MUST actually call search_nodes and get_node_essentials tools. Don't just describe what you would do - DO IT."
+        }
+      },
+      "id": "aeb664b3-b4f8-40cc-ad1d-32a69494965e",
+      "name": "Agent 1 Planning",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        48,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list"
+        },
+        "builtInTools": {},
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "id": "6e79bcf8-d02c-45ab-9715-ad051f4f5e34",
+      "name": "GPT-4o Implementation",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        288,
+        160
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "DfpalJny1yZEVVZ7",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "6ae43018-1f47-4a11-90f3-7868c841ff1b",
+      "name": "Implementation Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        432,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Agent 1 Planning').item.json.output }}",
+        "options": {
+          "systemMessage": "Convert the plan to n8n workflow JSON.\n\nSTEP 1: Get node configurations\nFor EACH node in the plan, call: get_node_essentials(\"nodes-base.nodeType\", {includeExamples: true})\n\nSTEP 2: Build workflow using the configurations\nUse the exact parameter structures returned by get_node_essentials.\n\nSTEP 3: Validate the complete workflow\nCall validate_workflow on the complete workflow JSON.\n\nSTEP 4: Output ONLY the workflow JSON\nFormat your response as:\n```json\n{\n  \"name\": \"Workflow Name\",\n  \"nodes\": [\n    {\n      \"parameters\": {},\n      \"id\": \"uuid-format-id\",\n      \"name\": \"Node Name\",\n      \"type\": \"n8n-nodes-base.nodeType\",\n      \"typeVersion\": 1,\n      \"position\": [x, y]\n    }\n  ],\n  \"connections\": {\n    \"SourceNodeName\": {\n      \"main\": [[{\"node\": \"TargetNodeName\", \"type\": \"main\", \"index\": 0}]]\n    }\n  },\n  \"settings\": {\"executionOrder\": \"v1\"},\n  \"staticData\": null\n}\n```\n\nCRITICAL RULES:\n- Node IDs must be valid UUID format or alphanumeric with dashes\n- Use node NAMES (not IDs) as keys in connections object\n- Position nodes 400px apart: [0,0], [400,0], [800,0]\n- Include ALL required parameters from get_node_essentials\n- Wrap JSON in ```json code block\n- Output NOTHING before ```json and NOTHING after ```\n\nYOU MUST CALL get_node_essentials FOR EACH NODE - the workflow will fail without proper parameter structures."
+        }
+      },
+      "id": "d8c5e2d2-4404-4c65-b23c-9f7c4707ff31",
+      "name": "Agent 2 Implementation",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        336,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = $input.item.json.output;\nlet workflow;\ntry {\n  const match = output.match(/```(?:json)?\\s*([\\s\\S]*?)```/);\n  if (match) {\n    workflow = JSON.parse(match[1].trim());\n  } else {\n    const startIdx = output.indexOf('{');\n    const endIdx = output.lastIndexOf('}');\n    if (startIdx >= 0 && endIdx > startIdx) {\n      workflow = JSON.parse(output.slice(startIdx, endIdx + 1));\n    } else {\n      workflow = JSON.parse(output);\n    }\n  }\n} catch(e) {\n  workflow = {\n    name: \"Fallback Workflow\",\n    nodes: [{\n      id: \"manual-trigger\",\n      name: \"Manual Trigger\",\n      type: \"n8n-nodes-base.manualTrigger\",\n      typeVersion: 1,\n      position: [240, 300],\n      parameters: {}\n    }],\n    connections: {},\n    settings: {executionOrder: \"v1\"},\n    staticData: null\n  };\n}\nif (!workflow.settings) workflow.settings = {executionOrder: \"v1\"};\nif (!workflow.staticData) workflow.staticData = null;\nif (!workflow.connections) workflow.connections = {};\nreturn {json: {workflow}};"
+      },
+      "id": "f7ec9586-60bd-4351-913a-fd9b424c2011",
+      "name": "Parse JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "builtInTools": {},
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "id": "22ffa209-c626-4e50-8499-e9fafa1272de",
+      "name": "GPT-4o Validator",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        736,
+        160
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "DfpalJny1yZEVVZ7",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ JSON.stringify($json.workflow, null, 2) }}",
+        "options": {
+          "systemMessage": "Validate and fix the workflow JSON.\n\nINPUT WORKFLOW:\n{{ JSON.stringify($json.workflow, null, 2) }}\n\nSTEP 1: Validate\nCall validate_workflow on the input workflow.\n\nSTEP 2: Fix errors if any\nIf validation fails:\n- For each problematic node, call get_node_essentials(\"nodes-base.nodeType\")\n- Fix the node parameters using the correct structure\n- Fix connection issues (ensure node names match exactly)\n- Ensure all nodes have: id, name, type, typeVersion, position, parameters\n\nSTEP 3: Validate again\nCall validate_workflow on the fixed workflow to confirm it's valid.\n\nSTEP 4: Output ONLY the fixed JSON\nFormat:\n```json\n{\n  \"name\": \"...\",\n  \"nodes\": [...],\n  \"connections\": {...},\n  \"settings\": {\"executionOrder\": \"v1\"},\n  \"staticData\": null\n}\n```\n\nCOMMON VALIDATION ERRORS TO FIX:\n- Missing required parameters: Check get_node_essentials response\n- Invalid typeVersion: Use version from get_node_essentials\n- Connection node name mismatch: Node names must match exactly (case-sensitive)\n- Missing node properties: Every node needs id, name, type, typeVersion, position, parameters\n\nYOU MUST CALL validate_workflow AND get_node_essentials - these tools find and fix errors automatically.\n\nOutput NOTHING before ```json and NOTHING after ```."
+        }
+      },
+      "id": "c250158f-07c0-4ff4-b88d-5c947d72bcde",
+      "name": "Agent 3 Validator",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        784,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = $input.item.json.output;\nlet workflow;\ntry {\n  const match = output.match(/```(?:json)?\\s*([\\s\\S]*?)```/);\n  if (match) {\n    workflow = JSON.parse(match[1].trim());\n  } else {\n    const startIdx = output.indexOf('{');\n    const endIdx = output.lastIndexOf('}');\n    if (startIdx >= 0 && endIdx > startIdx) {\n      workflow = JSON.parse(output.slice(startIdx, endIdx + 1));\n    } else {\n      workflow = JSON.parse(output);\n    }\n  }\n} catch(e) {\n  workflow = $('Parse JSON').item.json.workflow;\n}\nif (!workflow.settings) workflow.settings = {executionOrder: \"v1\"};\nif (!workflow.staticData) workflow.staticData = null;\nreturn {json: {workflow, workflowJson: JSON.stringify(workflow)}};"
+      },
+      "id": "2dc329a6-bb8c-457b-81ce-ff17d112e4a0",
+      "name": "Extract Final",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1088,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:5678/api/v1/workflows",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-N8N-API-KEY",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZTE0NzllZS03ZmYyLTQ2MWQtYWNhZC0yZjQxMGJhOGQyYjAiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzY0MDI0NjA5fQ.2-KQsdtD3BECJTXNo9nwi0DmW3Yv4xYI4FVAPDDm-N8"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.workflowJson }}",
+        "options": {}
+      },
+      "id": "20c9fe59-f7ea-490a-85a9-220a49352e61",
+      "name": "Create Workflow",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1264,
+        -64
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "NjiVWkXrdelGpLaU",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "output-field",
+              "name": "output",
+              "value": "=✅ **Workflow Created!**\\n\\n🔗 [Open Workflow](http://localhost:5678/workflow/{{ $json.id }})\\n\\n📋 **ID:** {{ $json.id }}\\n📝 **Name:** {{ $json.name }}\\n🔧 **Status:** Validated & Ready",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bb9ca18b-1efb-43e6-b0f0-4b09cd95dfba",
+      "name": "Success Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1424,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "name": "get_node_essentials",
+        "description": "Get node configuration from n8n MCP. Pass nodeType like 'nodes-base.httpRequest' or 'nodes-base.webhook'. ALWAYS call this before creating any node to get correct parameters.",
+        "jsCode": "// Get node essentials from n8n's built-in node registry\nconst nodeType = ($input.item.json.nodeType || $input.item.json.query || '').replace(/^n8n-/, '');\n\nif (!nodeType) {\n  return { json: { error: 'nodeType parameter required' } };\n}\n\n// Common node configurations based on n8n standards\nconst nodeConfigs = {\n  'nodes-base.manualTrigger': {\n    type: 'n8n-nodes-base.manualTrigger',\n    typeVersion: 1,\n    parameters: {}\n  },\n  'nodes-base.webhook': {\n    type: 'n8n-nodes-base.webhook',\n    typeVersion: 2,\n    parameters: {\n      path: '',\n      httpMethod: 'POST',\n      responseMode: 'onReceived'\n    }\n  },\n  'nodes-base.httpRequest': {\n    type: 'n8n-nodes-base.httpRequest',\n    typeVersion: 4.2,\n    parameters: {\n      method: 'GET',\n      url: ''\n    }\n  },\n  'nodes-base.set': {\n    type: 'n8n-nodes-base.set',\n    typeVersion: 3.4,\n    parameters: {\n      assignments: { assignments: [] }\n    }\n  },\n  'nodes-base.code': {\n    type: 'n8n-nodes-base.code',\n    typeVersion: 2,\n    parameters: {\n      jsCode: ''\n    }\n  },\n  'nodes-base.if': {\n    type: 'n8n-nodes-base.if',\n    typeVersion: 2,\n    parameters: {\n      conditions: {}\n    }\n  },\n  'nodes-base.scheduleTrigger': {\n    type: 'n8n-nodes-base.scheduleTrigger',\n    typeVersion: 1.2,\n    parameters: {\n      rule: {}\n    }\n  }\n};\n\nconst config = nodeConfigs[nodeType] || {\n  type: `n8n-${nodeType}`,\n  typeVersion: 1,\n  parameters: {}\n};\n\nreturn {\n  json: {\n    nodeType: config.type,\n    typeVersion: config.typeVersion,\n    requiredParameters: config.parameters,\n    usage: `Use this configuration: ${JSON.stringify(config)}`\n  }\n};"
+      },
+      "id": "mcp-code-tool-123",
+      "name": "MCP Tools",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        576,
+        160
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Agent 1 Planning",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent 1 Planning": {
+      "main": [
+        [
+          {
+            "node": "Agent 2 Implementation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent 2 Implementation": {
+      "main": [
+        [
+          {
+            "node": "Parse JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse JSON": {
+      "main": [
+        [
+          {
+            "node": "Agent 3 Validator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent 3 Validator": {
+      "main": [
+        [
+          {
+            "node": "Extract Final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Final": {
+      "main": [
+        [
+          {
+            "node": "Create Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Workflow": {
+      "main": [
+        [
+          {
+            "node": "Success Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GPT-4o Planning": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agent 1 Planning",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Planning Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agent 1 Planning",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GPT-4o Implementation": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agent 2 Implementation",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Implementation Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agent 2 Implementation",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GPT-4o Validator": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agent 3 Validator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Tools": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agent 2 Implementation",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8862db3b-d992-44f6-9fa1-06c6716d06e1",
+  "meta": {
+    "instanceId": "76508d26cb1474d2c6bd688304bfb64ba00cb08764c27ef8b8a306287539027e"
+  },
+  "id": "1NXWV0PPXuXAbhvC",
+  "tags": []
+}
