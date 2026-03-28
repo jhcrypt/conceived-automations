@@ -4,6 +4,9 @@ export function useParallax() {
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
+    // Skip parallax on mobile — causes forced reflow and hurts performance
+    if (window.innerWidth < 768) return;
+
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };

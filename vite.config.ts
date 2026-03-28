@@ -28,11 +28,25 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom'],
-          'motion': ['framer-motion'],
-          'ui': ['@radix-ui/react-dialog', '@radix-ui/react-radio-group', '@radix-ui/react-slider'],
-          'trpc': ['@trpc/client', '@trpc/react-query', '@tanstack/react-query'],
+        manualChunks(id) {
+          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+            return 'react-vendor';
+          }
+          if (id.includes('node_modules/framer-motion')) {
+            return 'motion';
+          }
+          if (id.includes('node_modules/@radix-ui')) {
+            return 'radix';
+          }
+          if (id.includes('node_modules/@trpc') || id.includes('node_modules/@tanstack')) {
+            return 'trpc';
+          }
+          if (id.includes('node_modules/recharts') || id.includes('node_modules/d3-')) {
+            return 'charts';
+          }
+          if (id.includes('node_modules/lucide-react')) {
+            return 'icons';
+          }
         },
       },
     },
