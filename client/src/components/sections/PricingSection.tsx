@@ -205,6 +205,18 @@ export default function PricingSection() {
             <br />
             One-time setup fees may apply based on complexity.
           </p>
+          <div className="mt-8 p-6 rounded-2xl bg-slate-800/50 border border-violet-500/30 max-w-xl mx-auto">
+            <p className="text-white font-semibold text-lg mb-2">Not sure which plan fits?</p>
+            <p className="text-gray-400 text-sm mb-4">
+              Every business is different. Book a free consultation and we'll build a custom pricing plan based on your specific needs and automation goals.
+            </p>
+            <button
+              onClick={scrollToContact}
+              className="bg-gradient-to-r from-violet-600 to-cyan-500 text-white px-6 py-3 rounded-lg font-bold text-sm hover:shadow-[0_0_20px_rgba(139,92,246,0.5)] transition-all duration-300 hover:scale-105"
+            >
+              Book a Free Consultation
+            </button>
+          </div>
         </div>
       </div>  
     </section>
