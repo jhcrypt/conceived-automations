@@ -35,11 +35,13 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-slate-950 text-foreground">
       {/* Under Construction Banner */}
-      <div className="sticky top-0 z-[60] bg-slate-950/80 backdrop-blur-lg border-b border-violet-500/30 py-2.5 px-4 flex items-center justify-center gap-2 text-sm font-medium text-foreground/70">
+      <div className="fixed top-0 left-0 right-0 z-[70] bg-slate-950/90 backdrop-blur-lg border-b border-violet-500/30 py-2.5 px-4 flex items-center justify-center gap-2 text-sm font-medium text-foreground/70">
         <span>🚧</span>
         <span><span className="text-violet-400 font-semibold">Conceived Automations</span> is under active development — exciting new features launching soon. Stay tuned!</span>
         <span>🚧</span>
       </div>
+      {/* Spacer to push content below fixed banner + nav */}
+      <div className="h-10" />
       <Navigation />
       <HeroSection />
       <div className="bg-slate-900"><ProblemSolutionSection /></div>

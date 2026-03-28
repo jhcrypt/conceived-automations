@@ -56,10 +56,10 @@ export default function Navigation() {
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-all duration-300 ${
+      className={`fixed w-full z-[65] transition-all duration-300 ${
         isScrolled
-          ? 'bg-slate-950/70 backdrop-blur-lg border-b border-violet-500/30 py-3'
-          : 'bg-transparent py-5'
+          ? 'bg-slate-950/70 backdrop-blur-lg border-b border-violet-500/30 py-3 top-10'
+          : 'bg-transparent py-5 top-10'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
