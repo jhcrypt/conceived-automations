@@ -132,9 +132,18 @@ export const INDUSTRY_BENCHMARKS: Record<string, IndustryBenchmark> = {
 export type BusinessStage = "startup" | "growing" | "scaling" | "established";
 export type TimeImpact = "1-5" | "5-10" | "10-20" | "20-40" | "40+";
 export type TeamSize = "solo" | "small" | "department" | "multiple";
+export type SalaryRange = "under25" | "25to50" | "50to100" | "100to150" | "over150";
 export type Urgency = "urgent" | "soon" | "planning" | "exploring";
 export type DelayImpact = "lost_sales" | "unhappy_customers" | "missed_deadlines" | "compliance" | "burnout" | "not_critical";
 export type GrowthChallenge = "demand" | "quality" | "manual_work" | "churn" | "speed" | "hiring";
+
+export const SALARY_RANGE_RATES: Record<SalaryRange, number> = {
+  under25: 20,
+  "25to50": 37,
+  "50to100": 72,
+  "100to150": 120,
+  over150: 175,
+};
 
 /**
  * Team size to multiplier mapping

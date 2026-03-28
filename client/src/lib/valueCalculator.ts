@@ -9,12 +9,11 @@ import {
   INDUSTRY_BENCHMARKS,
   TEAM_SIZE_MULTIPLIERS,
   TIME_IMPACT_HOURS,
-  URGENCY_MULTIPLIERS,
-  DELAY_IMPACT_MULTIPLIERS,
-  GROWTH_CHALLENGE_PREMIUMS,
+  SALARY_RANGE_RATES,
   type BusinessStage,
   type TimeImpact,
   type TeamSize,
+  type SalaryRange,
   type Urgency,
   type DelayImpact,
   type GrowthChallenge,
@@ -24,10 +23,12 @@ export interface ValueCalculatorInputs {
   industry: string;
   businessStage: BusinessStage;
   teamSize: TeamSize;
+  salaryRange: SalaryRange;
   timeSaved: TimeImpact;
-  delayImpact: DelayImpact;
-  growthChallenge: GrowthChallenge;
-  urgency: Urgency;
+  // Kept for backward compat but no longer shown in form
+  delayImpact?: DelayImpact;
+  growthChallenge?: GrowthChallenge;
+  urgency?: Urgency;
 }
 
 export interface ValueCalculationResult {
@@ -74,53 +75,40 @@ export function calculateValue(inputs: ValueCalculatorInputs): ValueCalculationR
   const revenueRange = benchmark.revenueByStage[inputs.businessStage];
   const inferredRevenue = (revenueRange.min + revenueRange.max) / 2;
   
-  // Get hourly rate from benchmark
-  const inferredHourlyRate = benchmark.avgHourlyRate;
+  // Get hourly rate from user's salary selection — not inferred
+  const inferredHourlyRate = SALARY_RANGE_RATES[inputs.salaryRange];
   
   // Calculate weekly hours saved
   const perPersonHoursSaved = TIME_IMPACT_HOURS[inputs.timeSaved];
   const teamSizeMultiplier = TEAM_SIZE_MULTIPLIERS[inputs.teamSize];
-  const weeklyHoursSaved = perPersonHoursSaved * teamSizeMultiplier; // Total team hours
+  const weeklyHoursSaved = perPersonHoursSaved * teamSizeMultiplier;
   
-  // 1. Labor Savings — capped by business stage to prevent unrealistic numbers
+  // 1. Labor Savings — capped by business stage
   const stageCapMultiplier: Record<BusinessStage, number> = {
-    startup: 0.3,    // Startups can't realistically save 100% of projected hours
+    startup: 0.3,
     growing: 0.55,
     scaling: 0.75,
     established: 1.0,
   };
   const laborSavings = calculateLaborSavings(weeklyHoursSaved, inferredHourlyRate) * stageCapMultiplier[inputs.businessStage];
-  
-  // 2. Revenue Impact (based on delay impact and inferred revenue)
-  const revenueImpact = calculateRevenueImpact(
-    inferredRevenue,
-    inputs.delayImpact,
-    inputs.businessStage
-  );
-  
-  // 3. Error Reduction Savings
-  const errorReduction = calculateErrorReduction(
-    laborSavings,
-    benchmark.errorCostMultiplier,
-    inputs.delayImpact
-  );
-  
-  // 4. Calculate base TAV (before strategic premium)
+
+  // 2. Revenue Impact — use moderate fixed multiplier since we removed delay impact step
+  const revenueImpact = calculateRevenueImpact(inferredRevenue, 'lost_sales', inputs.businessStage);
+
+  // 3. Error Reduction
+  const errorReduction = calculateErrorReduction(laborSavings, benchmark.errorCostMultiplier, 'not_critical');
+
+  // 4. Base TAV
   const baseTAV = laborSavings + revenueImpact + errorReduction;
-  
-  // 5. Strategic Premium (based on growth challenge)
-  const strategicPremiumRate = GROWTH_CHALLENGE_PREMIUMS[inputs.growthChallenge];
-  const strategicPremium = baseTAV * strategicPremiumRate;
-  
+
+  // 5. Fixed 20% strategic premium
+  const strategicPremium = baseTAV * 0.20;
+
   // 6. Total Annual Value
   const totalAnnualValue = baseTAV + strategicPremium;
-  
-  // 7. Apply urgency multiplier to investment recommendation
-  const urgencyMultiplier = URGENCY_MULTIPLIERS[inputs.urgency];
-  
-  // 8. Calculate investment recommendation (15-30% of TAV)
-  const baseInvestment = (totalAnnualValue * 0.15 + inferredRevenue * 0.01) * urgencyMultiplier;
-  
+
+  // 7. Investment recommendation — no urgency multiplier
+  const baseInvestment = totalAnnualValue * 0.15 + inferredRevenue * 0.01;
   const recommendedInvestmentMin = baseInvestment * 0.8;
   const recommendedInvestmentMax = baseInvestment * 1.2;
   const recommendedInvestmentAvg = baseInvestment;
