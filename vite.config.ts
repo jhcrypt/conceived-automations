@@ -26,6 +26,16 @@ export default defineConfig({
   build: {
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+          'motion': ['framer-motion'],
+          'ui': ['@radix-ui/react-dialog', '@radix-ui/react-radio-group', '@radix-ui/react-slider'],
+          'trpc': ['@trpc/client', '@trpc/react-query', '@tanstack/react-query'],
+        },
+      },
+    },
   },
   server: {
     host: true,
