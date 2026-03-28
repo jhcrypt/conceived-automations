@@ -479,10 +479,8 @@ export default function ValueBasedROICalculator() {
                           industry: inputs.industry,
                           businessStage: inputs.businessStage,
                           teamSize: inputs.teamSize,
+                          salaryRange: inputs.salaryRange,
                           timeSaved: inputs.timeSaved,
-                          delayImpact: inputs.delayImpact,
-                          growthChallenge: inputs.growthChallenge,
-                          urgency: inputs.urgency,
                           result: result,
                         };
                         sessionStorage.setItem('valueCalculatorData', JSON.stringify(calculatorData));

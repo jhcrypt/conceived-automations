@@ -173,12 +173,9 @@ export default function WorkflowQuestionnaireSection() {
   useEffect(() => {
     const loadCalculatorData = () => {
       const storedData = sessionStorage.getItem('valueCalculatorData');
-      console.log('🔍 Checking for calculator data:', storedData ? 'Found' : 'Not found');
-      
       if (storedData) {
         try {
           const calculatorData = JSON.parse(storedData);
-          console.log('📊 Calculator data loaded:', calculatorData);
           
           // Map industry to business type
           const industryToBusinessType: Record<string, string> = {
@@ -191,26 +188,39 @@ export default function WorkflowQuestionnaireSection() {
             'manufacturing': 'Manufacturing',
             'other': 'Other',
           };
-          
+
+          // Map teamSize to company size label
+          const teamSizeToCompanySize: Record<string, string> = {
+            'solo': '1-10 employees',
+            'small': '1-10 employees',
+            'department': '11-50 employees',
+            'multiple': '51-200 employees',
+          };
+
           const businessType = industryToBusinessType[calculatorData.industry] || 'Other';
-          console.log('✅ Pre-populating fields:', { businessType, industry: calculatorData.industry, companySize: calculatorData.teamSize });
-          
+          const companySize = teamSizeToCompanySize[calculatorData.teamSize] || '';
+          const hoursPerWeek = calculatorData.result?.weeklyHoursSaved
+            ? Math.round(calculatorData.result.weeklyHoursSaved / (calculatorData.result.teamSizeMultiplier || 1))
+            : 0;
+
+          // Find closest hours option
+          const closestHours = [5, 10, 20, 30, 40].reduce((prev, curr) =>
+            Math.abs(curr - hoursPerWeek) < Math.abs(prev - hoursPerWeek) ? curr : prev, 5);
+
           setFormData(prev => ({
             ...prev,
-            businessType: businessType,
+            businessType,
             industry: calculatorData.industry || '',
-            companySize: calculatorData.teamSize || '',
-            estimatedHoursPerWeek: calculatorData.result?.weeklyHoursSaved || 0,
+            companySize,
+            estimatedHoursPerWeek: closestHours,
           }));
           
           // Store full results for pricing display
           setCalculatorResults(calculatorData.result);
           setIsPrePopulated(true);
         } catch (e) {
-          console.error('❌ Failed to parse calculator data:', e);
+          console.error('Failed to parse calculator data:', e);
         }
-      } else {
-        console.log('ℹ️ No calculator data found - user may have navigated directly to this section');
       }
     };
     
