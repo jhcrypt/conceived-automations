@@ -87,7 +87,7 @@ export default function Navigation() {
                 }}
                 className={`text-sm font-medium transition-all pb-1 border-b-2 ${
                   isActive
-                    ? 'bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent border-violet-500'
+                    ? 'text-white border-violet-500'
                     : 'text-slate-300 hover:text-white border-transparent'
                 }`}
               >
