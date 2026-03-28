@@ -82,8 +82,14 @@ export function calculateValue(inputs: ValueCalculatorInputs): ValueCalculationR
   const teamSizeMultiplier = TEAM_SIZE_MULTIPLIERS[inputs.teamSize];
   const weeklyHoursSaved = perPersonHoursSaved * teamSizeMultiplier; // Total team hours
   
-  // 1. Labor Savings
-  const laborSavings = calculateLaborSavings(weeklyHoursSaved, inferredHourlyRate);
+  // 1. Labor Savings — capped by business stage to prevent unrealistic numbers
+  const stageCapMultiplier: Record<BusinessStage, number> = {
+    startup: 0.3,    // Startups can't realistically save 100% of projected hours
+    growing: 0.55,
+    scaling: 0.75,
+    established: 1.0,
+  };
+  const laborSavings = calculateLaborSavings(weeklyHoursSaved, inferredHourlyRate) * stageCapMultiplier[inputs.businessStage];
   
   // 2. Revenue Impact (based on delay impact and inferred revenue)
   const revenueImpact = calculateRevenueImpact(

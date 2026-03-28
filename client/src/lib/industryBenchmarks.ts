@@ -152,10 +152,10 @@ export const TEAM_SIZE_MULTIPLIERS: Record<TeamSize, number> = {
  */
 export const TIME_IMPACT_HOURS: Record<TimeImpact, number> = {
   "1-5": 3,
-  "5-10": 7.5,
-  "10-20": 15,
-  "20-40": 30,
-  "40+": 50,
+  "5-10": 7,
+  "10-20": 13,
+  "20-40": 25,
+  "40+": 35,  // Capped — no one automates a full 50hr work week
 };
 
 /**
