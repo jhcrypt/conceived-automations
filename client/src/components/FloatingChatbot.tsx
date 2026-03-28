@@ -26,10 +26,10 @@ export default function FloatingChatbot() {
       {!isOpen && (
         <Button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-all z-50"
+          className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 hover:scale-110 transition-all z-50 bg-gradient-to-br from-violet-600 to-cyan-500 border-0 hover:from-violet-500 hover:to-cyan-400"
           size="icon"
         >
-          <MessageCircle className="h-6 w-6" />
+          <MessageCircle className="h-6 w-6 text-white" />
         </Button>
       )}
 
