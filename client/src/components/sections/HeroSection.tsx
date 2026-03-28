@@ -17,7 +17,7 @@ export default function HeroSection() {
       {/* Circuit Board Background */}
       <div 
         className="absolute inset-0 bg-cover bg-center z-0"
-        style={{ backgroundImage: 'url(/hero-circuit-board.png)' }}
+        style={{ backgroundImage: 'url(/hero-circuit-board.webp)' }}
       ></div>
       
       {/* Dark Overlay for Text Readability */}

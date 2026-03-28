@@ -13,7 +13,7 @@ export default function ParticleBackground() {
     let width = canvas.width = window.innerWidth;
     let height = canvas.height = window.innerHeight;
 
-    const particleCount = 150;
+    const particleCount = 60;
     const particles: Array<{
       x: number;
       y: number;
