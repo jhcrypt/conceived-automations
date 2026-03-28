@@ -177,7 +177,6 @@ export default function WorkflowQuestionnaireSection() {
         try {
           const calculatorData = JSON.parse(storedData);
           
-          // Map industry to business type
           const industryToBusinessType: Record<string, string> = {
             'ecommerce': 'E-commerce',
             'saas': 'SaaS',
@@ -189,7 +188,6 @@ export default function WorkflowQuestionnaireSection() {
             'other': 'Other',
           };
 
-          // Map teamSize to company size label
           const teamSizeToCompanySize: Record<string, string> = {
             'solo': '1-10 employees',
             'small': '1-10 employees',
@@ -199,11 +197,7 @@ export default function WorkflowQuestionnaireSection() {
 
           const businessType = industryToBusinessType[calculatorData.industry] || 'Other';
           const companySize = teamSizeToCompanySize[calculatorData.teamSize] || '';
-          const hoursPerWeek = calculatorData.result?.weeklyHoursSaved
-            ? Math.round(calculatorData.result.weeklyHoursSaved / (calculatorData.result.teamSizeMultiplier || 1))
-            : 0;
-
-          // Find closest hours option
+          const hoursPerWeek = calculatorData.result?.perPersonHoursSaved || 0;
           const closestHours = [5, 10, 20, 30, 40].reduce((prev, curr) =>
             Math.abs(curr - hoursPerWeek) < Math.abs(prev - hoursPerWeek) ? curr : prev, 5);
 
@@ -214,8 +208,7 @@ export default function WorkflowQuestionnaireSection() {
             companySize,
             estimatedHoursPerWeek: closestHours,
           }));
-          
-          // Store full results for pricing display
+
           setCalculatorResults(calculatorData.result);
           setIsPrePopulated(true);
         } catch (e) {
@@ -223,16 +216,25 @@ export default function WorkflowQuestionnaireSection() {
         }
       }
     };
-    
-    // Load immediately
+
+    // Run immediately on mount
     loadCalculatorData();
-    
-    // Also listen for storage events (in case data is added after component mounts)
-    window.addEventListener('storage', loadCalculatorData);
-    
-    return () => {
-      window.removeEventListener('storage', loadCalculatorData);
-    };
+
+    // Also observe when the section scrolls into view — data may have been
+    // written to sessionStorage after this component first mounted
+    const section = document.getElementById('workflow-questionnaire');
+    if (section) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            loadCalculatorData();
+          }
+        },
+        { threshold: 0.1 }
+      );
+      observer.observe(section);
+      return () => observer.disconnect();
+    }
   }, []);
 
   const submitQuestionnaire = trpc.workflows.submitQuestionnaire.useMutation({
