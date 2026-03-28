@@ -74,8 +74,8 @@ export default function HeroSection() {
               <p className="text-sm text-slate-400">Workflows Automated</p>
             </div>
             <div className="flex flex-col items-center gap-2 p-4 rounded-lg bg-slate-900/50 border border-violet-500/30 hover:border-violet-500/60 hover:scale-105 transition-all duration-300 backdrop-blur-sm">
-              <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">75%</div>
-              <p className="text-sm text-slate-400">Time Saved Average</p>
+              <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Up to 75%</div>
+              <p className="text-sm text-slate-400">Time Saved on Average</p>
             </div>
             <div className="flex flex-col items-center gap-2 p-4 rounded-lg bg-slate-900/50 border border-violet-500/30 hover:border-violet-500/60 hover:scale-105 transition-all duration-300 backdrop-blur-sm">
               <div className="text-3xl md:text-4xl font-bold text-white">50+</div>

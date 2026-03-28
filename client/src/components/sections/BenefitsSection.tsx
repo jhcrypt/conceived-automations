@@ -6,14 +6,14 @@ export default function BenefitsSection() {
       icon: Clock,
       title: 'Save Time',
       description: 'Automate hours of manual work daily. Focus on strategy while workflows run 24/7.',
-      stat: '75%',
+      stat: 'Up to 75%',
       statLabel: 'Time Saved',
     },
     {
       icon: ShieldCheck,
       title: 'Reduce Errors',
       description: 'Eliminate human mistakes in repetitive tasks with consistent, reliable automation.',
-      stat: '99%',
+      stat: 'Up to 99%',
       statLabel: 'Accuracy',
     },
     {

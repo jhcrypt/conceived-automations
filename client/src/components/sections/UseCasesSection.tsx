@@ -7,7 +7,7 @@ export default function UseCasesSection() {
       industry: 'E-commerce',
       challenge: 'Manual order processing and inventory management across multiple platforms',
       solution: 'Automated order sync, inventory updates, and customer notifications',
-      results: ['80% faster order processing', '99% inventory accuracy', '50% reduction in customer inquiries'],
+      results: ['Up to 80% faster order processing', 'Up to 99% inventory accuracy', '50% reduction in customer inquiries'],
     },
     {
       icon: Home,
@@ -28,7 +28,7 @@ export default function UseCasesSection() {
       industry: 'Finance',
       challenge: 'Time-intensive reporting and data reconciliation',
       solution: 'Automated data collection, report generation, and anomaly detection',
-      results: ['95% faster reporting', 'Zero reconciliation errors', 'Real-time insights'],
+      results: ['Up to 90% faster reporting', 'Drastically fewer reconciliation errors', 'Real-time insights'],
     },
     {
       icon: Megaphone,
@@ -42,7 +42,7 @@ export default function UseCasesSection() {
       industry: 'Voice Agents',
       challenge: 'High-volume customer calls, interviews, and qualification processes requiring human touch',
       solution: 'AI-powered voice agents that conduct phone interviews, qualify leads, answer questions, and engage in natural conversations',
-      results: ['24/7 availability', '10x call capacity', '85% customer satisfaction', '70% cost reduction'],
+      results: ['24/7 availability', 'Up to 10x call capacity', '85% customer satisfaction', 'Up to 50% cost reduction'],
       isNew: true,
     },
   ];
