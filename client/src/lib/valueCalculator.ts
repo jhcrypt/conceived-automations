@@ -10,13 +10,12 @@ import {
   TEAM_SIZE_MULTIPLIERS,
   TIME_IMPACT_HOURS,
   SALARY_RANGE_RATES,
+  DELAY_IMPACT_MULTIPLIERS,
   type BusinessStage,
   type TimeImpact,
   type TeamSize,
   type SalaryRange,
-  type Urgency,
   type DelayImpact,
-  type GrowthChallenge,
 } from "./industryBenchmarks";
 
 export interface ValueCalculatorInputs {
@@ -25,10 +24,6 @@ export interface ValueCalculatorInputs {
   teamSize: TeamSize;
   salaryRange: SalaryRange;
   timeSaved: TimeImpact;
-  // Kept for backward compat but no longer shown in form
-  delayImpact?: DelayImpact;
-  growthChallenge?: GrowthChallenge;
-  urgency?: Urgency;
 }
 
 export interface ValueCalculationResult {
