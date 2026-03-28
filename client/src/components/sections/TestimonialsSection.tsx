@@ -59,7 +59,7 @@ export default function TestimonialsSection() {
       </section>
 
       {/* Tools Band */}
-      <div className="bg-slate-900 border-y border-slate-800 py-8">
+      <div className="py-8">
         <div className="container">
           <p className="text-xs font-semibold text-foreground/40 uppercase tracking-widest text-center mb-6">
             Powered by best-in-class tools
