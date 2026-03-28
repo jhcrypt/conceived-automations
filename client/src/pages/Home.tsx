@@ -2,21 +2,20 @@ import React, { lazy, Suspense } from 'react';
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/sections/HeroSection';
 import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection';
-
-const ServicesSection = lazy(() => import('@/components/sections/ServicesSection'));
-const HowItWorksSection = lazy(() => import('@/components/sections/HowItWorksSection'));
-const PricingSection = lazy(() => import('@/components/sections/PricingSection'));
-const ValueBasedROICalculator = lazy(() => import('@/components/sections/ValueBasedROICalculator'));
-const TechnologyStackSection = lazy(() => import('@/components/sections/TechnologyStackSection'));
-const UseCasesSection = lazy(() => import('@/components/sections/UseCasesSection'));
-const BenefitsSection = lazy(() => import('@/components/sections/BenefitsSection'));
-const FAQSection = lazy(() => import('@/components/sections/FAQSection'));
-const AboutSection = lazy(() => import('@/components/sections/AboutSection'));
-const OperationalScanSection = lazy(() => import('@/components/sections/OperationalScanSection'));
-const TestimonialsSection = lazy(() => import('@/components/sections/TestimonialsSection'));
-const WorkflowQuestionnaireSection = lazy(() => import('@/components/sections/WorkflowQuestionnaireSection'));
-const CTASection = lazy(() => import('@/components/sections/CTASection'));
-const Footer = lazy(() => import('@/components/Footer'));
+import ServicesSection from '@/components/sections/ServicesSection';
+import HowItWorksSection from '@/components/sections/HowItWorksSection';
+import PricingSection from '@/components/sections/PricingSection';
+import ValueBasedROICalculator from '@/components/sections/ValueBasedROICalculator';
+import TechnologyStackSection from '@/components/sections/TechnologyStackSection';
+import UseCasesSection from '@/components/sections/UseCasesSection';
+import BenefitsSection from '@/components/sections/BenefitsSection';
+import FAQSection from '@/components/sections/FAQSection';
+import AboutSection from '@/components/sections/AboutSection';
+import OperationalScanSection from '@/components/sections/OperationalScanSection';
+import TestimonialsSection from '@/components/sections/TestimonialsSection';
+import WorkflowQuestionnaireSection from '@/components/sections/WorkflowQuestionnaireSection';
+import CTASection from '@/components/sections/CTASection';
+import Footer from '@/components/Footer';
 
 export default function Home() {
   const [showBackToTop, setShowBackToTop] = React.useState(false);
@@ -43,7 +42,6 @@ export default function Home() {
       </div>
       <Navigation />
       <HeroSection />
-      <Suspense fallback={null}>
       <div className="bg-slate-900"><ProblemSolutionSection /></div>
       <div className="bg-slate-950"><ServicesSection /></div>
       <div className="bg-slate-900"><HowItWorksSection /></div>
@@ -59,7 +57,6 @@ export default function Home() {
       <div className="bg-slate-900"><OperationalScanSection /></div>
       <div className="bg-slate-950"><CTASection /></div>
       <Footer />
-      </Suspense>
       
       {/* Back to Top Button */}
       {showBackToTop && (

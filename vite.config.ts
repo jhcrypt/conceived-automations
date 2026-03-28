@@ -26,30 +26,6 @@ export default defineConfig({
   build: {
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
-            return 'react-vendor';
-          }
-          if (id.includes('node_modules/framer-motion')) {
-            return 'motion';
-          }
-          if (id.includes('node_modules/@radix-ui')) {
-            return 'radix';
-          }
-          if (id.includes('node_modules/@trpc') || id.includes('node_modules/@tanstack')) {
-            return 'trpc';
-          }
-          if (id.includes('node_modules/recharts') || id.includes('node_modules/d3-')) {
-            return 'charts';
-          }
-          if (id.includes('node_modules/lucide-react')) {
-            return 'icons';
-          }
-        },
-      },
-    },
   },
   server: {
     host: true,
