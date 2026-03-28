@@ -7,6 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { trpc } from '@/lib/trpc';
 import { Loader2, CheckCircle2, ArrowRight, ArrowLeft, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
+import { useROI } from '@/contexts/ROIContext';
 
 const BUSINESS_TYPES = [
   'E-commerce',
@@ -165,77 +166,49 @@ export default function WorkflowQuestionnaireSection() {
     name: '',
   });
   
-  // Store calculator results for pricing display
+  const { results: roiResults, inputs: roiInputs } = useROI();
   const [calculatorResults, setCalculatorResults] = useState<any>(null);
   const [isPrePopulated, setIsPrePopulated] = useState(false);
-  
-  // Pre-populate from Value Calculator data
+
+  // Auto-populate from ROI context whenever inputs change
   useEffect(() => {
-    const loadCalculatorData = () => {
-      const storedData = sessionStorage.getItem('valueCalculatorData');
-      if (storedData) {
-        try {
-          const calculatorData = JSON.parse(storedData);
-          
-          const industryToBusinessType: Record<string, string> = {
-            'ecommerce': 'E-commerce',
-            'saas': 'SaaS',
-            'professionalServices': 'Consulting',
-            'healthcare': 'Healthcare',
-            'realEstate': 'Real Estate',
-            'marketing': 'Marketing Agency',
-            'manufacturing': 'Manufacturing',
-            'other': 'Other',
-          };
+    if (!roiInputs || !roiResults) return;
 
-          const teamSizeToCompanySize: Record<string, string> = {
-            'solo': '1-10 employees',
-            'small': '1-10 employees',
-            'department': '11-50 employees',
-            'multiple': '51-200 employees',
-          };
-
-          const businessType = industryToBusinessType[calculatorData.industry] || 'Other';
-          const companySize = teamSizeToCompanySize[calculatorData.teamSize] || '';
-          const hoursPerWeek = calculatorData.result?.perPersonHoursSaved || 0;
-          const closestHours = [5, 10, 20, 30, 40].reduce((prev, curr) =>
-            Math.abs(curr - hoursPerWeek) < Math.abs(prev - hoursPerWeek) ? curr : prev, 5);
-
-          setFormData(prev => ({
-            ...prev,
-            businessType,
-            industry: calculatorData.industry || '',
-            companySize,
-            estimatedHoursPerWeek: closestHours,
-          }));
-
-          setCalculatorResults(calculatorData.result);
-          setIsPrePopulated(true);
-        } catch (e) {
-          console.error('Failed to parse calculator data:', e);
-        }
-      }
+    const industryToBusinessType: Record<string, string> = {
+      'ecommerce': 'E-commerce',
+      'saas': 'SaaS',
+      'professionalServices': 'Consulting',
+      'healthcare': 'Healthcare',
+      'realEstate': 'Real Estate',
+      'marketing': 'Marketing Agency',
+      'manufacturing': 'Manufacturing',
+      'other': 'Other',
     };
 
-    // Run immediately on mount
-    loadCalculatorData();
+    const teamSizeToCompanySize: Record<string, string> = {
+      'solo': '1-10 employees',
+      'small': '1-10 employees',
+      'department': '11-50 employees',
+      'multiple': '51-200 employees',
+    };
 
-    // Also observe when the section scrolls into view — data may have been
-    // written to sessionStorage after this component first mounted
-    const section = document.getElementById('workflow-questionnaire');
-    if (section) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (entries[0].isIntersecting) {
-            loadCalculatorData();
-          }
-        },
-        { threshold: 0.1 }
-      );
-      observer.observe(section);
-      return () => observer.disconnect();
-    }
-  }, []);
+    const businessType = industryToBusinessType[roiInputs.industry || ''] || 'Other';
+    const companySize = teamSizeToCompanySize[roiInputs.teamSize || ''] || '';
+    const hoursPerWeek = roiResults.perPersonHoursSaved || 0;
+    const closestHours = [5, 10, 20, 30, 40].reduce((prev, curr) =>
+      Math.abs(curr - hoursPerWeek) < Math.abs(prev - hoursPerWeek) ? curr : prev, 5);
+
+    setFormData(prev => ({
+      ...prev,
+      businessType,
+      industry: roiInputs.industry || '',
+      companySize,
+      estimatedHoursPerWeek: closestHours,
+    }));
+
+    setCalculatorResults(roiResults);
+    setIsPrePopulated(true);
+  }, [roiInputs, roiResults]);
 
   const submitQuestionnaire = trpc.workflows.submitQuestionnaire.useMutation({
     onSuccess: () => {

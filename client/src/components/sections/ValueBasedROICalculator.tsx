@@ -18,7 +18,7 @@ import ROIChart from "@/components/ROIChart";
 import { useROI } from "@/contexts/ROIContext";
 
 export default function ValueBasedROICalculator() {
-  const { setResults } = useROI();
+  const { setResults, setInputs: setROIInputs } = useROI();
   const [step, setStep] = useState(1);
   const [inputs, setInputs] = useState<Partial<ValueCalculatorInputs>>({});
   const [result, setResult] = useState<ValueCalculationResult | null>(null);
@@ -44,6 +44,19 @@ export default function ValueBasedROICalculator() {
         monthlySavings: calculationResult.monthlySavings,
         hoursSaved: calculationResult.hoursSaved,
         timeReduction: calculationResult.timeReduction,
+        perPersonHoursSaved: calculationResult.perPersonHoursSaved,
+        recommendedInvestmentMin: calculationResult.recommendedInvestmentMin,
+        recommendedInvestmentMax: calculationResult.recommendedInvestmentMax,
+        paybackMonths: calculationResult.paybackMonths,
+        yearOneROI: calculationResult.yearOneROI,
+        threeYearROI: calculationResult.threeYearROI,
+      });
+      setROIInputs({
+        industry: inputs.industry,
+        businessStage: inputs.businessStage,
+        teamSize: inputs.teamSize,
+        salaryRange: inputs.salaryRange,
+        timeSaved: inputs.timeSaved,
       });
       setIsCalculating(false);
       setStep(totalSteps + 1);
