@@ -124,8 +124,8 @@ export function calculateValue(inputs: ValueCalculatorInputs): ValueCalculationR
   
   // 10. Calculate ROI metrics
   const paybackMonths = (recommendedInvestmentAvg / totalAnnualValue) * 12;
-  const yearOneROI = ((totalAnnualValue - recommendedInvestmentAvg) / recommendedInvestmentAvg) * 100;
-  const threeYearROI = ((threeYearValue - recommendedInvestmentAvg) / recommendedInvestmentAvg) * 100;
+  const yearOneROI = Math.min(((totalAnnualValue - recommendedInvestmentAvg) / recommendedInvestmentAvg) * 100, 500);
+  const threeYearROI = Math.min(((threeYearValue - recommendedInvestmentAvg) / recommendedInvestmentAvg) * 100, 900);
   
   // 11. Calculate additional display metrics
   const monthlySavings = totalAnnualValue / 12;

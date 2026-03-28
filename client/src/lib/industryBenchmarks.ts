@@ -142,9 +142,9 @@ export type GrowthChallenge = "demand" | "quality" | "manual_work" | "churn" | "
  */
 export const TEAM_SIZE_MULTIPLIERS: Record<TeamSize, number> = {
   solo: 1,
-  small: 3, // 2-5 people avg = 3
-  department: 13, // 6-20 people avg = 13
-  multiple: 30, // 20+ people avg = 30
+  small: 3,    // 2-5 people avg = 3
+  department: 8,  // 6-20 people avg, conservative = 8
+  multiple: 15,   // 20+ people avg, conservative = 15
 };
 
 /**
