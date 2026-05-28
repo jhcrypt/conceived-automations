@@ -1,3 +1,5 @@
+<img width="1220" height="1054" alt="SCR-20260528-fijb" src="https://github.com/user-attachments/assets/c0a0165b-2c08-4a26-b798-8d75f415cf29" />
+
 # Conceived Automations
 
 > **AI-powered business automation platform.** A full-stack web app that generates custom n8n workflow automation plans for businesses through a guided two-stage questionnaire — then delivers a shareable, branded proposal.
