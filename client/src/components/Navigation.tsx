@@ -4,13 +4,11 @@ import { Menu, X, Workflow } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navItems = [
-  { label: 'Services', href: '#services' },
-  { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Custom Workflow', href: '#workflow-questionnaire' },
-  { label: 'Pricing', href: '#pricing' },
+  { label: 'Voice Agent', href: '#voice-agent' },
   { label: 'Use Cases', href: '#use-cases' },
-  { label: 'Benefits', href: '#benefits' },
-  { label: 'About', href: '#about' },
+  { label: 'How It Works', href: '#how-it-works' },
+  { label: 'Services', href: '#services' },
+  { label: 'Pricing', href: '#pricing' },
   { label: 'FAQ', href: '#faq' },
 ];
 

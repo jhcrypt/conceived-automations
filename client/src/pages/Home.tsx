@@ -3,15 +3,14 @@ import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/sections/HeroSection';
 import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection';
 import ServicesSection from '@/components/sections/ServicesSection';
+import VoiceAgentPlatformSection from '@/components/sections/VoiceAgentPlatformSection';
 import HowItWorksSection from '@/components/sections/HowItWorksSection';
 import PricingSection from '@/components/sections/PricingSection';
 import ValueBasedROICalculator from '@/components/sections/ValueBasedROICalculator';
 import TechnologyStackSection from '@/components/sections/TechnologyStackSection';
 import UseCasesSection from '@/components/sections/UseCasesSection';
-import BenefitsSection from '@/components/sections/BenefitsSection';
 import FAQSection from '@/components/sections/FAQSection';
 import AboutSection from '@/components/sections/AboutSection';
-import OperationalScanSection from '@/components/sections/OperationalScanSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import WorkflowQuestionnaireSection from '@/components/sections/WorkflowQuestionnaireSection';
 import CTASection from '@/components/sections/CTASection';
@@ -45,19 +44,18 @@ export default function Home() {
       <Navigation />
       <HeroSection />
       <div className="bg-slate-900"><ProblemSolutionSection /></div>
-      <div className="bg-slate-950"><ServicesSection /></div>
+      <VoiceAgentPlatformSection />
+      <div className="bg-slate-950"><UseCasesSection /></div>
       <div className="bg-slate-900"><HowItWorksSection /></div>
+      <div className="bg-slate-950"><ServicesSection /></div>
       <ValueBasedROICalculator />
       <div className="bg-slate-900"><WorkflowQuestionnaireSection /></div>
       <div className="bg-slate-950"><PricingSection /></div>
-      <div className="bg-slate-900"><TechnologyStackSection /></div>
-      <div className="bg-slate-950"><UseCasesSection /></div>
-      <div className="bg-slate-900"><BenefitsSection /></div>
       <div className="bg-slate-950"><TestimonialsSection /></div>
-      <div className="bg-slate-900"><AboutSection /></div>
-      <div className="bg-slate-950"><FAQSection /></div>
-      <div className="bg-slate-900"><OperationalScanSection /></div>
+      <div className="bg-slate-900"><FAQSection /></div>
       <div className="bg-slate-950"><CTASection /></div>
+      <div className="bg-slate-900"><TechnologyStackSection /></div>
+      <div className="bg-slate-950"><AboutSection /></div>
       <Footer />
       
       {/* Back to Top Button */}
