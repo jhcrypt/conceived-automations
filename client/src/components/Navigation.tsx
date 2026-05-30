@@ -7,7 +7,7 @@ const navItems = [
   { label: 'Voice Agent', href: '#voice-agent' },
   { label: 'Use Cases', href: '#use-cases' },
   { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Services', href: '#services' },
+  { label: 'Products', href: '#services' },
   { label: 'Pricing', href: '#pricing' },
   { label: 'FAQ', href: '#faq' },
 ];

@@ -97,7 +97,7 @@ export default function ValueBasedROICalculator() {
               Calculate Your <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">Automation Value</span>
             </h2>
             <p className="text-xl text-slate-300">
-              Discover the true value of automation for your business in under 2 minutes
+              Estimate how much revenue your business could recover by answering, qualifying, and following up with every lead.
             </p>
           </div>
 
@@ -122,7 +122,7 @@ export default function ValueBasedROICalculator() {
             {/* Step 1: Industry */}
             {step === 1 && (
               <div className="space-y-6">
-                <h3 className="text-2xl font-semibold mb-4">What industry are you in?</h3>
+                <h3 className="text-2xl font-semibold mb-4">What type of business are you growing?</h3>
                 <RadioGroup
                   value={inputs.industry}
                   onValueChange={(value) => setInputs({ ...inputs, industry: value })}
@@ -311,7 +311,7 @@ export default function ValueBasedROICalculator() {
                     </DialogTrigger>
                     <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto bg-slate-900 border-slate-700">
                       <DialogHeader className="border-b border-slate-700 pb-4">
-                        <DialogTitle className="text-2xl font-bold text-white">How We Calculate Your Automation Value</DialogTitle>
+                        <DialogTitle className="text-2xl font-bold text-white">How We Calculate Your Recovered Lead Revenue</DialogTitle>
                         <p className="text-slate-400 text-sm mt-2">Our calculator uses industry benchmarks and proven methodologies</p>
                       </DialogHeader>
                       <div className="space-y-6 pt-6">

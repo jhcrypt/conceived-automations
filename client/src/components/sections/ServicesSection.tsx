@@ -109,9 +109,9 @@ export default function ServicesSection() {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/30 text-violet-200 text-sm font-semibold mb-6">
             Productized AI Agents
           </div>
-          <h2 className="text-4xl font-bold text-white mb-4">AI Lead Conversion Products</h2>
+          <h2 className="text-4xl font-bold text-white mb-4">AI Products That Convert Leads</h2>
           <p className="text-slate-400 max-w-2xl mx-auto">
-            Start with a focused AI agent for the front end of your sales process, then connect it to the workflows and systems your business already uses.
+            Choose the AI agent your business needs first: answer calls, qualify leads, book appointments, and follow up automatically.
           </p>
         </div>
 

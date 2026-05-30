@@ -7,10 +7,8 @@ import VoiceAgentPlatformSection from '@/components/sections/VoiceAgentPlatformS
 import HowItWorksSection from '@/components/sections/HowItWorksSection';
 import PricingSection from '@/components/sections/PricingSection';
 import ValueBasedROICalculator from '@/components/sections/ValueBasedROICalculator';
-import TechnologyStackSection from '@/components/sections/TechnologyStackSection';
 import UseCasesSection from '@/components/sections/UseCasesSection';
 import FAQSection from '@/components/sections/FAQSection';
-import AboutSection from '@/components/sections/AboutSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import WorkflowQuestionnaireSection from '@/components/sections/WorkflowQuestionnaireSection';
 import CTASection from '@/components/sections/CTASection';
@@ -45,17 +43,15 @@ export default function Home() {
       <HeroSection />
       <div className="bg-slate-900"><ProblemSolutionSection /></div>
       <VoiceAgentPlatformSection />
-      <div className="bg-slate-950"><UseCasesSection /></div>
-      <div className="bg-slate-900"><HowItWorksSection /></div>
       <div className="bg-slate-950"><ServicesSection /></div>
+      <div className="bg-slate-900"><HowItWorksSection /></div>
+      <div className="bg-slate-950"><UseCasesSection /></div>
       <ValueBasedROICalculator />
       <div className="bg-slate-900"><WorkflowQuestionnaireSection /></div>
       <div className="bg-slate-950"><PricingSection /></div>
       <div className="bg-slate-950"><TestimonialsSection /></div>
       <div className="bg-slate-900"><FAQSection /></div>
       <div className="bg-slate-950"><CTASection /></div>
-      <div className="bg-slate-900"><TechnologyStackSection /></div>
-      <div className="bg-slate-950"><AboutSection /></div>
       <Footer />
       
       {/* Back to Top Button */}
