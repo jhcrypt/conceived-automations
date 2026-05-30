@@ -19,14 +19,72 @@ const num = (n: number) =>
   new Intl.NumberFormat('en-US', { maximumFractionDigits: 1 }).format(n);
 
 export default function LeadRecoveryCalculator() {
-  const [inputs, setInputs] = useState<Inputs>({
-    monthlyLeads: 100,
-    missedLeadRate: 25,
-    recoveryRate: 70,
-    appointmentRate: 35,
-    closeRate: 25,
-    averageCustomerValue: 1500,
-  });
+  const [selectedIndustry, setSelectedIndustry] = useState('insurance');
+
+  const industryPresets = {
+    insurance: {
+      label: 'Insurance',
+      monthlyLeads: 100,
+      missedLeadRate: 25,
+      recoveryRate: 70,
+      appointmentRate: 45,
+      closeRate: 25,
+      averageCustomerValue: 1500,
+    },
+    realEstate: {
+      label: 'Real Estate',
+      monthlyLeads: 80,
+      missedLeadRate: 25,
+      recoveryRate: 60,
+      appointmentRate: 35,
+      closeRate: 20,
+      averageCustomerValue: 5000,
+    },
+    homeServices: {
+      label: 'Home Services',
+      monthlyLeads: 150,
+      missedLeadRate: 30,
+      recoveryRate: 75,
+      appointmentRate: 55,
+      closeRate: 35,
+      averageCustomerValue: 2500,
+    },
+    legal: {
+      label: 'Legal',
+      monthlyLeads: 60,
+      missedLeadRate: 25,
+      recoveryRate: 65,
+      appointmentRate: 40,
+      closeRate: 30,
+      averageCustomerValue: 7500,
+    },
+    medSpa: {
+      label: 'Med Spa',
+      monthlyLeads: 120,
+      missedLeadRate: 20,
+      recoveryRate: 70,
+      appointmentRate: 50,
+      closeRate: 40,
+      averageCustomerValue: 900,
+    },
+    other: {
+      label: 'Other',
+      monthlyLeads: 100,
+      missedLeadRate: 25,
+      recoveryRate: 70,
+      appointmentRate: 35,
+      closeRate: 25,
+      averageCustomerValue: 1500,
+    },
+  } as const;
+
+  const [inputs, setInputs] = useState<Inputs>(industryPresets.insurance);
+
+  const applyPreset = (industry: keyof typeof industryPresets) => {
+    setSelectedIndustry(industry);
+    const { label, ...presetInputs } = industryPresets[industry];
+    setInputs(presetInputs);
+  };
 
   const results = useMemo(() => {
     const missedLeads = inputs.monthlyLeads * (inputs.missedLeadRate / 100);
@@ -140,18 +198,44 @@ export default function LeadRecoveryCalculator() {
               Lead Recovery Calculator
             </div>
             <h2 className="text-4xl font-bold mb-4">
-              How Much Revenue Are <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">Missed Leads Costing You?</span>
+              How Much Revenue Are <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">You Leaving on the Table?</span>
             </h2>
             <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-              A transparent estimate based only on the numbers you provide. No hidden “strategic premium,” inflated ROI, or mystery assumptions.
+              Adjust the inputs based on your business. We’ll show how an AI voice agent could help recover missed opportunities.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8 items-start">
             <Card className="bg-slate-800/50 border-violet-500/30 p-8">
+              <div className="mb-8">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-violet-500/30 bg-slate-950 text-white font-bold">1</span>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">Your Business Inputs</h3>
+                    <p className="text-sm text-slate-400">Start with an industry preset, then adjust the numbers.</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  {Object.entries(industryPresets).map(([key, preset]) => (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => applyPreset(key as keyof typeof industryPresets)}
+                      className={`rounded-lg border px-3 py-2 text-sm font-semibold transition-all ${
+                        selectedIndustry === key
+                          ? 'border-cyan-400 bg-cyan-400/10 text-white'
+                          : 'border-white/10 bg-white/5 text-slate-300 hover:border-violet-500/50 hover:text-white'
+                      }`}
+                    >
+                      {preset.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div className="space-y-7">
                 {fields.map((field) => (
-                  <div key={field.key} className="space-y-3">
+                  <div key={field.key} className="space-y-3 rounded-xl border border-white/10 bg-slate-950/30 p-4">
                     <div className="flex items-start justify-between gap-4">
                       <div>
                         <label className="block text-lg font-semibold text-white">{field.label}</label>
@@ -174,45 +258,54 @@ export default function LeadRecoveryCalculator() {
             </Card>
 
             <div className="space-y-6">
-              <Card className="bg-gradient-to-br from-violet-500/20 to-cyan-500/20 rounded-xl p-8 border border-violet-500/30">
+              <Card className="bg-slate-800/50 border-violet-500/30 p-6">
+                <div className="flex items-center gap-3 mb-5">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-violet-500/30 bg-slate-950 text-white font-bold">2</span>
+                  <div>
+                    <h3 className="text-xl font-bold text-white">Your Potential Opportunity</h3>
+                    <p className="text-sm text-slate-400">A simple estimate based on your inputs.</p>
+                  </div>
+                </div>
+                <div className="bg-gradient-to-br from-violet-500/20 to-cyan-500/20 rounded-xl p-8 border border-violet-500/30">
                 <div className="text-sm text-slate-400 mb-2">Estimated annual recovered revenue</div>
                 <div className="text-5xl font-bold text-white mb-3">{money(results.annualRevenue)}</div>
                 <p className="text-slate-300">
                   Based on {num(results.missedLeads)} missed leads/month and {num(results.recoveredCustomers)} recovered customers/month.
                 </p>
+              </div>
               </Card>
 
               <div className="grid sm:grid-cols-2 gap-4">
-                <Card className="bg-slate-800/40 border-slate-700 p-6">
-                  <PhoneMissed className="w-6 h-6 text-violet-400 mb-3" />
+                <Card className="bg-slate-800/40 border-slate-700 p-6 min-h-[150px] flex flex-col justify-between">
+                  <PhoneMissed className="w-6 h-6 text-white mb-3" />
                   <div className="text-sm text-slate-400">Missed leads</div>
                   <div className="text-3xl font-bold text-white">{num(results.missedLeads)}</div>
                   <div className="text-xs text-slate-500 mt-1">per month</div>
                 </Card>
 
-                <Card className="bg-slate-800/40 border-slate-700 p-6">
-                  <Users className="w-6 h-6 text-cyan-400 mb-3" />
+                <Card className="bg-slate-800/40 border-slate-700 p-6 min-h-[150px] flex flex-col justify-between">
+                  <Users className="w-6 h-6 text-white mb-3" />
                   <div className="text-sm text-slate-400">Recovered leads</div>
                   <div className="text-3xl font-bold text-white">{num(results.recoveredLeads)}</div>
                   <div className="text-xs text-slate-500 mt-1">per month</div>
                 </Card>
 
-                <Card className="bg-slate-800/40 border-slate-700 p-6">
-                  <CalendarCheck className="w-6 h-6 text-green-400 mb-3" />
+                <Card className="bg-slate-800/40 border-slate-700 p-6 min-h-[150px] flex flex-col justify-between">
+                  <CalendarCheck className="w-6 h-6 text-white mb-3" />
                   <div className="text-sm text-slate-400">Recovered appointments</div>
                   <div className="text-3xl font-bold text-white">{num(results.recoveredAppointments)}</div>
                   <div className="text-xs text-slate-500 mt-1">per month</div>
                 </Card>
 
-                <Card className="bg-slate-800/40 border-slate-700 p-6">
-                  <DollarSign className="w-6 h-6 text-yellow-400 mb-3" />
+                <Card className="bg-slate-800/40 border-slate-700 p-6 min-h-[150px] flex flex-col justify-between">
+                  <DollarSign className="w-6 h-6 text-white mb-3" />
                   <div className="text-sm text-slate-400">Monthly opportunity</div>
                   <div className="text-3xl font-bold text-white">{money(results.monthlyRevenue)}</div>
                   <div className="text-xs text-slate-500 mt-1">estimated recovered revenue</div>
                 </Card>
               </div>
 
-              <Card className="bg-slate-800/40 border-slate-700 p-6">
+              <Card className="bg-slate-800/40 border-slate-700 p-6 min-h-[150px] flex flex-col justify-between">
                 <h3 className="text-xl font-bold text-white mb-4">Calculation shown plainly</h3>
                 <div className="space-y-2 text-sm text-slate-300">
                   <p>{num(inputs.monthlyLeads)} leads × {inputs.missedLeadRate}% missed = {num(results.missedLeads)} missed leads/month</p>
