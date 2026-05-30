@@ -5,7 +5,6 @@ import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection
 import ServicesSection from '@/components/sections/ServicesSection';
 import VoiceAgentPlatformSection from '@/components/sections/VoiceAgentPlatformSection';
 import HowItWorksSection from '@/components/sections/HowItWorksSection';
-import PricingSection from '@/components/sections/PricingSection';
 import ValueBasedROICalculator from '@/components/sections/ValueBasedROICalculator';
 import UseCasesSection from '@/components/sections/UseCasesSection';
 import FAQSection from '@/components/sections/FAQSection';
@@ -48,7 +47,6 @@ export default function Home() {
       <div className="bg-slate-950"><UseCasesSection /></div>
       <ValueBasedROICalculator />
       <div className="bg-slate-900"><WorkflowQuestionnaireSection /></div>
-      <div className="bg-slate-950"><PricingSection /></div>
       <div className="bg-slate-950"><TestimonialsSection /></div>
       <div className="bg-slate-900"><FAQSection /></div>
       <div className="bg-slate-950"><CTASection /></div>
