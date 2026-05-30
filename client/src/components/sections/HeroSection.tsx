@@ -36,15 +36,14 @@ export default function HeroSection() {
           
           {/* Main Headline - Updated with strong drop-shadow for legibility */}
           <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 leading-tight drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">
-            We Automate the <br className="hidden md:block" />
+            AI Agents That Turn <br className="hidden md:block" />
             <span className="text-white">
-                Boring Stuff
+                Leads Into Appointments
               </span>          </h1>
 
           {/* Subheadline */}
           <p className="text-lg md:text-xl text-slate-300 mb-8 max-w-3xl mx-auto leading-relaxed drop-shadow-md">
-            Transform repetitive tasks into intelligent workflows with n8n and AI agents. 
-            Save time, reduce errors, and scale efficiently—without adding headcount.
+            Conceived Automations helps service businesses answer, call, qualify, score, and follow up with leads automatically — so your team only spends time with ready buyers.
           </p>
 
           {/* CTAs - Updated with shadows on buttons/text */}
@@ -54,16 +53,16 @@ export default function HeroSection() {
               className="px-8 py-6 h-auto text-base font-bold rounded-lg hover:shadow-[0_0_30px_rgba(139,92,246,0.6)] transition-all duration-300 hover:scale-105 drop-shadow-md"
               onClick={() => scrollToSection('#contact')}
             >
-              Start Automating
+              Book a Demo
               <ArrowRight className="ml-2 w-5 h-5 drop-shadow-md" />
             </Button>
             <Button
               size="lg"
               variant="outline"
               className="border-violet-500/30 hover:border-violet-500/60 text-white px-8 py-6 h-auto text-base font-bold rounded-lg hover:bg-white/10 transition-all duration-300 drop-shadow-md bg-slate-900/40 backdrop-blur-sm"
-              onClick={() => scrollToSection('#how-it-works')}
+              onClick={() => scrollToSection('#workflow-questionnaire')}
             >
-              See How It Works
+              Join Early Access
             </Button>
           </div>
 
@@ -71,15 +70,15 @@ export default function HeroSection() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto mt-8">
             <div className="flex flex-col items-center gap-2 p-4 rounded-lg bg-slate-900/50 border border-violet-500/30 hover:border-violet-500/60 hover:scale-105 transition-all duration-300 backdrop-blur-sm">
               <div className="text-3xl md:text-4xl font-bold text-white">500+</div>
-              <p className="text-sm text-slate-400">Workflows Automated</p>
+              <p className="text-sm text-slate-400">Answer every lead instantly</p>
             </div>
             <div className="flex flex-col items-center gap-2 p-4 rounded-lg bg-slate-900/50 border border-violet-500/30 hover:border-violet-500/60 hover:scale-105 transition-all duration-300 backdrop-blur-sm">
               <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Up to 75%</div>
-              <p className="text-sm text-slate-400">Time Saved on Average</p>
+              <p className="text-sm text-slate-400">Qualify prospects before your team gets involved</p>
             </div>
             <div className="flex flex-col items-center gap-2 p-4 rounded-lg bg-slate-900/50 border border-violet-500/30 hover:border-violet-500/60 hover:scale-105 transition-all duration-300 backdrop-blur-sm">
               <div className="text-3xl md:text-4xl font-bold text-white">50+</div>
-              <p className="text-sm text-slate-400">Happy Clients</p>
+              <p className="text-sm text-slate-400">Book appointments and update your CRM automatically</p>
             </div>
           </div>
         </motion.div>

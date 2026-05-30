@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const navItems = [
   { label: 'Services', href: '#services' },
-  { label: 'Process', href: '#process' },
+  { label: 'How It Works', href: '#how-it-works' },
   { label: 'Custom Workflow', href: '#workflow-questionnaire' },
   { label: 'Pricing', href: '#pricing' },
   { label: 'Use Cases', href: '#use-cases' },
@@ -100,7 +100,7 @@ export default function Navigation() {
             onClick={() => scrollToSection('#contact')}
             className="bg-white text-slate-950 px-5 py-2 rounded-lg font-bold text-sm hover:bg-cyan-50 transition-all hover:shadow-[0_0_20px_rgba(6,182,212,0.5)]"
           >
-            Get Started
+            Book Demo
           </button>
         </div>
 
@@ -140,7 +140,7 @@ export default function Navigation() {
                 onClick={() => scrollToSection('#contact')}
                 className="w-full mt-4 bg-gradient-to-r from-violet-600 to-cyan-500 text-white px-5 py-3 rounded-lg font-bold"
               >
-                Get Started
+                Book Demo
               </button>
             </div>
           </motion.div>

@@ -12,11 +12,10 @@ export default function ProblemSolution() {
       <div className="container relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            Stop Fighting <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">Manual Chaos</span>
+            Stop Losing <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">Qualified Leads</span>
           </h2>
           <p className="text-lg text-foreground/70">
-            Every business faces the same challenge: Too much manual work, not enough time.
-            We transform that bottleneck into your competitive advantage.
+            Most businesses don't lose customers because of bad service. They lose them because leads aren't answered, qualified, or followed up with quickly enough.
           </p>
         </div>
 
@@ -31,11 +30,11 @@ export default function ProblemSolution() {
             </div>
             <ul className="space-y-6">
               {[
-                "Hours wasted on manual data entry and repetitive tasks",
-                "Disconnected systems creating data silos",
-                "Human errors in critical business processes",
-                "Inability to scale without adding more staff",
-                "Missed opportunities due to slow response times"
+                "Missed calls lose revenue",
+                "Slow follow-up kills conversion",
+                "Unqualified leads waste time",
+                "Manual CRM updates create bottlenecks",
+                "Leads fall through the cracks"
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-4">
                   {/* Changed from X to AlertTriangle (Exclamation) and Red to Gray */}
@@ -56,11 +55,11 @@ export default function ProblemSolution() {
             </div>
             <ul className="space-y-6">
               {[
-                "Automated workflows running 24/7 without intervention",
-                "Seamless integration across all your business tools",
-                "Error-free execution with intelligent validation",
-                "Scale operations without proportional cost increases",
-                "Instant responses and real-time processing"
+                "AI answers every lead instantly",
+                "AI qualifies prospects automatically",
+                "CRM updates happen automatically",
+                "Appointment booking runs 24/7",
+                "Hot leads get routed to the right person"
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-4">
                   {/* Changed from Green to Gray */}

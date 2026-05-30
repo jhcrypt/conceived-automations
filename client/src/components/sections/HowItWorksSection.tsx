@@ -3,36 +3,36 @@ import { motion } from 'framer-motion';
 export default function HowItWorksSection() {
   const steps = [
     {
-      title: 'Discovery',
-      desc: 'We analyze your current processes and identify high-impact automation opportunities.',
+      title: 'Connect Your Lead Sources',
+      desc: 'Connect forms, ads, inbound calls, and CRM systems.',
     },
     {
-      title: 'Strategy & Design',
-      desc: 'We map out the logic, data flow, and edge cases before writing a single line of code.',
+      title: 'Configure Your Business Profile',
+      desc: 'Define qualification questions, booking rules, and lead scoring.',
     },
     {
-      title: 'Development',
-      desc: 'We build your workflows in n8n, integrating APIs and AI agents securely.',
+      title: 'AI Engages Every Lead',
+      desc: 'The AI agent answers calls or follows up automatically.',
     },
     {
-      title: 'Testing',
-      desc: 'Rigorous testing with real-world data scenarios to ensure 100% reliability.',
+      title: 'Qualification & Scoring',
+      desc: 'Every lead is evaluated based on fit, urgency, and intent.',
     },
     {
-      title: 'Launch & Support',
-      desc: 'We go live and provide ongoing monitoring to handle system updates and optimizations.',
+      title: 'Book or Hand Off',
+      desc: 'Qualified prospects are booked automatically or routed to your team.',
     },
   ];
 
   return (
-    <section id="process" className="py-24 bg-slate-900">
+    <section id="how-it-works" className="py-24 bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-white">
             How <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">It Works</span>
           </h2>
           <p className="text-slate-400 mt-4">
-            A proven process that takes you from manual chaos to automated efficiency
+            A proven system that turns inbound leads into booked appointments.
           </p>
         </div>
 
