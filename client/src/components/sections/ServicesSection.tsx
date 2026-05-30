@@ -38,7 +38,7 @@ export default function ServicesSection() {
     },
   ];
 
-  const services = [
+  const legacyServices = [
     {
       icon: <Workflow className="w-8 h-8 text-violet-400" />,
       title: 'Custom Workflow Automation',
@@ -117,17 +117,6 @@ export default function ServicesSection() {
 
         {renderCards(products)}
 
-        <div className="text-center mt-24 mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-200 text-sm font-semibold mb-6">
-            Custom Automation Services
-          </div>
-          <h2 className="text-4xl font-bold text-white mb-4">Automation Support Behind the Agents</h2>
-          <p className="text-slate-400 max-w-2xl mx-auto">
-            For businesses that need more than a ready-made agent, we design the workflows, integrations, and automation strategy around your operations.
-          </p>
-        </div>
-
-        {renderCards(services)}
       </div>
     </section>
   );
