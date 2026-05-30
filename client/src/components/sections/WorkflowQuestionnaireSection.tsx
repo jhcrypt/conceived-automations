@@ -282,7 +282,7 @@ export default function WorkflowQuestionnaireSection() {
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-violet-500/10 border border-violet-500/30 mb-6">
             <Sparkles className="w-4 h-4 text-violet-400" />
             <span className="text-sm text-violet-400 font-medium">AI-Powered Workflow Preview</span>
