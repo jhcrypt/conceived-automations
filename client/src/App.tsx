@@ -5,6 +5,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ROIProvider } from "./contexts/ROIContext";
 import FloatingChatbot from "./components/FloatingChatbot";
 import Home from "./pages/Home";
+import VoiceAgentLanding from "./pages/VoiceAgentLanding";
 import WorkflowPreview from "./pages/WorkflowPreview";
 import SharedResults from "./pages/SharedResults";
 import React from "react";
@@ -12,6 +13,7 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/voice-agent"} component={VoiceAgentLanding} />
       <Route path={"/workflow-preview"} component={WorkflowPreview} />
       <Route path={"/shared-results/:shareId"} component={SharedResults} />
       <Route path={"/404"} component={NotFound} />
