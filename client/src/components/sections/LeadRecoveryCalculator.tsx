@@ -1,7 +1,17 @@
 import { useMemo, useState } from 'react';
-import { ArrowRight, Calculator, PhoneMissed, CalendarCheck, DollarSign, Users } from 'lucide-react';
+import {
+  ArrowRight,
+  Calculator,
+  PhoneMissed,
+  CalendarCheck,
+  DollarSign,
+  Users,
+  RefreshCw,
+  ShieldCheck,
+  Info,
+  Rocket,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 
 type Inputs = {
   monthlyLeads: number;
@@ -12,79 +22,78 @@ type Inputs = {
   averageCustomerValue: number;
 };
 
+const industryPresets = {
+  insurance: {
+    label: 'Insurance',
+    monthlyLeads: 100,
+    missedLeadRate: 25,
+    recoveryRate: 70,
+    appointmentRate: 45,
+    closeRate: 25,
+    averageCustomerValue: 1500,
+  },
+  realEstate: {
+    label: 'Real Estate',
+    monthlyLeads: 80,
+    missedLeadRate: 25,
+    recoveryRate: 60,
+    appointmentRate: 35,
+    closeRate: 20,
+    averageCustomerValue: 5000,
+  },
+  homeServices: {
+    label: 'Home Services',
+    monthlyLeads: 150,
+    missedLeadRate: 30,
+    recoveryRate: 75,
+    appointmentRate: 55,
+    closeRate: 35,
+    averageCustomerValue: 2500,
+  },
+  legal: {
+    label: 'Legal',
+    monthlyLeads: 60,
+    missedLeadRate: 25,
+    recoveryRate: 65,
+    appointmentRate: 40,
+    closeRate: 30,
+    averageCustomerValue: 7500,
+  },
+  medSpa: {
+    label: 'Med Spa',
+    monthlyLeads: 120,
+    missedLeadRate: 20,
+    recoveryRate: 70,
+    appointmentRate: 50,
+    closeRate: 40,
+    averageCustomerValue: 900,
+  },
+  other: {
+    label: 'Other',
+    monthlyLeads: 100,
+    missedLeadRate: 25,
+    recoveryRate: 70,
+    appointmentRate: 35,
+    closeRate: 25,
+    averageCustomerValue: 1500,
+  },
+} as const;
+
 const money = (n: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
+  new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  }).format(n);
 
 const num = (n: number) =>
-  new Intl.NumberFormat('en-US', { maximumFractionDigits: 1 }).format(n);
+  new Intl.NumberFormat('en-US', {
+    maximumFractionDigits: 1,
+  }).format(n);
 
 export default function LeadRecoveryCalculator() {
-  const [selectedIndustry, setSelectedIndustry] = useState('insurance');
-
-  const industryPresets = {
-    insurance: {
-      label: 'Insurance',
-      monthlyLeads: 100,
-      missedLeadRate: 25,
-      recoveryRate: 70,
-      appointmentRate: 45,
-      closeRate: 25,
-      averageCustomerValue: 1500,
-    },
-    realEstate: {
-      label: 'Real Estate',
-      monthlyLeads: 80,
-      missedLeadRate: 25,
-      recoveryRate: 60,
-      appointmentRate: 35,
-      closeRate: 20,
-      averageCustomerValue: 5000,
-    },
-    homeServices: {
-      label: 'Home Services',
-      monthlyLeads: 150,
-      missedLeadRate: 30,
-      recoveryRate: 75,
-      appointmentRate: 55,
-      closeRate: 35,
-      averageCustomerValue: 2500,
-    },
-    legal: {
-      label: 'Legal',
-      monthlyLeads: 60,
-      missedLeadRate: 25,
-      recoveryRate: 65,
-      appointmentRate: 40,
-      closeRate: 30,
-      averageCustomerValue: 7500,
-    },
-    medSpa: {
-      label: 'Med Spa',
-      monthlyLeads: 120,
-      missedLeadRate: 20,
-      recoveryRate: 70,
-      appointmentRate: 50,
-      closeRate: 40,
-      averageCustomerValue: 900,
-    },
-    other: {
-      label: 'Other',
-      monthlyLeads: 100,
-      missedLeadRate: 25,
-      recoveryRate: 70,
-      appointmentRate: 35,
-      closeRate: 25,
-      averageCustomerValue: 1500,
-    },
-  } as const;
-
+  const [selectedIndustry, setSelectedIndustry] = useState<keyof typeof industryPresets>('insurance');
   const [inputs, setInputs] = useState<Inputs>(industryPresets.insurance);
-
-  const applyPreset = (industry: keyof typeof industryPresets) => {
-    setSelectedIndustry(industry);
-    const { label, ...presetInputs } = industryPresets[industry];
-    setInputs(presetInputs);
-  };
 
   const results = useMemo(() => {
     const missedLeads = inputs.monthlyLeads * (inputs.missedLeadRate / 100);
@@ -104,6 +113,12 @@ export default function LeadRecoveryCalculator() {
     };
   }, [inputs]);
 
+  const applyPreset = (industry: keyof typeof industryPresets) => {
+    setSelectedIndustry(industry);
+    const { label, ...preset } = industryPresets[industry];
+    setInputs(preset);
+  };
+
   const update = (key: keyof Inputs, value: number) => {
     setInputs((current) => ({ ...current, [key]: value }));
   };
@@ -113,218 +128,349 @@ export default function LeadRecoveryCalculator() {
       'valueCalculatorData',
       JSON.stringify({
         type: 'lead-recovery',
+        selectedIndustry,
         leadRecoveryInputs: inputs,
         leadRecoveryResults: results,
-        summary: {
-          monthlyLeads: inputs.monthlyLeads,
-          missedLeadRate: inputs.missedLeadRate,
-          missedLeadsMonthly: results.missedLeads,
-          recoveredLeadsMonthly: results.recoveredLeads,
-          recoveredAppointmentsMonthly: results.recoveredAppointments,
-          recoveredCustomersMonthly: results.recoveredCustomers,
-          monthlyRevenueOpportunity: results.monthlyRevenue,
-          annualRevenueOpportunity: results.annualRevenue,
-        },
       })
     );
 
     document.getElementById('workflow-questionnaire')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const fields = [
+  const inputRows = [
     {
+      icon: Users,
       key: 'monthlyLeads' as const,
       label: 'Monthly lead volume',
-      help: 'Calls, web forms, ads, referrals, chats, and missed-call opportunities.',
+      help: 'Calls, web forms, ads, referrals, chats, and inquiries per month.',
       min: 10,
       max: 1000,
       step: 10,
-      valueLabel: `${num(inputs.monthlyLeads)} leads`,
+      value: `${num(inputs.monthlyLeads)} leads`,
+      minLabel: '10',
+      maxLabel: '1,000',
     },
     {
+      icon: PhoneMissed,
       key: 'missedLeadRate' as const,
       label: 'Missed or delayed lead rate',
-      help: 'Leads that are missed, answered late, or not followed up with consistently.',
+      help: 'Leads that are missed, answered late, or not followed up with.',
       min: 5,
       max: 80,
       step: 5,
-      valueLabel: `${inputs.missedLeadRate}%`,
+      value: `${inputs.missedLeadRate}%`,
+      minLabel: '5%',
+      maxLabel: '80%',
     },
     {
+      icon: RefreshCw,
       key: 'recoveryRate' as const,
       label: 'Recoverable lead rate',
       help: 'Conservative estimate of missed leads an AI agent could re-engage.',
       min: 20,
       max: 90,
       step: 5,
-      valueLabel: `${inputs.recoveryRate}%`,
+      value: `${inputs.recoveryRate}%`,
+      minLabel: '20%',
+      maxLabel: '90%',
     },
     {
+      icon: CalendarCheck,
       key: 'appointmentRate' as const,
       label: 'Recovered lead → appointment rate',
-      help: 'Of recovered leads, how many could reasonably book a call or consultation?',
+      help: 'Of recovered leads, how many could reasonably book a call?',
       min: 5,
       max: 80,
       step: 5,
-      valueLabel: `${inputs.appointmentRate}%`,
+      value: `${inputs.appointmentRate}%`,
+      minLabel: '5%',
+      maxLabel: '80%',
     },
     {
+      icon: Users,
       key: 'closeRate' as const,
       label: 'Appointment → customer close rate',
       help: 'Of booked appointments, how many typically become customers?',
       min: 5,
       max: 80,
       step: 5,
-      valueLabel: `${inputs.closeRate}%`,
+      value: `${inputs.closeRate}%`,
+      minLabel: '5%',
+      maxLabel: '80%',
     },
     {
+      icon: DollarSign,
       key: 'averageCustomerValue' as const,
       label: 'Average customer value',
-      help: 'Average commission, case value, project value, or first transaction value.',
+      help: 'Average commission, case value, project value, or first transaction.',
       min: 250,
       max: 25000,
       step: 250,
-      valueLabel: money(inputs.averageCustomerValue),
+      value: money(inputs.averageCustomerValue),
+      minLabel: '$250',
+      maxLabel: '$25,000',
+    },
+  ];
+
+  const metricCards = [
+    { icon: PhoneMissed, label: 'Missed Leads', value: num(results.missedLeads), sub: 'per month' },
+    { icon: RefreshCw, label: 'Recovered Leads', value: num(results.recoveredLeads), sub: 'per month' },
+    { icon: CalendarCheck, label: 'Recovered Appointments', value: num(results.recoveredAppointments), sub: 'per month' },
+    { icon: Users, label: 'Recovered Customers', value: num(results.recoveredCustomers), sub: 'per month' },
+  ];
+
+  const breakdownRows = [
+    {
+      icon: Users,
+      left: `${num(inputs.monthlyLeads)} leads × ${inputs.missedLeadRate}% missed`,
+      right: `${num(results.missedLeads)} missed leads/month`,
+    },
+    {
+      icon: RefreshCw,
+      left: `${num(results.missedLeads)} missed × ${inputs.recoveryRate}% recoverable`,
+      right: `${num(results.recoveredLeads)} recovered leads/month`,
+    },
+    {
+      icon: CalendarCheck,
+      left: `${num(results.recoveredLeads)} recovered × ${inputs.appointmentRate}% book rate`,
+      right: `${num(results.recoveredAppointments)} appointments/month`,
+    },
+    {
+      icon: Users,
+      left: `${num(results.recoveredAppointments)} appointments × ${inputs.closeRate}% close rate`,
+      right: `${num(results.recoveredCustomers)} customers/month`,
+    },
+    {
+      icon: DollarSign,
+      left: `${num(results.recoveredCustomers)} customers × ${money(inputs.averageCustomerValue)} value`,
+      right: `${money(results.monthlyRevenue)} / month\n${money(results.annualRevenue)} / year`,
     },
   ];
 
   return (
-    <section id="roi-calculator" className="section bg-slate-900">
-      <div className="container">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/30 text-violet-200 text-sm font-semibold mb-6">
-              <Calculator className="w-4 h-4" />
-              Lead Recovery Calculator
+    <section id="roi-calculator" className="py-24 bg-slate-950">
+      <div className="max-w-[1760px] mx-auto px-6 lg:px-8">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-slate-900 border border-cyan-500/40 text-white text-sm font-bold tracking-[0.25em] uppercase mb-5">
+            <Calculator className="w-4 h-4 text-white" />
+            Lead Recovery Calculator
+          </div>
+          <h2 className="text-4xl md:text-6xl font-extrabold text-white mb-4 tracking-tight">
+            See How Much Revenue You’re Leaving on the Table
+          </h2>
+          <p className="text-lg md:text-xl text-slate-300 max-w-4xl mx-auto">
+            Adjust the inputs based on your business. We’ll show you how an AI voice agent can help you recover missed opportunities.
+          </p>
+        </div>
+
+        <div className="grid xl:grid-cols-[1.15fr_0.9fr_1.05fr] gap-6 items-start">
+          <div className="rounded-2xl border border-slate-700 bg-slate-900/50 p-6">
+            <div className="flex items-start gap-3 mb-5">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-950 text-white font-bold">1.</span>
+              <div>
+                <h3 className="text-xl font-bold text-white uppercase">Your Business Inputs</h3>
+                <p className="text-sm text-slate-400">Start with an industry preset, then adjust the numbers.</p>
+              </div>
             </div>
-            <h2 className="text-4xl font-bold mb-4">
-              How Much Revenue Are <span className="text-white drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]">You Leaving on the Table?</span>
-            </h2>
-            <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-              Adjust the inputs based on your business. We’ll show how an AI voice agent could help recover missed opportunities.
-            </p>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-5">
+              {Object.entries(industryPresets).map(([key, preset]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => applyPreset(key as keyof typeof industryPresets)}
+                  className={`rounded-lg border px-4 py-2 text-sm font-bold transition-all ${
+                    selectedIndustry === key
+                      ? 'border-cyan-400 bg-cyan-400/10 text-white'
+                      : 'border-white/10 bg-white/5 text-slate-300 hover:border-violet-500/50 hover:text-white'
+                  }`}
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="space-y-3">
+              {inputRows.map((row) => {
+                const Icon = row.icon;
+                return (
+                  <div key={row.key} className="rounded-xl border border-slate-700/80 bg-slate-950/35 p-4">
+                    <div className="grid md:grid-cols-[56px_1fr_240px_90px] gap-4 items-center">
+                      <div className="hidden md:flex h-12 w-12 items-center justify-center rounded-lg border border-slate-700 bg-slate-900">
+                        <Icon className="w-6 h-6 text-white" />
+                      </div>
+
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h4 className="text-base font-bold text-white">{row.label}</h4>
+                          <Info className="w-3.5 h-3.5 text-slate-400" />
+                        </div>
+                        <p className="text-sm text-slate-400 leading-relaxed">{row.help}</p>
+                      </div>
+
+                      <div>
+                        <div className="text-right text-cyan-300 font-bold mb-2">{row.value}</div>
+                        <input
+                          type="range"
+                          min={row.min}
+                          max={row.max}
+                          step={row.step}
+                          value={inputs[row.key]}
+                          onChange={(event) => update(row.key, Number(event.target.value))}
+                          className="w-full accent-cyan-400"
+                        />
+                        <div className="flex justify-between text-xs text-slate-400 mt-1">
+                          <span>{row.minLabel}</span>
+                          <span>{row.maxLabel}</span>
+                        </div>
+                      </div>
+
+                      <div className="rounded-lg border border-slate-700 bg-slate-950 p-3 text-center text-white font-bold text-lg">
+                        {row.value}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
+              <div className="rounded-xl border border-slate-700 bg-slate-950/35 p-4 flex items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-slate-700 bg-slate-900">
+                    <Info className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-base font-bold text-white">Not sure about your numbers?</h4>
+                    <p className="text-sm text-slate-400">Use real data from the last 30–90 days when possible.</p>
+                  </div>
+                </div>
+                <Button variant="outline" className="border-slate-700 bg-slate-900 text-white hover:bg-slate-800">
+                  See Examples
+                </Button>
+              </div>
+            </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8 items-start">
-            <Card className="bg-slate-800/50 border-violet-500/30 p-8">
-              <div className="mb-8">
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-violet-500/30 bg-slate-950 text-white font-bold">1</span>
-                  <div>
-                    <h3 className="text-xl font-bold text-white">Your Business Inputs</h3>
-                    <p className="text-sm text-slate-400">Start with an industry preset, then adjust the numbers.</p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                  {Object.entries(industryPresets).map(([key, preset]) => (
-                    <button
-                      key={key}
-                      type="button"
-                      onClick={() => applyPreset(key as keyof typeof industryPresets)}
-                      className={`rounded-lg border px-3 py-2 text-sm font-semibold transition-all ${
-                        selectedIndustry === key
-                          ? 'border-cyan-400 bg-cyan-400/10 text-white'
-                          : 'border-white/10 bg-white/5 text-slate-300 hover:border-violet-500/50 hover:text-white'
-                      }`}
-                    >
-                      {preset.label}
-                    </button>
-                  ))}
-                </div>
+          <div className="rounded-2xl border border-slate-700 bg-slate-900/50 p-6">
+            <div className="flex items-start gap-3 mb-5">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-950 text-white font-bold">2.</span>
+              <div>
+                <h3 className="text-xl font-bold text-white uppercase">Your Potential Opportunity</h3>
+                <p className="text-sm text-slate-400">A simple estimate based on your inputs.</p>
               </div>
+            </div>
 
-              <div className="space-y-7">
-                {fields.map((field) => (
-                  <div key={field.key} className="space-y-3 rounded-xl border border-white/10 bg-slate-950/30 p-4">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <label className="block text-lg font-semibold text-white">{field.label}</label>
-                        <p className="text-sm text-slate-400 mt-1">{field.help}</p>
-                      </div>
-                      <div className="text-cyan-300 font-bold whitespace-nowrap">{field.valueLabel}</div>
+            <div className="rounded-xl bg-gradient-to-br from-cyan-500 to-violet-700 p-8 text-center mb-4">
+              <p className="text-sm font-bold uppercase text-white mb-3">Estimated Annual Recovered Revenue</p>
+              <div className="text-5xl md:text-6xl font-extrabold text-white">{money(results.annualRevenue)}</div>
+              <p className="text-lg text-white/90 mt-3">{money(results.monthlyRevenue)} per month</p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              {metricCards.map((metric) => {
+                const Icon = metric.icon;
+                return (
+                  <div key={metric.label} className="min-h-[150px] rounded-xl border border-slate-700 bg-slate-950/35 p-5 flex flex-col justify-between">
+                    <div className="flex items-center gap-3">
+                      <Icon className="w-6 h-6 text-white" />
+                      <span className="text-sm font-semibold text-white">{metric.label}</span>
                     </div>
-                    <input
-                      type="range"
-                      min={field.min}
-                      max={field.max}
-                      step={field.step}
-                      value={inputs[field.key]}
-                      onChange={(event) => update(field.key, Number(event.target.value))}
-                      className="w-full accent-cyan-400"
-                    />
+                    <div>
+                      <div className="text-4xl font-extrabold text-white">{metric.value}</div>
+                      <div className="text-sm text-slate-300">{metric.sub}</div>
+                    </div>
                   </div>
-                ))}
-              </div>
-            </Card>
+                );
+              })}
 
-            <div className="space-y-6">
-              <Card className="bg-slate-800/50 border-violet-500/30 p-6">
-                <div className="flex items-center gap-3 mb-5">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-violet-500/30 bg-slate-950 text-white font-bold">2</span>
-                  <div>
-                    <h3 className="text-xl font-bold text-white">Your Potential Opportunity</h3>
-                    <p className="text-sm text-slate-400">A simple estimate based on your inputs.</p>
-                  </div>
+              <div className="col-span-2 min-h-[150px] rounded-xl border border-slate-700 bg-slate-950/35 p-5 flex flex-col justify-between">
+                <div className="flex items-center gap-3">
+                  <DollarSign className="w-6 h-6 text-white" />
+                  <span className="text-sm font-semibold text-white">Monthly Revenue Opportunity</span>
                 </div>
-                <div className="bg-gradient-to-br from-violet-500/20 to-cyan-500/20 rounded-xl p-8 border border-violet-500/30">
-                <div className="text-sm text-slate-400 mb-2">Estimated annual recovered revenue</div>
-                <div className="text-5xl font-bold text-white mb-3">{money(results.annualRevenue)}</div>
-                <p className="text-slate-300">
-                  Based on {num(results.missedLeads)} missed leads/month and {num(results.recoveredCustomers)} recovered customers/month.
+                <div>
+                  <div className="text-4xl font-extrabold text-white">{money(results.monthlyRevenue)}</div>
+                  <div className="text-sm text-slate-300">estimated recovered revenue</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-slate-700 bg-slate-900/50 p-6">
+            <div className="flex items-start gap-3 mb-5">
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-950 text-white font-bold">3.</span>
+              <div>
+                <h3 className="text-xl font-bold text-white uppercase">Calculation Breakdown</h3>
+                <p className="text-sm text-slate-400">The math behind your results.</p>
+              </div>
+            </div>
+
+            <div className="space-y-3 mb-6">
+              {breakdownRows.map((row) => {
+                const Icon = row.icon;
+                return (
+                  <div key={row.left} className="rounded-xl border border-slate-700 bg-slate-950/35 p-4 grid grid-cols-[44px_1fr_24px_180px] gap-3 items-center">
+                    <Icon className="w-6 h-6 text-white" />
+                    <div className="text-sm font-semibold text-white">{row.left}</div>
+                    <div className="text-slate-300 font-bold">=</div>
+                    <div className="text-right whitespace-pre-line text-white font-bold">{row.right}</div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="rounded-xl border border-slate-700 bg-slate-950/35 p-5 flex gap-4 mb-6">
+              <ShieldCheck className="w-8 h-8 text-white flex-shrink-0" />
+              <div>
+                <h4 className="text-white font-bold mb-1">This is an estimate, not a guarantee.</h4>
+                <p className="text-slate-300 text-sm leading-relaxed">
+                  Actual results depend on lead quality, offer, follow-up, market, and sales process.
                 </p>
               </div>
-              </Card>
+            </div>
 
-              <div className="grid sm:grid-cols-2 gap-4">
-                <Card className="bg-slate-800/40 border-slate-700 p-6 min-h-[150px] flex flex-col justify-between">
-                  <PhoneMissed className="w-6 h-6 text-white mb-3" />
-                  <div className="text-sm text-slate-400">Missed leads</div>
-                  <div className="text-3xl font-bold text-white">{num(results.missedLeads)}</div>
-                  <div className="text-xs text-slate-500 mt-1">per month</div>
-                </Card>
-
-                <Card className="bg-slate-800/40 border-slate-700 p-6 min-h-[150px] flex flex-col justify-between">
-                  <Users className="w-6 h-6 text-white mb-3" />
-                  <div className="text-sm text-slate-400">Recovered leads</div>
-                  <div className="text-3xl font-bold text-white">{num(results.recoveredLeads)}</div>
-                  <div className="text-xs text-slate-500 mt-1">per month</div>
-                </Card>
-
-                <Card className="bg-slate-800/40 border-slate-700 p-6 min-h-[150px] flex flex-col justify-between">
-                  <CalendarCheck className="w-6 h-6 text-white mb-3" />
-                  <div className="text-sm text-slate-400">Recovered appointments</div>
-                  <div className="text-3xl font-bold text-white">{num(results.recoveredAppointments)}</div>
-                  <div className="text-xs text-slate-500 mt-1">per month</div>
-                </Card>
-
-                <Card className="bg-slate-800/40 border-slate-700 p-6 min-h-[150px] flex flex-col justify-between">
-                  <DollarSign className="w-6 h-6 text-white mb-3" />
-                  <div className="text-sm text-slate-400">Monthly opportunity</div>
-                  <div className="text-3xl font-bold text-white">{money(results.monthlyRevenue)}</div>
-                  <div className="text-xs text-slate-500 mt-1">estimated recovered revenue</div>
-                </Card>
-              </div>
-
-              <Card className="bg-slate-800/40 border-slate-700 p-6 min-h-[150px] flex flex-col justify-between">
-                <h3 className="text-xl font-bold text-white mb-4">Calculation shown plainly</h3>
-                <div className="space-y-2 text-sm text-slate-300">
-                  <p>{num(inputs.monthlyLeads)} leads × {inputs.missedLeadRate}% missed = {num(results.missedLeads)} missed leads/month</p>
-                  <p>{num(results.missedLeads)} missed × {inputs.recoveryRate}% recoverable = {num(results.recoveredLeads)} recovered leads/month</p>
-                  <p>{num(results.recoveredLeads)} recovered × {inputs.appointmentRate}% book = {num(results.recoveredAppointments)} appointments/month</p>
-                  <p>{num(results.recoveredAppointments)} appointments × {inputs.closeRate}% close = {num(results.recoveredCustomers)} customers/month</p>
-                  <p>{num(results.recoveredCustomers)} customers × {money(inputs.averageCustomerValue)} = {money(results.monthlyRevenue)}/month</p>
+            <div className="rounded-2xl border border-violet-500/40 bg-slate-950/40 p-6">
+              <div className="flex gap-4 items-start mb-5">
+                <Rocket className="w-10 h-10 text-white flex-shrink-0" />
+                <div>
+                  <h4 className="text-2xl font-bold text-white leading-tight">Ready to Turn These Opportunities into Revenue?</h4>
+                  <p className="text-slate-300 mt-2">Get your custom AI Voice Agent Strategy tailored to your business.</p>
                 </div>
-              </Card>
-
-              <Button size="lg" className="w-full py-6 h-auto text-base font-bold rounded-lg" onClick={goToStrategy}>
+              </div>
+              <Button
+                size="lg"
+                className="w-full py-6 h-auto text-base font-bold rounded-lg"
+                onClick={goToStrategy}
+              >
                 Get Your AI Agent Strategy
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
-
-              <p className="text-xs text-slate-500 text-center">
-                This is an estimate, not a guarantee. Actual results depend on lead quality, offer, follow-up, market, and close process.
-              </p>
+              <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-slate-400 mt-4">
+                <span>Takes 2 minutes</span>
+                <span>|</span>
+                <span>No obligation</span>
+                <span>|</span>
+                <span>100% Free</span>
+              </div>
             </div>
+          </div>
+        </div>
+
+        <div className="mt-4 rounded-2xl border border-slate-700 bg-slate-900/50 p-6">
+          <h3 className="text-xl font-bold text-white uppercase mb-5">How to Estimate (Quick Guide)</h3>
+          <div className="grid md:grid-cols-6 gap-4">
+            {[
+              ['Lead volume', 'Total inquiries from all sources in a typical month.'],
+              ['Missed rate', 'Check calls, voicemails, or no-shows.'],
+              ['Recoverable rate', 'Start conservative: 50%–70%.'],
+              ['Appointment rate', 'Based on your current process.'],
+              ['Close rate', 'Your typical appointment close percentage.'],
+              ['Customer value', 'Average value of a deal, case, or first transaction.'],
+            ].map(([title, body]) => (
+              <div key={title} className="border-r border-slate-700 last:border-r-0 pr-4">
+                <h4 className="font-bold text-white mb-2">{title}</h4>
+                <p className="text-sm text-slate-400 leading-relaxed">{body}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
