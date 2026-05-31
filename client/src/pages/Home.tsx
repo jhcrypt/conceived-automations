@@ -5,7 +5,6 @@ import ProblemSolutionSection from '@/components/sections/ProblemSolutionSection
 import ServicesSection from '@/components/sections/ServicesSection';
 import VoiceAgentPlatformSection from '@/components/sections/VoiceAgentPlatformSection';
 import HowItWorksSection from '@/components/sections/HowItWorksSection';
-import LeadRecoveryCalculator from '@/components/sections/LeadRecoveryCalculator';
 import UseCasesSection from '@/components/sections/UseCasesSection';
 import FAQSection from '@/components/sections/FAQSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
@@ -45,7 +44,6 @@ export default function Home() {
       <div className="bg-slate-950"><ServicesSection /></div>
       <div className="bg-slate-900"><HowItWorksSection /></div>
       <div className="bg-slate-950"><UseCasesSection /></div>
-      <LeadRecoveryCalculator />
       <div className="bg-slate-900"><WorkflowQuestionnaireSection /></div>
       <div className="bg-slate-950"><TestimonialsSection /></div>
       <div className="bg-slate-900"><FAQSection /></div>
